@@ -16,10 +16,10 @@ const fmt = (d: Date) =>
 ---
 
 <BaseLayout title={title} description={description}>
-  <article class="wrap post">
-    <p class="back"><a href="/whats-happening">← What's Happening</a></p>
+  <article class="container container-narrow post">
+    <p class="post__back"><a href="/whats-happening">← What's Happening</a></p>
     <h1>{title}</h1>
-    <p class="meta">
+    <p class="post__meta">
       <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
       {updatedDate && <> · updated {fmt(updatedDate)}</>}
       {draft && <> · <strong>draft</strong></>}
@@ -32,19 +32,25 @@ const fmt = (d: Date) =>
 
 <style>
   .post {
-    padding-top: 2rem;
-    max-width: 48rem;
+    padding-block: var(--section-y);
   }
-  .back {
-    margin: 0 0 1rem;
-    font-size: 0.9rem;
+  .post__back {
+    font-size: var(--step--1);
+    margin-bottom: 1.25rem;
+  }
+  .post__back a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .post__back a:hover {
+    color: var(--link);
   }
   .post h1 {
-    margin: 0 0 0.4rem;
+    margin-bottom: 0.5rem;
   }
-  .meta {
-    color: var(--muted);
-    margin: 0 0 2rem;
-    font-size: 0.9rem;
+  .post__meta {
+    color: var(--text-muted);
+    font-size: var(--step--1);
+    margin-bottom: 2.5rem;
   }
 </style>

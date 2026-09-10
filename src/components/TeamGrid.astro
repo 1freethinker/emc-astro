@@ -12,15 +12,15 @@ const rendered = await Promise.all(
     rendered.map(({ data, Content }) => (
       <article class="member">
         {data.photo && (
-          <img class="photo" src={data.photo} alt={data.name} width="200" loading="lazy" />
+          <img class="member__photo" src={data.photo} alt={data.name} width="220" loading="lazy" />
         )}
-        <div class="body">
+        <div class="member__body">
           <h2>{data.name}</h2>
-          <p class="role">
+          <p class="member__role">
             {data.role}
-            {data.location ? ` · ${data.location}` : ''}
+            {data.location && <span class="member__loc"> · {data.location}</span>}
           </p>
-          <div class="prose">
+          <div class="prose member__bio">
             <Content />
           </div>
         </div>
@@ -36,25 +36,49 @@ const rendered = await Promise.all(
   }
   .member {
     display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 220px 1fr;
+    gap: 1.75rem;
     align-items: start;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
   }
-  .photo {
-    border-radius: 4px;
-    background: var(--bg-soft);
+  .member:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
-  .body h2 {
-    margin: 0 0 0.2rem;
+  .member__photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+    background: var(--surface-alt);
   }
-  .role {
-    margin: 0 0 0.75rem;
-    color: var(--muted);
-    font-weight: 600;
+  .member__body h2 {
+    font-size: var(--step-2);
   }
-  @media (max-width: 34rem) {
+  .member__role {
+    margin-top: 0.35rem;
+    color: var(--primary);
+    font-weight: 700;
+  }
+  .member__loc {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .member__bio {
+    margin-top: 1rem;
+    font-size: var(--step--1);
+  }
+  .member__bio :global(p + p) {
+    margin-top: 0.75em;
+  }
+  @media (max-width: 38rem) {
     .member {
       grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    .member__photo {
+      max-width: 220px;
     }
   }
 </style>

@@ -1,0 +1,148 @@
+/* ==========================================================================
+   EMC design tokens
+   Palette derived from the EMC logo: magenta/rose "EMC" + royal-blue wordmark,
+   with a teal accent from the globe figures. Warm neutrals throughout.
+   ========================================================================== */
+
+:root {
+  /* ---- brand ---- */
+  --rose-100: #fdecf1;
+  --rose-200: #f9cdda;
+  --rose-400: #e5476a; /* logo mark */
+  --rose-500: #d43560;
+  --rose-600: #bc2f54; /* AA text on white */
+  --rose-700: #992644;
+
+  --blue-100: #e9edf9;
+  --blue-400: #3a5bc0;
+  --blue-600: #294ba6; /* logo wordmark */
+  --blue-700: #1f3c87;
+
+  --teal-100: #e4f4f6;
+  --teal-500: #2f97ab;
+  --teal-600: #257e90;
+
+  /* ---- warm neutrals ---- */
+  --sand-0: #ffffff;
+  --sand-50: #fbf8f5;
+  --sand-100: #f4eee7;
+  --sand-200: #ebe3d9;
+  --sand-300: #ddd2c5;
+  --ink-900: #2b2422;
+  --ink-700: #4a423d;
+  --ink-500: #6e635c;
+
+  /* ---- semantic (light) ---- */
+  --bg: var(--sand-50);
+  --surface: var(--sand-0);
+  --surface-alt: var(--sand-100);
+  --text: var(--ink-900);
+  --text-muted: var(--ink-500);
+  --border: var(--sand-200);
+  --border-strong: var(--sand-300);
+
+  --primary: var(--rose-600);
+  --primary-contrast: #ffffff;
+  --primary-hover: var(--rose-700);
+  --secondary: var(--blue-600);
+  --secondary-hover: var(--blue-700);
+  --accent: var(--teal-600);
+
+  --link: var(--blue-600);
+  --link-hover: var(--rose-600);
+  --focus-ring: var(--rose-400);
+
+  --hero-from: #fdecf1;
+  --hero-to: #e9edf9;
+
+  /* ---- type ---- */
+  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Open Sans', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.4rem);
+  --step-2: clamp(1.44rem, 1.32rem + 0.6vw, 1.8rem);
+  --step-3: clamp(1.73rem, 1.55rem + 0.9vw, 2.35rem);
+  --step-4: clamp(2.07rem, 1.8rem + 1.35vw, 3.05rem);
+  --step-5: clamp(2.49rem, 2.1rem + 1.95vw, 3.95rem);
+
+  /* ---- layout ---- */
+  --container: 68rem;
+  --container-narrow: 46rem;
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2rem);
+  --section-y: clamp(2.5rem, 1.8rem + 3.5vw, 5rem);
+
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(43, 36, 34, 0.06), 0 1px 3px rgba(43, 36, 34, 0.08);
+  --shadow-md: 0 4px 12px rgba(43, 36, 34, 0.08), 0 2px 4px rgba(43, 36, 34, 0.05);
+  --shadow-lg: 0 18px 40px rgba(43, 36, 34, 0.12);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #1a1613;
+    --surface: #241f1c;
+    --surface-alt: #2c2622;
+    --text: #f3eee9;
+    --text-muted: #b6a99f;
+    --border: #392f2a;
+    --border-strong: #4a3f39;
+
+    --primary: #f0748f;
+    --primary-contrast: #2b1017;
+    --primary-hover: #f593a8;
+    --secondary: #8fa8e6;
+    --secondary-hover: #adbef0;
+    --accent: #6fc8d8;
+
+    --link: #a9bdef;
+    --link-hover: #f0748f;
+    --focus-ring: #f0748f;
+
+    --hero-from: #2a1a20;
+    --hero-to: #1c2136;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);
+
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #1a1613;
+  --surface: #241f1c;
+  --surface-alt: #2c2622;
+  --text: #f3eee9;
+  --text-muted: #b6a99f;
+  --border: #392f2a;
+  --border-strong: #4a3f39;
+
+  --primary: #f0748f;
+  --primary-contrast: #2b1017;
+  --primary-hover: #f593a8;
+  --secondary: #8fa8e6;
+  --secondary-hover: #adbef0;
+  --accent: #6fc8d8;
+
+  --link: #a9bdef;
+  --link-hover: #f0748f;
+  --focus-ring: #f0748f;
+
+  --hero-from: #2a1a20;
+  --hero-to: #1c2136;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}

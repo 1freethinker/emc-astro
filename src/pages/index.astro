@@ -12,130 +12,157 @@ const { hero, highlights, gallery } = home.data;
   {
     hero && (
       <section class="hero">
-        <div class="wrap hero-inner">
-          <div class="hero-copy">
+        <div class="container hero__inner">
+          <div class="hero__copy">
             <h1>{hero.heading}</h1>
-            {hero.subheading && <p class="lede">{hero.subheading}</p>}
+            {hero.subheading && <p class="hero__lede">{hero.subheading}</p>}
             {hero.ctas.length > 0 && (
-              <p class="ctas">
-                {hero.ctas.map((c) => (
-                  <a class="btn" href={c.href}>
+              <p class="hero__ctas">
+                {hero.ctas.map((c, i) => (
+                  <a class:list={['btn', { 'btn--secondary': i > 0 }]} href={c.href}>
                     {c.label}
                   </a>
                 ))}
               </p>
             )}
           </div>
-          {hero.image && <img class="hero-img" src={hero.image} alt="" width="495" height="400" />}
+          {hero.image && (
+            <div class="hero__media">
+              <img src={hero.image} alt="" width="495" height="400" fetchpriority="high" />
+            </div>
+          )}
         </div>
       </section>
     )
   }
 
-  <div class="wrap">
-    <div class="prose">
+  <section class="section">
+    <div class="container prose mission">
       <Content />
     </div>
+  </section>
 
-    {
-      highlights && highlights.length > 0 && (
-        <ul class="highlights">
-          {highlights.map((h) => (
-            <li>
-              <h3>{h.title}</h3>
-              <p>{h.body}</p>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+  {
+    highlights && highlights.length > 0 && (
+      <section class="section band">
+        <div class="container">
+          <ul class="highlights">
+            {highlights.map((h) => (
+              <li class="card">
+                <h3>{h.title}</h3>
+                <p>{h.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
 
-    {
-      gallery && gallery.length > 0 && (
-        <section class="gallery" aria-label="Photos">
-          {gallery.map((src) => (
-            <img src={src} alt="" loading="lazy" />
-          ))}
-        </section>
-      )
-    }
-  </div>
+  {
+    gallery && gallery.length > 0 && (
+      <section class="section">
+        <div class="container">
+          <h2 class="gallery__title">EMC in action</h2>
+          <div class="gallery">
+            {gallery.map((src) => (
+              <img src={src} alt="" loading="lazy" />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>
 
 <style>
   .hero {
-    background: var(--bg-soft);
-    border-bottom: 1px solid var(--line);
+    background: linear-gradient(160deg, var(--hero-from), var(--hero-to));
+    border-bottom: 1px solid var(--border);
   }
-  .hero-inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+  .hero__inner {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
     align-items: center;
-    padding-block: 3rem;
+    padding-block: clamp(3rem, 7vw, 6rem);
   }
-  .hero-copy {
-    flex: 1 1 22rem;
+  @media (min-width: 52rem) {
+    .hero__inner {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
   }
-  .hero-copy h1 {
-    margin: 0 0 0.5rem;
-    font-size: clamp(2rem, 5vw, 3rem);
+  .hero__copy h1 {
+    font-size: var(--step-5);
+    font-style: italic;
   }
-  .lede {
-    font-size: 1.2rem;
-    color: var(--muted);
+  .hero__lede {
+    margin-top: 1rem;
+    font-size: var(--step-1);
+    color: var(--text-muted);
     white-space: pre-line;
-    margin: 0 0 1.5rem;
+    max-width: 28ch;
   }
-  .ctas {
+  .hero__ctas {
+    margin-top: 2rem;
     display: flex;
-    gap: 0.75rem;
     flex-wrap: wrap;
+    gap: 0.85rem;
   }
-  .btn {
-    display: inline-block;
-    padding: 0.7rem 1.4rem;
-    background: var(--accent);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 600;
+  .hero__media img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    object-fit: cover;
   }
-  .hero-img {
-    flex: 0 1 24rem;
-    border-radius: 6px;
+
+  .mission :global(h2) {
+    font-size: var(--step-3);
+  }
+  .mission :global(h2:first-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  .band {
+    background: var(--surface-alt);
+    border-block: 1px solid var(--border);
   }
   .highlights {
     list-style: none;
-    margin: 2.5rem 0 0;
+    margin: 0;
     padding: 0;
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   }
-  .highlights li {
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 1.25rem;
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
   }
-  .highlights h3 {
-    margin: 0 0 0.5rem;
+  .card h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.5rem;
   }
-  .highlights p {
-    margin: 0;
-    color: var(--muted);
+  .card p {
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+
+  .gallery__title {
+    margin-bottom: 1.5rem;
   }
   .gallery {
-    margin-top: 3rem;
     display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
   }
   .gallery img {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    border-radius: 4px;
-    background: var(--bg-soft);
+    border-radius: var(--radius);
+    background: var(--surface-alt);
   }
 </style>

@@ -20,57 +20,82 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
 ---
 
 <BaseLayout title={page.data.navLabel ?? title} description={description}>
-  <article class="wrap page">
-    <Breadcrumbs current={page.id} />
-    <h1>{title}</h1>
+  <div class="page-head">
+    <div class="container">
+      <Breadcrumbs current={page.id} />
+      <h1>{title}</h1>
+      {description && <p class="page-head__desc">{description}</p>}
+    </div>
+  </div>
 
-    {import.meta.env.DEV && reviewNotes && (
-      <aside class="review-note">
-        <strong>Migration note (dev only):</strong> {reviewNotes}
-      </aside>
+  <div class="container page-body">
+    {
+      import.meta.env.DEV && reviewNotes && (
+        <aside class="review-note">
+          <strong>Migration note (dev only):</strong> {reviewNotes}
+        </aside>
+      )
+    }
+
+    {heroImage && (
+      <img class="page-hero" src={heroImage} alt="" loading="lazy" />
     )}
-
-    {heroImage && <img class="hero" src={heroImage} alt="" loading="lazy" />}
 
     <div class="prose">
       <Content />
     </div>
 
-    {rendersCollection === 'team' && <TeamGrid />}
-    {rendersCollection === 'partners' && <PartnerGrid />}
-    {rendersCollection === 'mediaCoverage' && <MediaCoverageList />}
-    {rendersCollection === 'news' && <NewsList />}
-  </article>
+    {rendersCollection === 'team' && <div class="collection"><TeamGrid /></div>}
+    {rendersCollection === 'partners' && <div class="collection"><PartnerGrid /></div>}
+    {rendersCollection === 'mediaCoverage' && <div class="collection"><MediaCoverageList /></div>}
+    {rendersCollection === 'news' && <div class="collection"><NewsList /></div>}
+  </div>
 </BaseLayout>
 
 <style>
-  .page {
-    padding-top: 2rem;
+  .page-head {
+    background: linear-gradient(160deg, var(--hero-from), var(--hero-to));
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(1.75rem, 4vw, 3rem);
   }
-  .page h1 {
-    margin: 0 0 1.5rem;
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  .page-head h1 {
+    margin-top: 0.75rem;
   }
-  .hero {
-    display: block;
+  .page-head__desc {
+    margin-top: 0.75rem;
+    max-width: 52ch;
+    color: var(--text-muted);
+    font-size: var(--step-1);
+  }
+
+  .page-body {
+    padding-block: var(--section-y);
+  }
+  .page-hero {
     width: 100%;
-    max-height: 22rem;
+    max-height: 24rem;
     object-fit: cover;
-    border-radius: 6px;
-    margin-bottom: 1.5rem;
-    background: var(--bg-soft);
-  }
-  .prose :global(h2) {
-    margin-top: 2rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 2rem;
+    background: var(--surface-alt);
   }
   .prose:empty {
     display: none;
   }
+  .collection {
+    margin-top: 2.5rem;
+  }
+  .prose:empty + .collection {
+    margin-top: 0;
+  }
+
   .review-note {
-    border-left: 3px solid var(--accent);
-    background: var(--bg-soft);
+    border-left: 3px solid var(--primary);
+    background: var(--surface-alt);
     padding: 0.85rem 1rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 1.75rem;
+    font-size: var(--step--1);
+    color: var(--text-muted);
   }
 </style>

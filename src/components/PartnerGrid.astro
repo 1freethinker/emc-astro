@@ -11,10 +11,14 @@ const rendered = await Promise.all(
   {
     rendered.map(({ data, Content }) => (
       <li class="partner">
-        <div class="logo">
-          {data.logo ? <img src={data.logo} alt={data.name} loading="lazy" /> : <span>{data.name}</span>}
+        <div class="partner__logo">
+          {data.logo ? (
+            <img src={data.logo} alt={`${data.name} logo`} loading="lazy" />
+          ) : (
+            <span>{data.name}</span>
+          )}
         </div>
-        <div class="body prose">
+        <div class="partner__body prose">
           <h2>
             {data.url ? (
               <a href={data.url} rel="noopener">
@@ -37,34 +41,56 @@ const rendered = await Promise.all(
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 2rem;
+    gap: 1.25rem;
   }
   .partner {
     display: grid;
-    grid-template-columns: 160px 1fr;
-    gap: 1.5rem;
+    grid-template-columns: 168px 1fr;
+    gap: 1.75rem;
     align-items: start;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--line);
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
   }
-  .partner:last-child {
-    border-bottom: 0;
-  }
-  .logo {
+  .partner__logo {
     display: flex;
     align-items: center;
-    min-height: 60px;
+    justify-content: center;
+    min-height: 64px;
+    padding: 0.5rem;
+    background: var(--surface-alt);
+    border-radius: var(--radius-sm);
   }
-  .logo span {
+  .partner__logo img {
+    max-height: 60px;
+    width: auto;
+    mix-blend-mode: multiply;
+  }
+  :root[data-theme='dark'] .partner__logo img {
+    mix-blend-mode: normal;
+  }
+  .partner__logo span {
     font-weight: 700;
+    text-align: center;
+    font-size: var(--step--1);
   }
-  .body h2 {
-    margin: 0 0 0.4rem;
-    font-size: 1.15rem;
+  .partner__body h2 {
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
   }
-  @media (max-width: 34rem) {
+  .partner__body {
+    font-size: var(--step--1);
+  }
+  @media (max-width: 38rem) {
     .partner {
       grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .partner__logo {
+      justify-content: flex-start;
+      background: transparent;
+      padding: 0;
     }
   }
 </style>

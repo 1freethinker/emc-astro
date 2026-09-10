@@ -3,15 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Page not found">
-  <div class="wrap page">
+  <div class="container notfound">
+    <p class="eyebrow">404</p>
     <h1>Page not found</h1>
-    <p>Sorry, we couldn't find that page. Try the <a href="/">home page</a>.</p>
+    <p>Sorry, we couldn't find that page.</p>
+    <p><a class="btn" href="/">Back to home</a></p>
   </div>
 </BaseLayout>
 
 <style>
-  .page {
-    padding-top: 3rem;
-    min-height: 40vh;
+  .notfound {
+    padding-block: clamp(3rem, 10vw, 7rem);
+    text-align: center;
+    display: grid;
+    gap: 1rem;
+    place-items: center;
+    min-height: 45vh;
+  }
+  .notfound p:last-child {
+    margin-top: 1rem;
   }
 </style>

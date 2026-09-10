@@ -1,42 +1,109 @@
 ---
+import nav from '../data/navigation.json';
 import site from '../data/site.json';
 const year = new Date().getFullYear();
+const tel = site.phone.replace(/[^0-9+]/g, '');
 ---
 
 <footer class="site-footer">
-  <div class="wrap">
-    <p class="org">
-      <strong>{site.legalName}</strong>{site.legalNameKo ? ` (${site.legalNameKo})` : ''}
-    </p>
-    <ul class="contact">
-      <li>Phone: <a href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}>{site.phone}</a></li>
-      <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>
-      <li>{site.address}</li>
-    </ul>
-    <p class="fine">&copy; {year} {site.legalName}. Founded {site.founded}.</p>
+  <div class="container grid">
+    <div class="about">
+      <p class="name">{site.legalName}</p>
+      {site.legalNameKo && <p class="name-ko">{site.legalNameKo}</p>}
+      <p class="blurb">{site.description}</p>
+    </div>
+
+    <nav class="links" aria-label="Footer">
+      <ul>
+        {
+          nav.primary.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="contact">
+      <h2>Contact</h2>
+      <ul>
+        <li><a href={`tel:${tel}`}>{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>{site.address}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container fine">
+    <p>&copy; {year} {site.legalName}. Founded {site.founded}.</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    margin-top: 4rem;
-    border-top: 1px solid var(--line);
-    background: var(--bg-soft);
-    padding-block: 2rem;
-    font-size: 0.95rem;
+    margin-top: var(--section-y);
+    background: var(--surface-alt);
+    border-top: 1px solid var(--border);
+    padding-block: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+    font-size: var(--step--1);
   }
-  .org {
-    margin: 0 0 0.5rem;
+  .grid {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1.5fr 1fr 1fr;
   }
-  .contact {
+  @media (max-width: 46rem) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+  .name {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+  .name-ko {
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+  .blurb {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+    max-width: 34ch;
+  }
+  .links h2,
+  .contact h2 {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  .links ul,
+  .contact ul {
     list-style: none;
-    margin: 0 0 0.75rem;
+    margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.15rem;
+    gap: 0.5rem;
+  }
+  .links a,
+  .contact a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .links a:hover,
+  .contact a:hover {
+    color: var(--link-hover);
   }
   .fine {
-    margin: 0;
-    color: var(--muted);
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
   }
 </style>

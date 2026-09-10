@@ -1,23 +1,42 @@
 ---
 import nav from '../data/navigation.json';
-import site from '../data/site.json';
+import Logo from './Logo.astro';
 
-const here = Astro.url.pathname.replace(/\/$/, '') || '/';
+const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href: string) => {
-  const h = href.replace(/\/$/, '') || '/';
+  const h = href.replace(/\/+$/, '') || '/';
   return h === '/' ? here === '/' : here === h || here.startsWith(h + '/');
 };
+const inGroup = (item: { href: string; children?: { href: string }[] }) =>
+  isActive(item.href) || (item.children ?? []).some((c) => isActive(c.href));
 ---
 
 <header class="site-header">
-  <div class="wrap bar">
-    <a class="brand" href="/">{site.name}</a>
-    <nav aria-label="Primary">
+  <div class="container bar">
+    <a class="brand" href="/" aria-label="EMC — Every Mother & Child, home">
+      <Logo height={34} />
+    </a>
+
+    <button
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      data-nav-toggle
+    >
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span class="sr-only">Menu</span>
+    </button>
+
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary" data-nav>
       <ul class="menu">
         {
           nav.primary.map((item) => (
-            <li>
-              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+            <li class:list={['menu__item', { 'is-current': inGroup(item) }]}>
+              <a
+                class="menu__link"
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
                 {item.label}
               </a>
               {item.children && item.children.length > 0 && (
@@ -25,6 +44,7 @@ const isActive = (href: string) => {
                   {item.children.map((child) => (
                     <li>
                       <a
+                        class="submenu__link"
                         href={child.href}
                         aria-current={isActive(child.href) ? 'page' : undefined}
                       >
@@ -38,63 +58,289 @@ const isActive = (href: string) => {
           ))
         }
       </ul>
+
+      <div class="nav-actions">
+        <a class="btn btn--secondary btn--sm" href="/donations">Donate</a>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+          <span class="sr-only">Toggle dark mode</span>
+          <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+            <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+            <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4" />
+            </g>
+          </svg>
+          <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true" width="18" height="18">
+            <path d="M20 14.5A8 8 0 1 1 9.5 4a6.3 6.3 0 0 0 10.5 10.5z" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
     </nav>
   </div>
 </header>
 
 <style>
   .site-header {
-    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
   }
   .bar {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 1rem 2rem;
-    padding-block: 0.9rem;
+    gap: 1rem;
+    min-height: 64px;
   }
   .brand {
-    font-weight: 700;
-    font-size: 1.15rem;
-    text-decoration: none;
-    color: var(--ink);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding-block: 0.4rem;
   }
-  nav {
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .primary-nav {
     flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.5rem;
   }
   .menu {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.25rem;
+    align-items: center;
+    gap: 0.25rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .menu > li > a {
-    font-weight: 600;
+  .menu__item {
+    position: relative;
   }
-  .menu a {
-    color: var(--ink);
-    text-decoration: none;
+  .menu__link {
     display: inline-block;
-    padding: 0.25rem 0;
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-weight: 600;
+    font-size: var(--step--1);
+    text-decoration: none;
+    white-space: nowrap;
   }
-  .menu a[aria-current='page'] {
-    color: var(--accent);
+  .menu__link:hover {
+    background: var(--surface-alt);
+    color: var(--text);
   }
+  .menu__item.is-current > .menu__link {
+    color: var(--primary);
+  }
+  .menu__item.is-current > .menu__link::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+    margin-top: 3px;
+  }
+
   .submenu {
     list-style: none;
-    margin: 0.15rem 0 0.5rem;
-    padding: 0 0 0 0.9rem;
-    border-left: 2px solid var(--line);
+    margin: 0;
+    padding: 0.4rem;
   }
-  .submenu a {
-    font-weight: 400;
-    color: var(--muted);
-    font-size: 0.95rem;
+  .submenu__link {
+    display: block;
+    padding: 0.5rem 0.7rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: var(--step--1);
+    text-decoration: none;
+    white-space: nowrap;
   }
-  /*
-    Flat, always-open submenus for now (no JS dropdown). The real header
-    interaction gets designed in the theme phase.
-  */
+  .submenu__link:hover,
+  .submenu__link[aria-current='page'] {
+    background: var(--surface-alt);
+    color: var(--text);
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .btn--sm {
+    padding: 0.5em 1em;
+    font-size: var(--step--1);
+  }
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .theme-toggle:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+  .theme-toggle__moon {
+    display: none;
+  }
+  :root[data-theme='dark'] .theme-toggle__sun {
+    display: none;
+  }
+  :root[data-theme='dark'] .theme-toggle__moon {
+    display: block;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+
+  /* ---- Desktop dropdowns ---- */
+  @media (min-width: 60rem) {
+    .submenu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 0.4rem);
+      left: 0;
+      min-width: 12rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+    }
+    /* hover bridge so the pointer can travel to the panel */
+    .menu__item:hover::after {
+      content: '';
+      position: absolute;
+      inset: 100% 0 auto 0;
+      height: 0.6rem;
+    }
+    .menu__item:hover > .submenu,
+    .menu__item:focus-within > .submenu {
+      display: block;
+      animation: dropdown-in 0.15s ease;
+    }
+    @keyframes dropdown-in {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+    }
+  }
+
+  /* ---- Mobile drawer ---- */
+  @media (max-width: 59.99rem) {
+    .nav-toggle {
+      display: grid;
+      place-items: center;
+      margin-left: auto;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      cursor: pointer;
+    }
+    .nav-toggle__bars,
+    .nav-toggle__bars::before,
+    .nav-toggle__bars::after {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.2s ease;
+    }
+    .nav-toggle__bars::before {
+      transform: translateY(-6px);
+    }
+    .nav-toggle__bars::after {
+      transform: translateY(4px);
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bars {
+      background: transparent;
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bars::before {
+      transform: translateY(0) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__bars::after {
+      transform: translateY(-2px) rotate(-45deg);
+    }
+
+    .primary-nav {
+      position: fixed;
+      inset: 64px 0 auto 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 1rem var(--gutter) 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      max-height: calc(100dvh - 64px);
+      overflow-y: auto;
+      transform: translateY(-110%);
+      transition: transform 0.25s ease;
+    }
+    .primary-nav.is-open {
+      transform: translateY(0);
+    }
+    .menu {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+    }
+    .menu__link {
+      padding: 0.85rem 0.5rem;
+      font-size: var(--step-0);
+      border-bottom: 1px solid var(--border);
+    }
+    .menu__item.is-current > .menu__link::after {
+      display: none;
+    }
+    .submenu {
+      padding: 0 0 0.5rem 1rem;
+    }
+    .submenu__link {
+      padding: 0.6rem 0.5rem;
+      font-size: var(--step--1);
+    }
+    .nav-actions {
+      margin-top: 1.25rem;
+      justify-content: space-between;
+    }
+  }
 </style>
+
+<script is:inline>
+  (() => {
+    const toggle = document.querySelector('[data-nav-toggle]');
+    const panel = document.querySelector('[data-nav]');
+    if (!toggle || !panel) return;
+    const set = (open) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('is-open', open);
+    };
+    toggle.addEventListener('click', () =>
+      set(toggle.getAttribute('aria-expanded') !== 'true'),
+    );
+    addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
+    matchMedia('(min-width: 60rem)').addEventListener('change', () => set(false));
+  })();
+</script>

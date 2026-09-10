@@ -1,8 +1,5 @@
 ---
-/**
- * Base HTML shell. Intentionally minimal styling — just enough to be legible
- * while content and routing are built out. Theme/design comes later.
- */
+import '../styles/global.css';
 import site from '../data/site.json';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -25,7 +22,21 @@ const metaDescription = description ?? site.description;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
     <meta name="description" content={metaDescription} />
-    <link rel="icon" href="/images/cropped-KakaoTalk_20210823_132215728.png" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      // Set the theme before paint to avoid a flash.
+      (() => {
+        try {
+          const saved = localStorage.getItem('emc-theme');
+          if (saved === 'light' || saved === 'dark') {
+            document.documentElement.dataset.theme = saved;
+          }
+        } catch {}
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -35,46 +46,24 @@ const metaDescription = description ?? site.description;
     </main>
     <SiteFooter />
 
-    <style is:global>
-      :root {
-        --content-width: 60rem;
-        --gutter: 1.25rem;
-        --ink: #1b1b1b;
-        --muted: #5a5a5a;
-        --accent: #b0344b;
-        --line: #e2e2e2;
-        --bg-soft: #f6f4f2;
+    <script is:inline>
+      const btn = document.getElementById('theme-toggle');
+      if (btn) {
+        const root = document.documentElement;
+        const current = () =>
+          root.dataset.theme ||
+          (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        const sync = () => btn.setAttribute('aria-pressed', String(current() === 'dark'));
+        sync();
+        btn.addEventListener('click', () => {
+          const next = current() === 'dark' ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem('emc-theme', next);
+          } catch {}
+          sync();
+        });
       }
-      * { box-sizing: border-box; }
-      html { -webkit-text-size-adjust: 100%; }
-      body {
-        margin: 0;
-        color: var(--ink);
-        background: #fff;
-        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      }
-      main { display: block; }
-      img { max-width: 100%; height: auto; }
-      a { color: var(--accent); }
-      h1, h2, h3, h4 { line-height: 1.25; }
-      .wrap {
-        max-width: var(--content-width);
-        margin-inline: auto;
-        padding-inline: var(--gutter);
-      }
-      .prose { max-width: 48rem; }
-      .prose > :first-child { margin-top: 0; }
-      .skip-link {
-        position: absolute;
-        left: -9999px;
-      }
-      .skip-link:focus {
-        left: var(--gutter);
-        top: 0.5rem;
-        background: #fff;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid var(--line);
-      }
-    </style>
+    </script>
   </body>
 </html>

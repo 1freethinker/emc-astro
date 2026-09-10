@@ -3,9 +3,9 @@
 Astro migration of the **Every Mother & Child (EMC)** website, previously on
 WordPress at `http://141.164.55.18`.
 
-**Status:** content + routing in place. Every page renders through a shared
-layout with working navigation, breadcrumbs, and redirects from the old URLs.
-Styling is deliberately minimal — a real theme/design pass is the next step.
+**Status:** content + routing + a first visual-theme pass in place. Every page
+renders through a shared layout with navigation, breadcrumbs, redirects, a brand
+palette + type system, light/dark modes, and responsive nav.
 
 ## Prerequisites
 
@@ -25,7 +25,7 @@ If PowerShell blocks npm (`npm.ps1 cannot be loaded`), run once:
 ## Project layout
 
 ```
-astro.config.mjs           redirects + remark-breaks; no theme config yet
+astro.config.mjs           redirects + remark-breaks
 src/
   content.config.ts        collection definitions + Zod schema (start here)
   content/
@@ -39,10 +39,13 @@ src/
     navigation.json          primary menu
     redirects.json           old WordPress URL -> new route map
     wordpress-images.json    manifest of all 48 media-library images
+  styles/
+    tokens.css               design tokens: colour / type / spacing, light + dark
+    global.css               base element styles, .prose, .btn, layout helpers
   layouts/
-    BaseLayout.astro         HTML shell + minimal global CSS
+    BaseLayout.astro         HTML shell, fonts, no-flash theme script
   components/
-    SiteHeader / SiteFooter / Breadcrumbs
+    SiteHeader / SiteFooter / Breadcrumbs / Logo
     TeamGrid / PartnerGrid / MediaCoverageList / NewsList
   pages/
     index.astro              home (hero + highlights + gallery from home.md)
@@ -50,6 +53,7 @@ src/
     whats-happening/[id].astro   individual news posts
     404.astro
 public/
+  favicon.svg
   images/                    48 images, downloaded from the WP media library
 scripts/
   fetch-wp-images.ps1        (re)download the media library into public/images/
@@ -80,9 +84,26 @@ Every migrated entry keeps a `wordpress` block (original id / slug / URL).
 Draft `news` posts and any `reviewNotes` banner show in `dev` and are hidden in
 production builds.
 
+## Theme
+
+First pass, brand-aligned refresh (see MIGRATION.md § Theme):
+
+- **Palette** from the EMC logo — rose/magenta primary, royal-blue secondary,
+  teal accent, warm neutrals. All in `src/styles/tokens.css` as CSS custom
+  properties; **light + dark** with a no-flash toggle (persisted to
+  `localStorage`).
+- **Type** — Fraunces (display) + Open Sans (body), self-hosted via
+  `@fontsource`. Fluid type scale.
+- **Logo** — `Logo.astro`, an SVG wordmark rebuilt from the low-res JPG. The
+  globe-with-figures mark is omitted pending a transparent source.
+- Sticky header with CSS dropdowns on desktop / drawer on mobile; restyled
+  footer, breadcrumbs, hero, cards, and all four collection list views.
+
+Still rough / next: real photography treatment, the globe logo mark, per-page
+hero art, spacing polish on long content pages.
+
 ## Not done yet (deliberately)
 
-- **Theme / visual design.** Current CSS is a legibility baseline, not a design.
 - **Contact / intake forms** — Contact Form 7 (contact-us) and embedded Naver
   Office forms (emergency-support, donations monthly). Recorded, not rebuilt —
   need a form solution.

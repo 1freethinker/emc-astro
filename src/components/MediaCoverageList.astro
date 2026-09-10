@@ -7,15 +7,25 @@ const items = (await getCollection('mediaCoverage')).sort((a, b) => a.data.order
 <ul class="coverage">
   {
     items.map(({ data }) => (
-      <li>
-        <a href={data.url} rel="noopener">
+      <li class="coverage__item">
+        <a class="coverage__link" href={data.url} rel="noopener">
           {data.title}
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16">
+            <path
+              d="M7 17 17 7M9 7h8v8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </a>
-        <span class="meta">
-          {data.titleKo ? data.titleKo : ''}
-          {data.titleKo && data.outlet ? ' · ' : ''}
-          {data.outlet ?? ''}
-        </span>
+        <p class="coverage__meta">
+          {data.titleKo && <span lang="ko">{data.titleKo}</span>}
+          {data.titleKo && data.outlet && <span aria-hidden="true"> · </span>}
+          {data.outlet && <span>{data.outlet}</span>}
+        </p>
       </li>
     ))
   }
@@ -27,15 +37,37 @@ const items = (await getCollection('mediaCoverage')).sort((a, b) => a.data.order
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 1.25rem;
+    gap: 0.75rem;
   }
-  .coverage a {
-    font-weight: 600;
+  .coverage__item {
+    padding: 1.25rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.15s ease;
   }
-  .meta {
-    display: block;
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-top: 0.2rem;
+  .coverage__item:hover {
+    border-color: var(--border-strong);
+  }
+  .coverage__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    font-size: var(--step-0);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .coverage__link:hover {
+    color: var(--link-hover);
+  }
+  .coverage__link svg {
+    flex-shrink: 0;
+    color: var(--text-muted);
+  }
+  .coverage__meta {
+    margin-top: 0.35rem;
+    color: var(--text-muted);
+    font-size: var(--step--1);
   }
 </style>

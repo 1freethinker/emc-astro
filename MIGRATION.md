@@ -89,6 +89,38 @@ Decide per-form: keep the external embed, or rebuild natively with a handler
   WordPress showed the bank-details / address blocks).
 - `astro build` = 13 pages, clean.
 
+## Theme (first pass)
+
+Direction chosen: **brand-aligned refresh** — drop the site's mismatched purple
+(a GeneratePress default) and build from the logo's real colours.
+
+- **Original design DNA** (for reference): Open Sans; bright purple headings
+  `#b41ddb`; blue links `#1e73be`; lavender hero gradient `#e7ccf8 → #a48fb1`;
+  three inconsistent button colours (blue / green / rose); square corners.
+- **New palette** (`src/styles/tokens.css`): rose/magenta primary `#e5476a`
+  (from the logo mark; darkened to `#bc2f54` for AA text), royal-blue secondary
+  `#294ba6` (logo wordmark), teal accent `#2f97ab` (globe figures), warm sand
+  neutrals. Full light + dark token sets; `prefers-color-scheme` + a persisted
+  `[data-theme]` toggle with a no-flash inline script.
+- **Type**: Fraunces (display, variable, self-hosted) + Open Sans (body,
+  self-hosted via `@fontsource`, latin subset). Fluid `clamp()` scale.
+- **Logo**: `src/components/Logo.astro` — the "EMC / EVERY MOTHER & CHILD"
+  wordmark rebuilt as theme-aware SVG `<text>`. The globe-with-figures mark is
+  **omitted** — it only exists as a low-res JPG with a baked-in white box; needs
+  a transparent SVG/PNG source.
+- One button system (`.btn`, `.btn--secondary`, `.btn--ghost`, pill shape).
+- Header: sticky, CSS-only dropdowns ≥60rem, slide-in drawer below (small JS).
+  Dropdowns use `display:none/block` (not opacity) to avoid ghost-render in
+  screenshot capture.
+- Restyled: footer (3-col), breadcrumbs, home hero/mission/highlights/gallery,
+  generic page shell, and TeamGrid / PartnerGrid / MediaCoverageList / NewsList.
+- Partner logos get `mix-blend-mode: multiply` on their tint chip in light mode
+  (many are JPGs with white backgrounds); reverted to normal in dark mode.
+
+Not yet: the globe logo mark, per-page hero photography, image art-direction,
+spacing polish on the longer text pages, and a proper favicon (current one is a
+simple two-circle placeholder).
+
 ## Images
 
 `src/data/wordpress-images.json` manifests all 48 library images with a

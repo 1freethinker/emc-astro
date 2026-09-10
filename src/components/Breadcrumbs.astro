@@ -30,7 +30,11 @@ trail.unshift({ href: '/', label: 'Home' });
       <ol>
         {trail.map((c, i) => (
           <li>
-            {i < trail.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+            {i < trail.length - 1 ? (
+              <a href={c.href}>{c.label}</a>
+            ) : (
+              <span aria-current="page">{c.label}</span>
+            )}
           </li>
         ))}
       </ol>
@@ -43,18 +47,33 @@ trail.unshift({ href: '/', label: 'Home' });
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin: 0 0 1.25rem;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
     padding: 0;
-    font-size: 0.9rem;
-    color: var(--muted);
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+  .crumbs li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   .crumbs li:not(:last-child)::after {
-    content: '/';
-    margin-left: 0.4rem;
-    color: var(--line);
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--border-strong);
   }
   .crumbs a {
-    color: var(--muted);
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--link);
+  }
+  .crumbs [aria-current='page'] {
+    color: var(--text);
   }
 </style>

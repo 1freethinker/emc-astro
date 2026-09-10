@@ -12,17 +12,19 @@ const fmt = (d: Date) =>
 
 {
   posts.length === 0 ? (
-    <p class="empty">No updates have been published yet.</p>
+    <p class="empty">No updates have been published yet — check back soon.</p>
   ) : (
     <ul class="news">
       {posts.map((post) => (
-        <li>
-          <a href={`/whats-happening/${post.id}`}>{post.data.title}</a>
-          <span class="meta">
+        <li class="news__item">
+          <p class="news__meta">
             <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
-            {post.data.draft ? ' · draft' : ''}
-          </span>
-          {post.data.description && <p class="excerpt">{post.data.description}</p>}
+            {post.data.draft && <span class="tag">draft</span>}
+          </p>
+          <h2 class="news__title">
+            <a href={`/whats-happening/${post.id}`}>{post.data.title}</a>
+          </h2>
+          {post.data.description && <p class="news__excerpt">{post.data.description}</p>}
         </li>
       ))}
     </ul>
@@ -37,20 +39,51 @@ const fmt = (d: Date) =>
     display: grid;
     gap: 1.75rem;
   }
-  .news a {
-    font-weight: 600;
-    font-size: 1.1rem;
+  .news__item {
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--border);
   }
-  .meta {
-    display: block;
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin-top: 0.2rem;
+  .news__item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
-  .excerpt {
-    margin: 0.4rem 0 0;
+  .news__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-muted);
+    font-size: var(--step--1);
+    margin-bottom: 0.35rem;
+  }
+  .tag {
+    font-size: 0.75em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15em 0.5em;
+    border-radius: var(--radius-pill);
+    background: var(--rose-100);
+    color: var(--rose-600);
+  }
+  :root[data-theme='dark'] .tag {
+    background: color-mix(in srgb, var(--primary) 22%, transparent);
+    color: var(--primary);
+  }
+  .news__title {
+    font-size: var(--step-2);
+  }
+  .news__title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .news__title a:hover {
+    color: var(--link-hover);
+  }
+  .news__excerpt {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
   }
   .empty {
-    color: var(--muted);
+    color: var(--text-muted);
   }
 </style>

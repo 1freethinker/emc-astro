@@ -1,0 +1,60 @@
+---
+/**
+ * EMC wordmark, rebuilt as clean SVG (from the low-res logo JPG).
+ * Theme-aware via CSS custom properties; scales to any size.
+ *
+ * The original logo also has a globe-with-figures mark to the left of the
+ * wordmark. It only exists as a low-res JPG with a baked-in white box, so it's
+ * omitted here until a transparent source (SVG/PNG) is available — see
+ * MIGRATION.md.
+ */
+interface Props {
+  /** rendered height in px; width scales with it */
+  height?: number;
+  title?: string;
+}
+const { height = 34, title = 'EMC — Every Mother & Child' } = Astro.props;
+const ratio = 232 / 64;
+---
+
+<svg
+  class="logo"
+  viewBox="0 0 232 64"
+  width={Math.round(height * ratio)}
+  height={height}
+  role="img"
+  aria-label={title}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <text
+    x="0"
+    y="34"
+    class="logo__mark"
+    font-family="'Open Sans', sans-serif"
+    font-weight="800"
+    font-size="42"
+    letter-spacing="1"
+  >EMC</text>
+  <text
+    x="2"
+    y="57"
+    class="logo__name"
+    font-family="'Open Sans', sans-serif"
+    font-weight="700"
+    font-size="11.4"
+    letter-spacing="1.6"
+  >EVERY MOTHER &amp; CHILD</text>
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    height: auto;
+  }
+  .logo__mark {
+    fill: var(--primary);
+  }
+  .logo__name {
+    fill: var(--secondary);
+  }
+</style>
