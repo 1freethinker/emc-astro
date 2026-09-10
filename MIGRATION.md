@@ -126,7 +126,10 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
 - Partner logos get `mix-blend-mode: multiply` on their tint chip (many are
   JPGs with white backgrounds).
 
-Not yet: per-page hero photography, image art-direction, and team-photo framing.
+Team photos are square (1:1) with a per-member `photoPosition` (object-position)
+so faces sit right; Natasha's is the weak source (seated, small in frame).
+
+Not yet: per-page hero photography, image art-direction.
 
 ## Images
 

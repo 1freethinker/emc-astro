@@ -99,6 +99,8 @@ const team = defineCollection({
     order: z.number().default(0),
     /** Local image path (see public/images + src/data/wordpress-images.json). */
     photo: z.string().optional(),
+    /** CSS object-position for the square photo crop (default "50% 30%"). */
+    photoPosition: z.string().optional(),
     /** Original WordPress media URL, for later download. */
     photoSource: z.string().url().optional(),
     location: z.string().optional(),

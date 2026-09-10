@@ -3,6 +3,7 @@ name: Kim Do-Kyung (Megy Kim)
 role: President of EMC
 order: 1
 photo: /images/KakaoTalk_20210726_192448059.jpg
+photoPosition: 50% 28%
 photoSource: http://141.164.55.18/wp-content/uploads/2022/08/KakaoTalk_20210726_192448059.jpg
 location: South Korea
 ---

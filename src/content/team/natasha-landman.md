@@ -3,6 +3,7 @@ name: Natasha Landman
 role: Volunteer Communications Officer & Campaign Manager
 order: 3
 photo: /images/KakaoTalk_20210913_180012005.jpg
+photoPosition: 34% 14%
 photoSource: http://141.164.55.18/wp-content/uploads/2022/08/KakaoTalk_20210913_180012005.jpg
 ---
 
