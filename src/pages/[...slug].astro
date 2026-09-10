@@ -9,7 +9,7 @@ import NewsList from '../components/NewsList.astro';
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
   return pages
-    .filter((p) => p.id !== 'home')
+    .filter((p) => p.id !== 'home' && p.id !== 'contact-us') // both have dedicated routes
     .filter((p) => import.meta.env.DEV || !p.data.draft)
     .map((p) => ({ params: { slug: p.id }, props: { page: p } }));
 }

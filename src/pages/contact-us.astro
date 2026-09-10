@@ -1,0 +1,100 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import site from '../data/site.json';
+
+const page = await getEntry('pages', 'contact-us');
+if (!page) throw new Error('Missing pages/contact-us.md');
+const { Content } = await render(page);
+
+const tel = site.phone.replace(/[^0-9+]/g, '');
+---
+
+<BaseLayout title={page.data.navLabel ?? page.data.title} description={page.data.description}>
+  <header class="page-head">
+    <div class="container">
+      <h1>{page.data.title}</h1>
+    </div>
+  </header>
+
+  <div class="container contact">
+    <div class="contact__intro prose">
+      <Content />
+    </div>
+
+    <div class="contact__grid">
+      <aside class="contact__details">
+        <h2>Reach us directly</h2>
+        <dl>
+          <div>
+            <dt>Phone</dt>
+            <dd><a href={`tel:${tel}`}>{site.phone}</a></dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+          </div>
+          <div>
+            <dt>Address</dt>
+            <dd>{site.address}</dd>
+          </div>
+        </dl>
+      </aside>
+
+      <div class="contact__form">
+        <h2>Send a message</h2>
+        <ContactForm />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    background: linear-gradient(160deg, var(--hero-from), var(--hero-to));
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .page-head h1 {
+    max-width: 20ch;
+  }
+
+  .contact {
+    padding-block: var(--section-y);
+  }
+  .contact__intro {
+    max-width: var(--container-narrow);
+  }
+  .contact__grid {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+  @media (min-width: 46rem) {
+    .contact__grid {
+      grid-template-columns: minmax(0, 16rem) 1fr;
+    }
+  }
+  .contact__details h2,
+  .contact__form h2 {
+    font-size: var(--step-1);
+    margin-bottom: 1rem;
+  }
+  .contact__details dl {
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .contact__details dt {
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .contact__details dd {
+    margin: 0.15rem 0 0;
+  }
+</style>

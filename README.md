@@ -3,9 +3,8 @@
 Astro migration of the **Every Mother & Child (EMC)** website, previously on
 WordPress at `http://141.164.55.18`.
 
-**Status:** content + routing + a first visual-theme pass in place. Every page
-renders through a shared layout with navigation, breadcrumbs, redirects, a brand
-palette + type system, and responsive nav.
+**Status:** content, routing, visual theme, and a working contact form in
+place. Targeting a **Netlify** static deploy.
 
 ## Prerequisites
 
@@ -25,7 +24,9 @@ If PowerShell blocks npm (`npm.ps1 cannot be loaded`), run once:
 ## Project layout
 
 ```
-astro.config.mjs           redirects + remark-breaks
+astro.config.mjs           redirects
+netlify.toml               Netlify build config
+.env.example               PUBLIC_WEB3FORMS_KEY (contact form)
 src/
   content.config.ts        collection definitions + Zod schema (start here)
   content/
@@ -47,8 +48,10 @@ src/
   components/
     SiteHeader / SiteFooter / Logo
     TeamGrid / PartnerGrid / MediaCoverageList / NewsList
+    ContactForm.astro        Web3Forms contact form (AJAX + honeypot)
   pages/
     index.astro              home (hero + highlights + gallery from home.md)
+    contact-us.astro         dedicated route: contact details + ContactForm
     [...slug].astro          every other page; renders body + optional collection list
     whats-happening/[id].astro   individual news posts
     404.astro
@@ -104,11 +107,31 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
 Still rough / next: real photography treatment, per-page hero art, spacing
 polish on long content pages.
 
+## Deploy (Netlify)
+
+Static site. `netlify.toml` sets `npm run build` → publish `dist/`.
+
+**Before the first deploy:** add the contact-form key under
+_Site settings → Environment variables_:
+
+```
+PUBLIC_WEB3FORMS_KEY = <your Web3Forms access key>
+```
+
+Get one at [web3forms.com](https://web3forms.com) (enter the address that should
+receive messages). Locally, put it in `.env` (see `.env.example`). Without it the
+contact form renders but is disabled with a notice.
+
+## Contact form
+
+`ContactForm.astro` posts straight to Web3Forms — no backend. JS on: AJAX submit
+with an inline success/error message. JS off: normal POST, Web3Forms shows its
+own confirmation page. Spam: Web3Forms honeypot (`botcheck`).
+
 ## Not done yet (deliberately)
 
-- **Contact / intake forms** — Contact Form 7 (contact-us) and embedded Naver
-  Office forms (emergency-support, donations monthly). Recorded, not rebuilt —
-  need a form solution.
+- **Other forms** — the emergency-support and monthly-donation pages had
+  embedded Naver Office forms; still just links / notes, not rebuilt.
 - **Image optimization** — images are plain `<img>` to `/images/...`; not yet
   moved to `astro:assets` / `<Image>`.
 

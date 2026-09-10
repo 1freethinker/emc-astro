@@ -31,7 +31,7 @@ reconstructed from the rendered header HTML.
 | 59    | `/about-emc/`                    | `pages/who-we-are.md`              | Full text. |
 | 65    | `/about-emc/the-team/`           | `pages/the-team.md` + `team/*`     | 4 members extracted to `team` collection. |
 | 63    | `/about-emc/partners/`           | `pages/partners.md` + `partners/*` | 10 orgs extracted to `partners` collection. |
-| 61    | `/about-emc/contact-us/`         | `pages/contact-us.md`              | **Contact Form 7 form not rebuilt** — contact details kept. |
+| 61    | `/about-emc/contact-us/`         | `pages/contact-us.md` + `contact-us.astro` | Form **rebuilt** with Web3Forms. |
 | 13    | `/what-we-need/`                 | `pages/what-we-need.md`            | Full text. |
 | 15    | `/what-we-need/donations/`       | `pages/donations.md`               | **Donation content only** — `needsPaymentIntegration: true`. |
 | 53    | `/what-we-need/volunteers/`      | `pages/volunteers.md`             | Full text. |
@@ -59,17 +59,19 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
 | 25    | `/donation-failed-2/`        | "We're sorry, your donation failed to process. Please try again or contact site support." |
 | 26    | `/donor-dashboard-2/`        | Empty — would have held the GiveWP donor dashboard. |
 
-### Forms (needs a solution)
+### Forms
 
-- **Contact Us** — Contact Form 7: name (req), email (req), subject (req),
-  message (opt), spam quiz "Which is bigger, 4 or 8?".
+- **Contact Us** — **rebuilt** with Web3Forms (`ContactForm.astro`, dedicated
+  `src/pages/contact-us.astro` route). Fields: name, email, subject, message
+  (all required — the WP form had message optional and a "4 or 8?" quiz;
+  replaced by a Web3Forms honeypot). Needs `PUBLIC_WEB3FORMS_KEY` at build time
+  (Netlify env var / local `.env`).
 - **Emergency Support** — `<iframe>` to a Naver Office form
   (`form.office.naver.com/form/responseView.cmd?formkey=NjY5NWRkMGEtZDk2ZC00ZGNlLWFlYzEtNzg3NWFjZjIwNjNl`).
+  Still just a recorded URL — decide: keep the embed or rebuild.
 - **Donations → Automatic Monthly Donation** — Naver Office form
-  (`...formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3`).
-
-Decide per-form: keep the external embed, or rebuild natively with a handler
-(Formspree/Web3Forms/an API route + email).
+  (`...formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3`), kept as an
+  external link in `donations.md`.
 
 ## Routing & layout
 

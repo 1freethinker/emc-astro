@@ -1,0 +1,183 @@
+---
+/**
+ * Contact form → Web3Forms (https://web3forms.com).
+ *
+ * Static-friendly: submits directly to Web3Forms, no server needed. Set the
+ * access key in an env var before building/deploying:
+ *
+ *   PUBLIC_WEB3FORMS_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+ *
+ * (Netlify: Site settings → Environment variables. Locally: .env — see
+ * .env.example.) The key is a public submission key, safe to ship in the HTML.
+ *
+ * JS enabled  → AJAX submit, inline success/error, no reload.
+ * JS disabled → normal POST; Web3Forms shows its own confirmation page.
+ */
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+const configured = accessKey.length > 0;
+---
+
+<form
+  class="contact-form"
+  action="https://api.web3forms.com/submit"
+  method="POST"
+>
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="hidden" name="from_name" value="EMC website" />
+  {/* Web3Forms honeypot — real people never see or check this */}
+  <input
+    type="checkbox"
+    name="botcheck"
+    class="contact-form__hp"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+  />
+
+  {
+    !configured && (
+      <p class="contact-form__notice">
+        This form isn't wired up yet — set <code>PUBLIC_WEB3FORMS_KEY</code> before
+        deploying.
+      </p>
+    )
+  }
+
+  <div class="contact-form__row">
+    <label class="contact-form__field">
+      <span>Your name</span>
+      <input type="text" name="name" required autocomplete="name" />
+    </label>
+    <label class="contact-form__field">
+      <span>Your email</span>
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+  </div>
+
+  <label class="contact-form__field">
+    <span>Subject</span>
+    <input type="text" name="subject" required />
+  </label>
+
+  <label class="contact-form__field">
+    <span>Message</span>
+    <textarea name="message" rows="6" required></textarea>
+  </label>
+
+  <button type="submit" class="btn" disabled={!configured}>Send message</button>
+
+  <p class="contact-form__status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<style>
+  .contact-form {
+    display: grid;
+    gap: 1.1rem;
+  }
+  .contact-form__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .contact-form__row {
+    display: grid;
+    gap: 1.1rem;
+  }
+  @media (min-width: 34rem) {
+    .contact-form__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .contact-form__field {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .contact-form__field > span {
+    font-weight: 600;
+    font-size: var(--step--1);
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+  }
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 7rem;
+  }
+  .contact-form input:focus-visible,
+  .contact-form textarea:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 1px;
+    border-color: var(--primary);
+  }
+  .contact-form .btn {
+    justify-self: start;
+  }
+  .contact-form .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .contact-form__notice,
+  .contact-form__status {
+    font-size: var(--step--1);
+    padding: 0.7rem 0.9rem;
+    border-radius: var(--radius-sm);
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    margin: 0;
+  }
+  .contact-form__status[data-state='ok'] {
+    background: color-mix(in srgb, var(--secondary) 12%, transparent);
+    color: var(--secondary-hover);
+  }
+  .contact-form__status[data-state='error'] {
+    background: var(--rose-100);
+    color: var(--rose-600);
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('.contact-form');
+  if (form) {
+    const status = form.querySelector<HTMLParagraphElement>('.contact-form__status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+
+    const show = (message: string, state: '' | 'ok' | 'error') => {
+      status.textContent = message;
+      status.dataset.state = state;
+      status.hidden = false;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      button.disabled = true;
+      show('Sending…', '');
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          form.reset();
+          show("Thanks — your message has been sent. We'll be in touch soon.", 'ok');
+        } else {
+          show(data?.message ?? 'Sorry, that didn’t go through. Please email us instead.', 'error');
+        }
+      } catch {
+        show('Network error — please email us instead.', 'error');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
