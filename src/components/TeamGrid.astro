@@ -84,6 +84,11 @@ const rendered = await Promise.all(
   .member__bio :global(ol) {
     line-height: 1.3;
   }
+  /* a bold label ("Past Experience", "Education") sitting right on its list */
+  .member__bio :global(p + ul),
+  .member__bio :global(p + ol) {
+    margin-top: 0.3em;
+  }
   .member__bio :global(li + li) {
     margin-top: 0;
   }
