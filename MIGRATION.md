@@ -131,6 +131,25 @@ so faces sit right; Natasha's is the weak source (seated, small in frame).
 
 Not yet: per-page hero photography, image art-direction.
 
+## Partner links
+
+The WordPress page had no outbound links except GGC. Websites were researched and
+added to `partners/*.md` (`url`):
+
+| Partner | URL | Note |
+| --- | --- | --- |
+| Linker | http://www.linker.or.kr | 사단법인 링커 / NGO LINKER |
+| Tium | https://teaumgroup.com | 행정사법인 티움 (domain matches the logo file) |
+| Love the World | https://lovetheworld.or.kr | 러브더월드 |
+| Life Giving Tree | http://www.lifegivingtree.or.kr | 생명을 주는 나무 (https cert expired → http) |
+| Framily | http://framily.kr | 사단법인 프래밀리 (self-signed cert; not fully verified) |
+| Yanco | https://yanco.or.kr | 얀코사회적협동조합 |
+| GGC | http://www.1412.co.kr | 사단법인 경기글로벌센터 — pre-existing, confirmed active |
+
+No link found / not added: **Happy Dream** (name too generic), **GABRIELA**
+(social media only), **Philippine Kopino Family** (ties to "We Love Kopino / WLK",
+which has drawn public criticism — left for EMC to decide).
+
 ## Images
 
 `src/data/wordpress-images.json` manifests all 48 library images with a

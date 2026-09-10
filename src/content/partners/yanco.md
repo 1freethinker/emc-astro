@@ -3,6 +3,7 @@ name: Yanco
 order: 8
 logo: /images/logo.png
 logoSource: http://141.164.55.18/wp-content/uploads/2022/08/logo.png
+url: https://yanco.or.kr
 ---
 
 Yanco is an organization that provides clothing, bags, shoes, toys, etc. to
