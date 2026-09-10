@@ -110,10 +110,11 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
   playful — logo only). All self-hosted via `@fontsource`, latin subset. Fluid
   `clamp()` scale. Headings use "and" not "&" (Fraunces's stylised ampersand
   reads as a glitch).
-- **Logo**: `src/components/Logo.astro` — "EMC" set in Baloo 2 plus a two-circle
-  "mother & child" glyph (echoing the favicon), rebuilt as theme-aware SVG. The
-  original globe-with-figures raster is dropped (low-res JPG, baked-in white
-  box); a full redraw needs the source art.
+- **Logo**: `src/components/Logo.astro` — "EMC" set in Baloo 2 plus a **taegeuk**
+  (the Korean-flag swirl) drawn in the brand rose + blue: places EMC in Korea,
+  and the two nested commas still read as mother + child. `favicon.svg` matches.
+  Rebuilt as theme-aware SVG; the original globe-with-figures raster is dropped
+  (low-res JPG, baked-in white box).
 - One button system (`.btn`, `.btn--secondary`, `.btn--ghost`, pill shape).
 - Header: sticky, CSS-only dropdowns ≥60rem, slide-in drawer below (small JS),
   plus a Donate button. Dropdowns use `display:none/block` (not opacity) to
@@ -125,9 +126,7 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
 - Partner logos get `mix-blend-mode: multiply` on their tint chip (many are
   JPGs with white backgrounds).
 
-Not yet: the globe logo mark, per-page hero photography, image art-direction,
-team-photo framing, and a proper favicon (current one is a simple two-circle
-placeholder matching the logo glyph).
+Not yet: per-page hero photography, image art-direction, and team-photo framing.
 
 ## Images
 

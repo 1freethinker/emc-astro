@@ -2,8 +2,9 @@
 /**
  * EMC wordmark, rebuilt as clean SVG (from the low-res logo JPG).
  * - Rounded, playful display face (Baloo 2) for the "EMC" mark.
- * - A two-circle "mother & child" glyph echoing the favicon, in place of the
- *   original low-res globe-with-figures raster (which had a baked-in white box).
+ * - Glyph: a taegeuk (Korean-flag swirl) — the two comma shapes double as a
+ *   mother and child nestled together, and place EMC in Korea. Uses the brand
+ *   rose + blue, which already sit close to the flag's colours.
  * Theme-aware via CSS custom properties; scales to any size.
  */
 interface Props {
@@ -26,8 +27,16 @@ const ratio = 182 / 44;
   aria-label={title}
   xmlns="http://www.w3.org/2000/svg"
 >
-  <circle class="logo__dot logo__dot--big" cx="13" cy="24" r="11" />
-  <circle class="logo__dot logo__dot--small" cx="27" cy="15" r="7" />
+  <g transform="rotate(210 16 22)">
+    <path
+      class="logo__swirl logo__swirl--rose"
+      d="M16 9 A13 13 0 0 1 16 35 A6.5 6.5 0 0 1 16 22 A6.5 6.5 0 0 0 16 9 Z"
+    />
+    <path
+      class="logo__swirl logo__swirl--blue"
+      d="M16 35 A13 13 0 0 1 16 9 A6.5 6.5 0 0 1 16 22 A6.5 6.5 0 0 0 16 35 Z"
+    />
+  </g>
 
   <text
     x="44"
@@ -59,10 +68,10 @@ const ratio = 182 / 44;
     display: block;
     height: auto;
   }
-  .logo__dot--big {
+  .logo__swirl--rose {
     fill: var(--primary);
   }
-  .logo__dot--small {
+  .logo__swirl--blue {
     fill: var(--secondary);
   }
   .logo__mark {

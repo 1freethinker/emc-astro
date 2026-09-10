@@ -94,14 +94,15 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
 - **Type** — Fraunces (display) + Open Sans (body) + Baloo 2 (logo only),
   self-hosted via `@fontsource`. Fluid type scale.
 - **Logo** — `Logo.astro`, an SVG rebuilt from the low-res JPG: "EMC" in Baloo 2
-  plus a two-circle mother-&-child glyph. The globe-with-figures mark is omitted
+  plus a taegeuk (Korean-flag swirl) in the brand rose + blue — a nod to Korea
+  that also reads as mother + child. The globe-with-figures mark is omitted
   pending a transparent source.
 - Sticky header (CSS dropdowns on desktop / drawer on mobile) + Donate button;
   sticky footer with the logo; restyled hero, numbered feature cards, gallery,
   and all four collection list views.
 
-Still rough / next: real photography treatment, the globe logo mark, per-page
-hero art, spacing polish on long content pages.
+Still rough / next: real photography treatment, per-page hero art, spacing
+polish on long content pages.
 
 ## Not done yet (deliberately)
 
