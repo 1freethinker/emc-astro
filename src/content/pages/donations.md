@@ -16,27 +16,31 @@ wordpress:
   link: http://141.164.55.18/what-we-need/donations/
 ---
 
-### How to Donate
+## How to Donate
 
-**Send a bank transfer within Korea:**
-Bank: 우리은행 (Woori Bank)
-Beneficiary: 에브리마덜앤차일드
+### Bank transfer within Korea
+
+Bank: 우리은행 (Woori Bank)<br>
+Beneficiary: 에브리마덜앤차일드<br>
 Account No. 1005 504 184559
 
-**Send an international wire transfer:**
-Bank: Woori Bank
-Bank Branch Name and Address: Woori Bank Head Office, Seoul, South Korea
-Bank SWIFT Code: HVBKKRSE XXX
-Beneficiary: Every Mother & Child
-Beneficiary Address: Bucheon City, Gyeonggi Province, South Korea
+### International wire transfer
+
+Bank: Woori Bank<br>
+Bank Branch Name and Address: Woori Bank Head Office, Seoul, South Korea<br>
+Bank SWIFT Code: HVBKKRSE XXX<br>
+Beneficiary: Every Mother & Child<br>
+Beneficiary Address: Bucheon City, Gyeonggi Province, South Korea<br>
 Beneficiary Account No. 1005 504 184559
 
-**Automatic Monthly Donation within Korea:** If you would like to make an
-automatic monthly donation, please fill out
-[this form](https://form.office.naver.com/form/responseView.cmd?formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3).
+### Automatic monthly donation within Korea
 
-**Donate via PayPal:**
-Send to everymotherandchild@gmail.com
-You can also make a monthly donation with the link to the right.
+If you would like to make an automatic monthly donation, please fill out [this form](https://form.office.naver.com/form/responseView.cmd?formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3).
 
-**Donation of Items:** More information will be provided soon.
+### PayPal
+
+Send to [everymotherandchild@gmail.com](mailto:everymotherandchild@gmail.com).
+
+### Donation of items
+
+More information will be provided soon.

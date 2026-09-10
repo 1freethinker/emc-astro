@@ -1,6 +1,7 @@
 ---
 import nav from '../data/navigation.json';
 import site from '../data/site.json';
+import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 const tel = site.phone.replace(/[^0-9+]/g, '');
 ---
@@ -8,12 +9,15 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
 <footer class="site-footer">
   <div class="container grid">
     <div class="about">
-      <p class="name">{site.legalName}</p>
-      {site.legalNameKo && <p class="name-ko">{site.legalNameKo}</p>}
-      <p class="blurb">{site.description}</p>
+      <a class="about__logo" href="/" aria-label={`${site.legalName}, home`}>
+        <Logo height={44} />
+      </a>
+      {site.legalNameKo && <p class="about__ko">{site.legalNameKo}</p>}
+      <p class="about__blurb">{site.description}</p>
     </div>
 
-    <nav class="links" aria-label="Footer">
+    <nav class="col" aria-label="Footer">
+      <h2>Explore</h2>
       <ul>
         {
           nav.primary.map((item) => (
@@ -25,7 +29,7 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
       </ul>
     </nav>
 
-    <div class="contact">
+    <div class="col">
       <h2>Contact</h2>
       <ul>
         <li><a href={`tel:${tel}`}>{site.phone}</a></li>
@@ -42,7 +46,6 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
 
 <style>
   .site-footer {
-    margin-top: var(--section-y);
     background: var(--surface-alt);
     border-top: 1px solid var(--border);
     padding-block: clamp(2.5rem, 5vw, 4rem) 1.5rem;
@@ -51,53 +54,54 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
   .grid {
     display: grid;
     gap: 2.5rem;
-    grid-template-columns: 1.5fr 1fr 1fr;
+    grid-template-columns: 1.6fr 1fr 1fr;
   }
-  @media (max-width: 46rem) {
+  @media (max-width: 48rem) {
     .grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+      grid-template-columns: 1fr 1fr;
+    }
+    .about {
+      grid-column: 1 / -1;
     }
   }
-  .name {
-    font-family: var(--font-display);
-    font-size: var(--step-1);
-    font-weight: 600;
+  @media (max-width: 30rem) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
   }
-  .name-ko {
+  .about__logo {
+    display: inline-block;
+  }
+  .about__ko {
+    margin-top: 0.6rem;
     color: var(--text-muted);
-    margin-top: 0.15rem;
   }
-  .blurb {
-    margin-top: 0.75rem;
+  .about__blurb {
+    margin-top: 0.6rem;
     color: var(--text-muted);
-    max-width: 34ch;
+    max-width: 36ch;
   }
-  .links h2,
-  .contact h2 {
+  .col h2 {
     font-family: var(--font-body);
     font-size: var(--step--1);
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.9rem;
   }
-  .links ul,
-  .contact ul {
+  .col ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.5rem;
+    gap: 0.55rem;
   }
-  .links a,
-  .contact a {
+  .col a {
     color: var(--text);
     text-decoration: none;
   }
-  .links a:hover,
-  .contact a:hover {
+  .col a:hover {
     color: var(--link-hover);
   }
   .fine {

@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TeamGrid from '../components/TeamGrid.astro';
 import PartnerGrid from '../components/PartnerGrid.astro';
 import MediaCoverageList from '../components/MediaCoverageList.astro';
@@ -11,6 +10,7 @@ export async function getStaticPaths() {
   const pages = await getCollection('pages');
   return pages
     .filter((p) => p.id !== 'home')
+    .filter((p) => import.meta.env.DEV || !p.data.draft)
     .map((p) => ({ params: { slug: p.id }, props: { page: p } }));
 }
 
@@ -20,13 +20,11 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
 ---
 
 <BaseLayout title={page.data.navLabel ?? title} description={description}>
-  <div class="page-head">
+  <header class="page-head">
     <div class="container">
-      <Breadcrumbs current={page.id} />
       <h1>{title}</h1>
-      {description && <p class="page-head__desc">{description}</p>}
     </div>
-  </div>
+  </header>
 
   <div class="container page-body">
     {
@@ -37,9 +35,7 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
       )
     }
 
-    {heroImage && (
-      <img class="page-hero" src={heroImage} alt="" loading="lazy" />
-    )}
+    {heroImage && <img class="page-hero" src={heroImage} alt="" loading="lazy" />}
 
     <div class="prose">
       <Content />
@@ -56,16 +52,10 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
   .page-head {
     background: linear-gradient(160deg, var(--hero-from), var(--hero-to));
     border-bottom: 1px solid var(--border);
-    padding-block: clamp(1.75rem, 4vw, 3rem);
+    padding-block: clamp(2rem, 5vw, 3.5rem);
   }
   .page-head h1 {
-    margin-top: 0.75rem;
-  }
-  .page-head__desc {
-    margin-top: 0.75rem;
-    max-width: 52ch;
-    color: var(--text-muted);
-    font-size: var(--step-1);
+    max-width: 20ch;
   }
 
   .page-body {
@@ -76,7 +66,7 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
     max-height: 24rem;
     object-fit: cover;
     border-radius: var(--radius-lg);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     background: var(--surface-alt);
   }
   .prose:empty {

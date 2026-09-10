@@ -77,7 +77,9 @@ Decide per-form: keep the external embed, or rebuild natively with a handler
   `site.json`) wraps every page. CSS is a minimal legibility baseline, not a
   theme.
 - `src/pages/[...slug].astro` renders each `pages` entry at a top-level route
-  (`/who-we-are`, `/donations`, …). `parent` drives breadcrumbs, not the URL.
+  (`/who-we-are`, `/donations`, …). `parent` is kept for future nav/nesting but
+  is not shown (no breadcrumbs, no page subtitle — client preference). Draft
+  pages build in dev only.
 - Shell pages render their collection after the body: `TeamGrid`,
   `PartnerGrid`, `MediaCoverageList`, `NewsList`.
 - `whats-happening/[id].astro` builds individual news posts (none in production
@@ -85,8 +87,9 @@ Decide per-form: keep the external embed, or rebuild natively with a handler
 - Old WordPress URLs 301 via `astro.config.mjs` (`redirects.json`). Identity
   redirects (`/what-we-need/` → `/what-we-need` etc.) are filtered in the config
   so they don't clobber the real page; those paths just resolve directly.
-- `remark-breaks` is enabled so single newlines render as `<br>` (matches how
-  WordPress showed the bank-details / address blocks).
+- No `remark-breaks` — content Markdown is reflowed to one-line paragraphs;
+  the few places that need a hard line break (donations bank/wire blocks) use
+  an explicit `<br>`.
 - `astro build` = 13 pages, clean.
 
 ## Theme (first pass)
@@ -103,24 +106,28 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
   neutrals. **Light theme only** — a dark mode was built (toggle +
   `prefers-color-scheme` + `[data-theme]`) then removed at the client's request;
   `color-scheme: light` is fixed.
-- **Type**: Fraunces (display, variable, self-hosted) + Open Sans (body,
-  self-hosted via `@fontsource`, latin subset). Fluid `clamp()` scale.
-- **Logo**: `src/components/Logo.astro` — the "EMC / EVERY MOTHER & CHILD"
-  wordmark rebuilt as theme-aware SVG `<text>`. The globe-with-figures mark is
-  **omitted** — it only exists as a low-res JPG with a baked-in white box; needs
-  a transparent SVG/PNG source.
+- **Type**: Fraunces (display serif), Open Sans (body), Baloo 2 (rounded,
+  playful — logo only). All self-hosted via `@fontsource`, latin subset. Fluid
+  `clamp()` scale. Headings use "and" not "&" (Fraunces's stylised ampersand
+  reads as a glitch).
+- **Logo**: `src/components/Logo.astro` — "EMC" set in Baloo 2 plus a two-circle
+  "mother & child" glyph (echoing the favicon), rebuilt as theme-aware SVG. The
+  original globe-with-figures raster is dropped (low-res JPG, baked-in white
+  box); a full redraw needs the source art.
 - One button system (`.btn`, `.btn--secondary`, `.btn--ghost`, pill shape).
 - Header: sticky, CSS-only dropdowns ≥60rem, slide-in drawer below (small JS),
   plus a Donate button. Dropdowns use `display:none/block` (not opacity) to
   avoid ghost-render in screenshot capture.
-- Restyled: footer (3-col), breadcrumbs, home hero/mission/highlights/gallery,
-  generic page shell, and TeamGrid / PartnerGrid / MediaCoverageList / NewsList.
+- Sticky footer (flex column) with the logo + column headings.
+- Restyled: footer, home (hero / mission + CTA row / numbered "How EMC helps"
+  cards / 6-photo gallery), generic page shell, and TeamGrid / PartnerGrid /
+  MediaCoverageList / NewsList.
 - Partner logos get `mix-blend-mode: multiply` on their tint chip (many are
   JPGs with white backgrounds).
 
 Not yet: the globe logo mark, per-page hero photography, image art-direction,
-spacing polish on the longer text pages, and a proper favicon (current one is a
-simple two-circle placeholder).
+team-photo framing, and a proper favicon (current one is a simple two-circle
+placeholder matching the logo glyph).
 
 ## Images
 
@@ -143,8 +150,13 @@ plain `<img>` for now — not yet moved to `astro:assets`. Notes:
 ## Content cleanup applied
 
 GenerateBlocks wrapper markup (`<div class="gb-*">`, `<div class="wp-block-*">`)
-was dropped. Text was converted to Markdown; obvious typos in the source were
-lightly corrected (e.g. "EMC cannot fulfill its mission **with** your help" →
-"**without**"; "Kopinoi" → "Kopino"). Original phrasing is otherwise preserved.
-HTML entities were decoded. All absolute `http://141.164.55.18/...` links were
-rewritten to root-relative Astro routes.
+was dropped. Text was converted to Markdown and reflowed to one-line paragraphs.
+Obvious errors in the source (often rough machine translation) were lightly
+corrected — e.g. "mission **with** your help" → "**without**"; "Kopinoi" →
+"Kopino"; "provides **excavation** and support" → "traces absent fathers and
+provides support"; "help move or move goods" → "help people move house or
+transport goods"; the hero line "regardless of national / helps mothers…" →
+"Helping mothers and children in crisis — regardless of nationality or race."
+Original phrasing is otherwise preserved. HTML entities were decoded. All
+absolute `http://141.164.55.18/...` links were rewritten to root-relative Astro
+routes.

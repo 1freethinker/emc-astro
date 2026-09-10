@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import remarkBreaks from 'remark-breaks';
 
 import redirects from './src/data/redirects.json' with { type: 'json' };
 
@@ -18,11 +17,4 @@ export default defineConfig({
 
   // Old WordPress URLs (nested) -> new flat routes. See src/data/redirects.json.
   redirects: redirectMap,
-
-  markdown: {
-    // WordPress content used <br> for single line breaks (bank details, address
-    // blocks, etc). remark-breaks keeps that behaviour so a single newline in
-    // the Markdown renders as a line break rather than collapsing to a space.
-    remarkPlugins: [remarkBreaks],
-  },
 });

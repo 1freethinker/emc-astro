@@ -58,14 +58,15 @@
   /* ---- type ---- */
   --font-display: 'Fraunces Variable', 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-body: 'Open Sans', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  --font-logo: 'Baloo 2 Variable', 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
 
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
   --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.4rem);
   --step-2: clamp(1.44rem, 1.32rem + 0.6vw, 1.8rem);
   --step-3: clamp(1.73rem, 1.55rem + 0.9vw, 2.35rem);
-  --step-4: clamp(2.07rem, 1.8rem + 1.35vw, 3.05rem);
-  --step-5: clamp(2.49rem, 2.1rem + 1.95vw, 3.95rem);
+  --step-4: clamp(1.8rem, 1.45rem + 1.75vw, 3.05rem);
+  --step-5: clamp(2.05rem, 1.5rem + 2.75vw, 3.95rem);
 
   /* ---- layout ---- */
   --container: 68rem;

@@ -6,9 +6,7 @@ photo: /images/KakaoTalk_20210913_180012005.jpg
 photoSource: http://141.164.55.18/wp-content/uploads/2022/08/KakaoTalk_20210913_180012005.jpg
 ---
 
-Currently Executive Producer at a self-owned media production house producing
-international & Pan-African multimedia, digital & social media content for global
-broadcasters, organizations, and interest groups.
+Currently Executive Producer at a self-owned media production house producing international & Pan-African multimedia, digital & social media content for global broadcasters, organizations, and interest groups.
 
 **Past Experience**
 

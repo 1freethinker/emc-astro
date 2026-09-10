@@ -1,6 +1,7 @@
 @import './tokens.css';
 
 /* Fonts (self-hosted via @fontsource) */
+@import '@fontsource-variable/baloo-2/wght.css';
 @import '@fontsource-variable/fraunces/opsz.css';
 @import '@fontsource/open-sans/latin-400.css';
 @import '@fontsource/open-sans/latin-600.css';
@@ -42,6 +43,8 @@ html {
 
 body {
   min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
@@ -49,6 +52,10 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+body > main {
+  flex: 1 0 auto;
 }
 
 img,
@@ -169,19 +176,23 @@ hr {
 }
 
 .prose > * + * {
-  margin-top: 1.1em;
+  margin-top: 1.05em;
 }
 
 .prose > * + :is(h2, h3) {
-  margin-top: 2em;
+  margin-top: 1.8em;
+}
+
+.prose :is(h2, h3, h4) {
+  color: var(--text);
 }
 
 .prose :is(h2, h3, h4) + * {
-  margin-top: 0.6em;
+  margin-top: 0.55em;
 }
 
 .prose :is(ul, ol) {
-  padding-left: 1.4em;
+  padding-left: 1.3em;
 }
 
 .prose li + li {

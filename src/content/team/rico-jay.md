@@ -7,8 +7,7 @@ photoSource: http://141.164.55.18/wp-content/uploads/2022/08/KakaoTalk_20210916_
 location: Philippines
 ---
 
-Currently CEO of We Love Kopinos, which provides excavation and support
-activities.
+Currently CEO of We Love Kopinos, which traces absent fathers and provides support activities.
 
 **Past Experience**
 

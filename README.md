@@ -40,12 +40,12 @@ src/
     redirects.json           old WordPress URL -> new route map
     wordpress-images.json    manifest of all 48 media-library images
   styles/
-    tokens.css               design tokens: colour / type / spacing, light + dark
+    tokens.css               design tokens: colour / type / spacing (light only)
     global.css               base element styles, .prose, .btn, layout helpers
   layouts/
-    BaseLayout.astro         HTML shell, fonts, no-flash theme script
+    BaseLayout.astro         HTML shell + fonts
   components/
-    SiteHeader / SiteFooter / Breadcrumbs / Logo
+    SiteHeader / SiteFooter / Logo
     TeamGrid / PartnerGrid / MediaCoverageList / NewsList
   pages/
     index.astro              home (hero + highlights + gallery from home.md)
@@ -75,14 +75,14 @@ Pages that are just a shell for a list (`The Team`, `Partners`, `EMC in The
 Media`, `What's Happening`) carry `rendersCollection` in their frontmatter and
 the matching component is rendered after the page body.
 
-`parent` drives breadcrumbs only — all pages route at the top level
-(`/the-team`, `/donations`, …). Old nested WordPress URLs 301 via
-`astro.config.mjs`.
+All pages route at the top level (`/the-team`, `/donations`, …); old nested
+WordPress URLs 301 via `astro.config.mjs`. `parent` is retained in frontmatter
+for future nav grouping but isn't shown (no breadcrumbs / page subtitles).
 
 Every migrated entry keeps a `wordpress` block (original id / slug / URL).
 
-Draft `news` posts and any `reviewNotes` banner show in `dev` and are hidden in
-production builds.
+Draft pages/`news` posts and any `reviewNotes` banner show in `dev` and are
+hidden in production builds.
 
 ## Theme
 
@@ -91,13 +91,14 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
 - **Palette** from the EMC logo — rose/magenta primary, royal-blue secondary,
   teal accent, warm neutrals. All in `src/styles/tokens.css` as CSS custom
   properties. Light theme only (dark mode was tried and dropped).
-- **Type** — Fraunces (display) + Open Sans (body), self-hosted via
-  `@fontsource`. Fluid type scale.
-- **Logo** — `Logo.astro`, an SVG wordmark rebuilt from the low-res JPG. The
-  globe-with-figures mark is omitted pending a transparent source.
-- Sticky header with CSS dropdowns on desktop / drawer on mobile + a Donate
-  button; restyled footer, breadcrumbs, hero, cards, and all four collection
-  list views.
+- **Type** — Fraunces (display) + Open Sans (body) + Baloo 2 (logo only),
+  self-hosted via `@fontsource`. Fluid type scale.
+- **Logo** — `Logo.astro`, an SVG rebuilt from the low-res JPG: "EMC" in Baloo 2
+  plus a two-circle mother-&-child glyph. The globe-with-figures mark is omitted
+  pending a transparent source.
+- Sticky header (CSS dropdowns on desktop / drawer on mobile) + Donate button;
+  sticky footer with the logo; restyled hero, numbered feature cards, gallery,
+  and all four collection list views.
 
 Still rough / next: real photography treatment, the globe logo mark, per-page
 hero art, spacing polish on long content pages.

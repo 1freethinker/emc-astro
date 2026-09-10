@@ -7,9 +7,8 @@ description: >-
 order: 0
 hero:
   heading: Every Mother and Child
-  subheading: |
-    regardless of nationality,
-    helps mothers and children in crisis
+  subheading: >-
+    Helping mothers and children in crisis — regardless of nationality or race.
   image: /images/imageedit_1_9324448974-495x400-1.jpg
   ctas:
     - label: Volunteer
@@ -29,7 +28,7 @@ highlights:
     body: >-
       We can help you with your visa and immigration issues in order to properly
       register your child in Korea.
-  - title: Counseling & Assistance
+  - title: Counseling and Assistance
     body: >-
       Living in a foreign country is not easy. We will assist you to overcome
       language barriers with our assistants.
@@ -38,11 +37,8 @@ gallery:
   - /images/237771008_131813175809596_1035699490770693231_n.jpg
   - /images/240387720_136352682022312_9074835965243047528_n.jpg
   - /images/235260074_134056608918586_1829868781751802853_n.jpg
-  - /images/235749080_134056735585240_5337527329182488038_n.jpg
   - /images/225031261_128868119437435_3252274913752364842_n.jpg
-  - /images/230408598_128851516105762_5809635374447757191_n.jpg
   - /images/217366743_124612133196367_8046061340281842390_n.jpg
-  - /images/214323710_121813520142895_7573896086013694746_n.jpg
 wordpress:
   id: 6
   slug: home
@@ -52,13 +48,9 @@ wordpress:
 
 ## What's EMC?
 
-EMC stands for Every Mother and Child.
+EMC stands for **Every Mother and Child**.
 
-EMC helps all mothers and children in crisis, regardless of nationality and
-race, on a humanitarian level. We aim for a society where children can grow up
-safe and healthy in any country.
-
-[Emergency Support](/emergency-support)
+EMC helps all mothers and children in crisis, regardless of nationality and race, on a humanitarian level. We aim for a society where children can grow up safe and healthy in any country.
 
 <!--
   The home page also showed a strip of partner / supporter logos
