@@ -100,8 +100,9 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
 - **New palette** (`src/styles/tokens.css`): rose/magenta primary `#e5476a`
   (from the logo mark; darkened to `#bc2f54` for AA text), royal-blue secondary
   `#294ba6` (logo wordmark), teal accent `#2f97ab` (globe figures), warm sand
-  neutrals. Full light + dark token sets; `prefers-color-scheme` + a persisted
-  `[data-theme]` toggle with a no-flash inline script.
+  neutrals. **Light theme only** — a dark mode was built (toggle +
+  `prefers-color-scheme` + `[data-theme]`) then removed at the client's request;
+  `color-scheme: light` is fixed.
 - **Type**: Fraunces (display, variable, self-hosted) + Open Sans (body,
   self-hosted via `@fontsource`, latin subset). Fluid `clamp()` scale.
 - **Logo**: `src/components/Logo.astro` — the "EMC / EVERY MOTHER & CHILD"
@@ -109,13 +110,13 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
   **omitted** — it only exists as a low-res JPG with a baked-in white box; needs
   a transparent SVG/PNG source.
 - One button system (`.btn`, `.btn--secondary`, `.btn--ghost`, pill shape).
-- Header: sticky, CSS-only dropdowns ≥60rem, slide-in drawer below (small JS).
-  Dropdowns use `display:none/block` (not opacity) to avoid ghost-render in
-  screenshot capture.
+- Header: sticky, CSS-only dropdowns ≥60rem, slide-in drawer below (small JS),
+  plus a Donate button. Dropdowns use `display:none/block` (not opacity) to
+  avoid ghost-render in screenshot capture.
 - Restyled: footer (3-col), breadcrumbs, home hero/mission/highlights/gallery,
   generic page shell, and TeamGrid / PartnerGrid / MediaCoverageList / NewsList.
-- Partner logos get `mix-blend-mode: multiply` on their tint chip in light mode
-  (many are JPGs with white backgrounds); reverted to normal in dark mode.
+- Partner logos get `mix-blend-mode: multiply` on their tint chip (many are
+  JPGs with white backgrounds).
 
 Not yet: the globe logo mark, per-page hero photography, image art-direction,
 spacing polish on the longer text pages, and a proper favicon (current one is a

@@ -5,7 +5,7 @@ WordPress at `http://141.164.55.18`.
 
 **Status:** content + routing + a first visual-theme pass in place. Every page
 renders through a shared layout with navigation, breadcrumbs, redirects, a brand
-palette + type system, light/dark modes, and responsive nav.
+palette + type system, and responsive nav.
 
 ## Prerequisites
 
@@ -90,14 +90,14 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
 
 - **Palette** from the EMC logo — rose/magenta primary, royal-blue secondary,
   teal accent, warm neutrals. All in `src/styles/tokens.css` as CSS custom
-  properties; **light + dark** with a no-flash toggle (persisted to
-  `localStorage`).
+  properties. Light theme only (dark mode was tried and dropped).
 - **Type** — Fraunces (display) + Open Sans (body), self-hosted via
   `@fontsource`. Fluid type scale.
 - **Logo** — `Logo.astro`, an SVG wordmark rebuilt from the low-res JPG. The
   globe-with-figures mark is omitted pending a transparent source.
-- Sticky header with CSS dropdowns on desktop / drawer on mobile; restyled
-  footer, breadcrumbs, hero, cards, and all four collection list views.
+- Sticky header with CSS dropdowns on desktop / drawer on mobile + a Donate
+  button; restyled footer, breadcrumbs, hero, cards, and all four collection
+  list views.
 
 Still rough / next: real photography treatment, the globe logo mark, per-page
 hero art, spacing polish on long content pages.
