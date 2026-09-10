@@ -6,6 +6,14 @@ const home = await getEntry('pages', 'home');
 if (!home) throw new Error('Missing pages/home.md');
 const { Content } = await render(home);
 const { hero, highlights, gallery } = home.data;
+
+// Line icons for the "How EMC helps" cards. 24x24, stroke = currentColor.
+const icons: Record<string, string> = {
+  crisis: `<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="m6 6 3.6 3.6M18 6l-3.6 3.6M6 18l3.6-3.6M18 18l-3.6-3.6"/>`,
+  supplies: `<path d="M21 8.5 12 4 3 8.5v7L12 20l9-4.5z"/><path d="M3 8.5 12 13l9-4.5M12 13v7M7.5 6.2l9 4.5"/>`,
+  immigration: `<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.6 2.6 14.4 0 17M12 3.5c-2.6 2.6-2.6 14.4 0 17"/>`,
+  counseling: `<path d="M20 11.5a7 7 0 0 1-7 7H8l-4 3v-3.5A7 7 0 0 1 11 4.5h2a7 7 0 0 1 7 7z"/><path d="M9 11.5h.01M12 11.5h.01M15 11.5h.01"/>`,
+};
 ---
 
 <BaseLayout title={home.data.navLabel ?? 'Home'} description={home.data.description}>
@@ -53,9 +61,21 @@ const { hero, highlights, gallery } = home.data;
         <div class="container">
           <h2 class="band__title">How EMC helps</h2>
           <ul class="highlights">
-            {highlights.map((h, i) => (
+            {highlights.map((h) => (
               <li class="card">
-                <span class="card__num">{String(i + 1).padStart(2, '0')}</span>
+                {h.icon && icons[h.icon] && (
+                  <span class="card__icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.7"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={icons[h.icon]}
+                    />
+                  </span>
+                )}
                 <h3>{h.title}</h3>
                 <p>{h.body}</p>
               </li>
@@ -185,22 +205,30 @@ const { hero, highlights, gallery } = home.data;
   .card {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.75rem;
+    padding: 2rem 1.5rem;
     box-shadow: var(--shadow-sm);
   }
-  .card__num {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: var(--step-1);
+  .card__icon {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--radius-pill);
+    background: var(--rose-100);
     color: var(--primary);
-    line-height: 1;
+  }
+  .card__icon svg {
+    width: 1.55rem;
+    height: 1.55rem;
   }
   .card h3 {
     font-size: var(--step-1);
-    margin: 0.75rem 0 0.5rem;
+    margin: 1rem 0 0.5rem;
   }
   .card p {
     color: var(--text-muted);

@@ -17,18 +17,22 @@ hero:
       href: /donations
 highlights:
   - title: Resolve Crisis Situations
+    icon: crisis
     body: >-
       We are here to help in emergency and crisis situations. Please do not
       hesitate to contact us.
   - title: Provide Daily Necessities
+    icon: supplies
     body: >-
       Daily necessities are getting more and more expensive. EMC can deliver
       whatever daily necessities you need.
   - title: Immigration Assistance
+    icon: immigration
     body: >-
       We can help you with your visa and immigration issues in order to properly
       register your child in Korea.
   - title: Counseling and Assistance
+    icon: counseling
     body: >-
       Living in a foreign country is not easy. We will assist you to overcome
       language barriers with our assistants.

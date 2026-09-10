@@ -65,7 +65,14 @@ const pages = defineCollection({
 
     /** Optional row of short "what we do" style cards (home page). */
     highlights: z
-      .array(z.object({ title: z.string(), body: z.string() }))
+      .array(
+        z.object({
+          title: z.string(),
+          body: z.string(),
+          /** icon key — see the `icons` map in src/pages/index.astro */
+          icon: z.enum(['crisis', 'supplies', 'immigration', 'counseling']).optional(),
+        }),
+      )
       .optional(),
 
     /** Optional list of image paths for a simple gallery block. */
