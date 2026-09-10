@@ -1,0 +1,100 @@
+---
+import nav from '../data/navigation.json';
+import site from '../data/site.json';
+
+const here = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => {
+  const h = href.replace(/\/$/, '') || '/';
+  return h === '/' ? here === '/' : here === h || here.startsWith(h + '/');
+};
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/">{site.name}</a>
+    <nav aria-label="Primary">
+      <ul class="menu">
+        {
+          nav.primary.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+              {item.children && item.children.length > 0 && (
+                <ul class="submenu">
+                  {item.children.map((child) => (
+                    <li>
+                      <a
+                        href={child.href}
+                        aria-current={isActive(child.href) ? 'page' : undefined}
+                      >
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    padding-block: 0.9rem;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  nav {
+    flex: 1;
+  }
+  .menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .menu > li > a {
+    font-weight: 600;
+  }
+  .menu a {
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.25rem 0;
+  }
+  .menu a[aria-current='page'] {
+    color: var(--accent);
+  }
+  .submenu {
+    list-style: none;
+    margin: 0.15rem 0 0.5rem;
+    padding: 0 0 0 0.9rem;
+    border-left: 2px solid var(--line);
+  }
+  .submenu a {
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  /*
+    Flat, always-open submenus for now (no JS dropdown). The real header
+    interaction gets designed in the theme phase.
+  */
+</style>

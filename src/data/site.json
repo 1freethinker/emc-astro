@@ -1,0 +1,24 @@
+{
+  "name": "EMC",
+  "legalName": "Every Mother & Child",
+  "legalNameKo": "에브리마덜앤차일드",
+  "tagline": "Regardless of nationality, helps mothers and children in crisis",
+  "description": "EMC helps all mothers and children in crisis, regardless of nationality and race, on a humanitarian level. We aim for a society where children can grow up safe and healthy in any country.",
+  "founded": "2021-06",
+  "email": "everymotherandchild@gmail.com",
+  "phone": "010-4525-1158",
+  "address": "Bucheon City, Gyeonggi Province, South Korea",
+  "banking": {
+    "note": "Extracted from the Donations page. Verify before publishing.",
+    "domesticBank": "우리은행 (Woori Bank)",
+    "beneficiary": "에브리마덜앤차일드 / Every Mother & Child",
+    "accountNo": "1005 504 184559",
+    "swift": "HVBKKRSE XXX",
+    "paypal": "everymotherandchild@gmail.com"
+  },
+  "source": {
+    "platform": "WordPress 6.2.2",
+    "url": "http://141.164.55.18",
+    "extractedOn": "2026-09-10"
+  }
+}

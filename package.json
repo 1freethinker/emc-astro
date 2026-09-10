@@ -1,0 +1,24 @@
+{
+  "name": "emc-astro",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Astro rebuild of the Every Mother & Child (EMC) site, migrated from WordPress",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "sync": "astro sync",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.7.0",
+    "remark-breaks": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+
+const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  members.map(async (m) => ({ data: m.data, Content: (await render(m)).Content })),
+);
+---
+
+<div class="team">
+  {
+    rendered.map(({ data, Content }) => (
+      <article class="member">
+        {data.photo && (
+          <img class="photo" src={data.photo} alt={data.name} width="200" loading="lazy" />
+        )}
+        <div class="body">
+          <h2>{data.name}</h2>
+          <p class="role">
+            {data.role}
+            {data.location ? ` · ${data.location}` : ''}
+          </p>
+          <div class="prose">
+            <Content />
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .team {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .member {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .photo {
+    border-radius: 4px;
+    background: var(--bg-soft);
+  }
+  .body h2 {
+    margin: 0 0 0.2rem;
+  }
+  .role {
+    margin: 0 0 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  @media (max-width: 34rem) {
+    .member {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

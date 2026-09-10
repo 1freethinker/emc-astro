@@ -1,0 +1,141 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('Missing pages/home.md');
+const { Content } = await render(home);
+const { hero, highlights, gallery } = home.data;
+---
+
+<BaseLayout title={home.data.navLabel ?? 'Home'} description={home.data.description}>
+  {
+    hero && (
+      <section class="hero">
+        <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <h1>{hero.heading}</h1>
+            {hero.subheading && <p class="lede">{hero.subheading}</p>}
+            {hero.ctas.length > 0 && (
+              <p class="ctas">
+                {hero.ctas.map((c) => (
+                  <a class="btn" href={c.href}>
+                    {c.label}
+                  </a>
+                ))}
+              </p>
+            )}
+          </div>
+          {hero.image && <img class="hero-img" src={hero.image} alt="" width="495" height="400" />}
+        </div>
+      </section>
+    )
+  }
+
+  <div class="wrap">
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      highlights && highlights.length > 0 && (
+        <ul class="highlights">
+          {highlights.map((h) => (
+            <li>
+              <h3>{h.title}</h3>
+              <p>{h.body}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      gallery && gallery.length > 0 && (
+        <section class="gallery" aria-label="Photos">
+          {gallery.map((src) => (
+            <img src={src} alt="" loading="lazy" />
+          ))}
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    padding-block: 3rem;
+  }
+  .hero-copy {
+    flex: 1 1 22rem;
+  }
+  .hero-copy h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .lede {
+    font-size: 1.2rem;
+    color: var(--muted);
+    white-space: pre-line;
+    margin: 0 0 1.5rem;
+  }
+  .ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.4rem;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .hero-img {
+    flex: 0 1 24rem;
+    border-radius: 6px;
+  }
+  .highlights {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  .highlights li {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.25rem;
+  }
+  .highlights h3 {
+    margin: 0 0 0.5rem;
+  }
+  .highlights p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .gallery {
+    margin-top: 3rem;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  }
+  .gallery img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--bg-soft);
+  }
+</style>

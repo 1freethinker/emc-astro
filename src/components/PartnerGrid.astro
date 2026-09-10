@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from 'astro:content';
+
+const partners = (await getCollection('partners')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  partners.map(async (p) => ({ data: p.data, Content: (await render(p)).Content })),
+);
+---
+
+<ul class="partners">
+  {
+    rendered.map(({ data, Content }) => (
+      <li class="partner">
+        <div class="logo">
+          {data.logo ? <img src={data.logo} alt={data.name} loading="lazy" /> : <span>{data.name}</span>}
+        </div>
+        <div class="body prose">
+          <h2>
+            {data.url ? (
+              <a href={data.url} rel="noopener">
+                {data.name}
+              </a>
+            ) : (
+              data.name
+            )}
+          </h2>
+          <Content />
+        </div>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .partners {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+  }
+  .partner {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .partner:last-child {
+    border-bottom: 0;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+  }
+  .logo span {
+    font-weight: 700;
+  }
+  .body h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.15rem;
+  }
+  @media (max-width: 34rem) {
+    .partner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

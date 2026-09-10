@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** id of the current page entry in the `pages` collection */
+  current: string;
+}
+
+const { current } = Astro.props;
+const pages = await getCollection('pages');
+const byId = new Map(pages.map((p) => [p.id, p]));
+
+const trail: { href: string; label: string }[] = [];
+let cursor = byId.get(current);
+const guard = new Set<string>();
+while (cursor && !guard.has(cursor.id)) {
+  guard.add(cursor.id);
+  trail.unshift({
+    href: `/${cursor.id}`,
+    label: cursor.data.navLabel ?? cursor.data.title,
+  });
+  cursor = cursor.data.parent ? byId.get(cursor.data.parent) : undefined;
+}
+trail.unshift({ href: '/', label: 'Home' });
+---
+
+{
+  trail.length > 1 && (
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        {trail.map((c, i) => (
+          <li>
+            {i < trail.length - 1 ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .crumbs ol {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0 0 1.25rem;
+    padding: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .crumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.4rem;
+    color: var(--line);
+  }
+  .crumbs a {
+    color: var(--muted);
+  }
+</style>

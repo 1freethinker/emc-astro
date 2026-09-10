@@ -1,0 +1,36 @@
+{
+  "note": "Primary menu as it appeared on the live site. Hrefs use flattened Astro routes; see redirects.json for the old WordPress paths.",
+  "primary": [
+    {
+      "label": "Who We Are",
+      "href": "/who-we-are",
+      "children": [
+        { "label": "The Team", "href": "/the-team" },
+        { "label": "Partners", "href": "/partners" },
+        { "label": "Contact Us", "href": "/contact-us" }
+      ]
+    },
+    {
+      "label": "What We Need",
+      "href": "/what-we-need",
+      "children": [
+        { "label": "Donations", "href": "/donations" },
+        { "label": "Volunteers", "href": "/volunteers" }
+      ]
+    },
+    {
+      "label": "What We Do",
+      "href": "/what-we-do",
+      "children": [
+        { "label": "Emergency Support", "href": "/emergency-support" }
+      ]
+    },
+    {
+      "label": "What's Happening",
+      "href": "/whats-happening",
+      "children": [
+        { "label": "EMC in The Media", "href": "/emc-in-the-media" }
+      ]
+    }
+  ]
+}

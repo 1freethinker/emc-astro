@@ -1,0 +1,42 @@
+[
+  {
+    "id": "tium-agreement",
+    "title": "EMC signed a business agreement with Tium, an administrative corporation",
+    "titleKo": "행정사법인 티움과 업무협약 체결",
+    "outlet": "iBabyNews (아이베이비뉴스)",
+    "url": "https://www.ibabynews.com/news/articleView.html?idxno=97159",
+    "order": 1
+  },
+  {
+    "id": "linker-agreement",
+    "title": "EMC signed a business agreement with Linker",
+    "titleKo": "링커와 업무협약 체결",
+    "outlet": "iBabyNews (아이베이비뉴스)",
+    "url": "https://www.ibabynews.com/news/articleView.html?idxno=98108",
+    "order": 2
+  },
+  {
+    "id": "yanco-agreement",
+    "title": "EMC signed a business agreement with Yanco",
+    "titleKo": "얀코와 업무협약 체결",
+    "outlet": "iBabyNews (아이베이비뉴스)",
+    "url": "https://www.ibabynews.com/news/articleView.html?idxno=97756",
+    "order": 3
+  },
+  {
+    "id": "framily-agreement",
+    "title": "EMC signed a business agreement with Framily",
+    "titleKo": "프래밀리와 업무협약 체결",
+    "outlet": "iBabyNews (아이베이비뉴스)",
+    "url": "https://www.ibabynews.com/news/articleView.html?idxno=97283",
+    "order": 4
+  },
+  {
+    "id": "bless-damayan-agreement",
+    "title": "EMC signed a business agreement with Bless Damayan",
+    "titleKo": "블레스다마얀과 업무협약 체결",
+    "outlet": "iBabyNews (아이베이비뉴스)",
+    "url": "https://www.ibabynews.com/news/articleView.html?idxno=97729",
+    "order": 5
+  }
+]

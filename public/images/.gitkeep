@@ -1,0 +1,2 @@
+# Image files are downloaded here by scripts/fetch-wp-images.ps1
+# (not committed yet — see src/data/wordpress-images.json for the manifest).

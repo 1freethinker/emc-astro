@@ -1,0 +1,117 @@
+# WordPress → Astro migration notes
+
+Source: `http://141.164.55.18` — WordPress 6.2.2, theme **GeneratePress**, layout
+built with the **GenerateBlocks** plugin. Snapshot taken **2026-09-10** via the
+public REST API (`/wp-json/wp/v2/`).
+
+## What's on the WordPress site
+
+| Type       | Count | Notes                                                           |
+| ---------- | ----- | -------------------------------------------------------------- |
+| Pages      | 15    | Hierarchical; this is where all real content lives.           |
+| Posts      | 1     | Default "Hello world!" only. Category: Uncategorized.         |
+| Categories | 1     | Uncategorized.                                                |
+| Tags       | 0     |                                                              |
+| Media      | 48    | All images. ~20 referenced by pages; the rest are unused.     |
+| Users      | 1     | `terry`.                                                      |
+
+No custom post types, no ACF, no exposed custom REST namespaces. Active plugins
+seen on the frontend: **Contact Form 7**, **facebook-page-feed-graph-api** (not
+actually used in any page body). **GiveWP** left donation pages behind but is not
+active on the frontend (no `give` REST namespace, no Give assets loaded).
+
+Menus/`menu-items` require auth (401), so `src/data/navigation.json` was
+reconstructed from the rendered header HTML.
+
+## Page → Astro mapping
+
+| WP id | WP path                          | Astro file                         | Notes |
+| ----- | -------------------------------- | ---------------------------------- | ----- |
+| 6     | `/` (`/home/`)                   | `pages/home.md`                    | Hero + 4 highlights + photo gallery captured as frontmatter; mission text as body. |
+| 59    | `/about-emc/`                    | `pages/who-we-are.md`              | Full text. |
+| 65    | `/about-emc/the-team/`           | `pages/the-team.md` + `team/*`     | 4 members extracted to `team` collection. |
+| 63    | `/about-emc/partners/`           | `pages/partners.md` + `partners/*` | 10 orgs extracted to `partners` collection. |
+| 61    | `/about-emc/contact-us/`         | `pages/contact-us.md`              | **Contact Form 7 form not rebuilt** — contact details kept. |
+| 13    | `/what-we-need/`                 | `pages/what-we-need.md`            | Full text. |
+| 15    | `/what-we-need/donations/`       | `pages/donations.md`               | **Donation content only** — `needsPaymentIntegration: true`. |
+| 53    | `/what-we-need/volunteers/`      | `pages/volunteers.md`             | Full text. |
+| 11    | `/what-we-do/`                   | `pages/what-we-do.md`             | Full text. |
+| 9     | `/what-we-do/emergency-support/` | `pages/emergency-support.md`       | **Body was only an embedded Naver Office form** — URL recorded, nothing rebuilt. |
+| 55    | `/whats-happening/`              | `pages/whats-happening.md`         | Empty in WP. Draft. Intended news landing. |
+| 51    | `/whats-happening/emc-in-the-media/` | `pages/emc-in-the-media.md` + `media-coverage.json` | 5 external press links. |
+| 1     | `/hello-world/`                  | `news/hello-world.md`             | Default WP post, kept as draft. |
+
+### Donation flow — decision: info-only, permanently
+
+**Decided 2026-09-10:** no on-site payment flow. The **Donations** page
+(`pages/donations.md`) keeps its real, portable content — bank-transfer details,
+an international wire, a PayPal address, and two external Naver Office form links
+(one-time and automatic monthly) — migrated verbatim. It has no
+`needsPaymentIntegration` flag; `reviewNotes` just asks that the details/links be
+verified before launch.
+
+The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
+`/donations` (see `redirects.json`). Content recorded here for the archive only:
+
+| WP id | WP path                       | Content in WordPress |
+| ----- | ---------------------------- | -------------------- |
+| 24    | `/donation-confirmation-2/`  | Just the `[give_receipt]` shortcode — a GiveWP donation receipt. No portable content. |
+| 25    | `/donation-failed-2/`        | "We're sorry, your donation failed to process. Please try again or contact site support." |
+| 26    | `/donor-dashboard-2/`        | Empty — would have held the GiveWP donor dashboard. |
+
+### Forms (needs a solution)
+
+- **Contact Us** — Contact Form 7: name (req), email (req), subject (req),
+  message (opt), spam quiz "Which is bigger, 4 or 8?".
+- **Emergency Support** — `<iframe>` to a Naver Office form
+  (`form.office.naver.com/form/responseView.cmd?formkey=NjY5NWRkMGEtZDk2ZC00ZGNlLWFlYzEtNzg3NWFjZjIwNjNl`).
+- **Donations → Automatic Monthly Donation** — Naver Office form
+  (`...formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3`).
+
+Decide per-form: keep the external embed, or rebuild natively with a handler
+(Formspree/Web3Forms/an API route + email).
+
+## Routing & layout
+
+- Shared `BaseLayout` (header nav from `navigation.json`, footer from
+  `site.json`) wraps every page. CSS is a minimal legibility baseline, not a
+  theme.
+- `src/pages/[...slug].astro` renders each `pages` entry at a top-level route
+  (`/who-we-are`, `/donations`, …). `parent` drives breadcrumbs, not the URL.
+- Shell pages render their collection after the body: `TeamGrid`,
+  `PartnerGrid`, `MediaCoverageList`, `NewsList`.
+- `whats-happening/[id].astro` builds individual news posts (none in production
+  yet — the one post is a draft).
+- Old WordPress URLs 301 via `astro.config.mjs` (`redirects.json`). Identity
+  redirects (`/what-we-need/` → `/what-we-need` etc.) are filtered in the config
+  so they don't clobber the real page; those paths just resolve directly.
+- `remark-breaks` is enabled so single newlines render as `<br>` (matches how
+  WordPress showed the bank-details / address blocks).
+- `astro build` = 13 pages, clean.
+
+## Images
+
+`src/data/wordpress-images.json` manifests all 48 library images with a
+`localPath` and best-effort `usedOn`. All 48 have been **downloaded** into
+`public/images/` (`scripts/fetch-wp-images.ps1`, re-runnable). Referenced as
+plain `<img>` for now — not yet moved to `astro:assets`. Notes:
+
+- Two different files are both named `logo.png` (`2022/08` = Yanco logo,
+  `2022/12` = GGC logo). The manifest maps the December one to
+  `/images/2022-12-logo.png`.
+- Partners "Life Giving Tree" reused EMC's own header logo (`toplogo2.png`) on
+  the live site — almost certainly a mistake. An unused `givingtree.jpg` exists
+  and is probably the intended logo.
+- `cropped-KakaoTalk_20210823_132215728.png` (512×512) looks like the site
+  icon/favicon; `cropped-BBHMMNVGFY_643x362-*` look like header-logo crops.
+- ~14 `*_n.jpg` Facebook-style photos are in the library but unreferenced —
+  candidates for a future gallery.
+
+## Content cleanup applied
+
+GenerateBlocks wrapper markup (`<div class="gb-*">`, `<div class="wp-block-*">`)
+was dropped. Text was converted to Markdown; obvious typos in the source were
+lightly corrected (e.g. "EMC cannot fulfill its mission **with** your help" →
+"**without**"; "Kopinoi" → "Kopino"). Original phrasing is otherwise preserved.
+HTML entities were decoded. All absolute `http://141.164.55.18/...` links were
+rewritten to root-relative Astro routes.

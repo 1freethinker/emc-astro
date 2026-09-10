@@ -1,0 +1,76 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import PartnerGrid from '../components/PartnerGrid.astro';
+import MediaCoverageList from '../components/MediaCoverageList.astro';
+import NewsList from '../components/NewsList.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages
+    .filter((p) => p.id !== 'home')
+    .map((p) => ({ params: { slug: p.id }, props: { page: p } }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const { title, description, heroImage, rendersCollection, reviewNotes } = page.data;
+---
+
+<BaseLayout title={page.data.navLabel ?? title} description={description}>
+  <article class="wrap page">
+    <Breadcrumbs current={page.id} />
+    <h1>{title}</h1>
+
+    {import.meta.env.DEV && reviewNotes && (
+      <aside class="review-note">
+        <strong>Migration note (dev only):</strong> {reviewNotes}
+      </aside>
+    )}
+
+    {heroImage && <img class="hero" src={heroImage} alt="" loading="lazy" />}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {rendersCollection === 'team' && <TeamGrid />}
+    {rendersCollection === 'partners' && <PartnerGrid />}
+    {rendersCollection === 'mediaCoverage' && <MediaCoverageList />}
+    {rendersCollection === 'news' && <NewsList />}
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: 2rem;
+  }
+  .page h1 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+  .hero {
+    display: block;
+    width: 100%;
+    max-height: 22rem;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    background: var(--bg-soft);
+  }
+  .prose :global(h2) {
+    margin-top: 2rem;
+  }
+  .prose:empty {
+    display: none;
+  }
+  .review-note {
+    border-left: 3px solid var(--accent);
+    background: var(--bg-soft);
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+</style>

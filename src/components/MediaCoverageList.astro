@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+
+const items = (await getCollection('mediaCoverage')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<ul class="coverage">
+  {
+    items.map(({ data }) => (
+      <li>
+        <a href={data.url} rel="noopener">
+          {data.title}
+        </a>
+        <span class="meta">
+          {data.titleKo ? data.titleKo : ''}
+          {data.titleKo && data.outlet ? ' · ' : ''}
+          {data.outlet ?? ''}
+        </span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .coverage {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+  .coverage a {
+    font-weight: 600;
+  }
+  .meta {
+    display: block;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import site from '../data/site.json';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="org">
+      <strong>{site.legalName}</strong>{site.legalNameKo ? ` (${site.legalNameKo})` : ''}
+    </p>
+    <ul class="contact">
+      <li>Phone: <a href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}>{site.phone}</a></li>
+      <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>
+      <li>{site.address}</li>
+    </ul>
+    <p class="fine">&copy; {year} {site.legalName}. Founded {site.founded}.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg-soft);
+    padding-block: 2rem;
+    font-size: 0.95rem;
+  }
+  .org {
+    margin: 0 0 0.5rem;
+  }
+  .contact {
+    list-style: none;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    display: grid;
+    gap: 0.15rem;
+  }
+  .fine {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>
