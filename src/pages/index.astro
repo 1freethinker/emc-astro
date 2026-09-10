@@ -91,13 +91,13 @@ const { hero, highlights, gallery } = home.data;
   }
   .hero__inner {
     display: grid;
-    gap: clamp(2.5rem, 6vw, 5rem);
+    gap: clamp(2rem, 4vw, 3.25rem);
     align-items: center;
     padding-block: clamp(3.5rem, 9vw, 7rem);
   }
   @media (min-width: 52rem) {
     .hero__inner {
-      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-columns: max-content auto minmax(0, 1fr);
     }
   }
   .hero__copy h1 {
@@ -120,10 +120,19 @@ const { hero, highlights, gallery } = home.data;
     gap: 0.85rem;
   }
   .hero__media img {
-    width: 100%;
+    width: clamp(16rem, 30vw, 22rem);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    object-fit: cover;
+  }
+  @media (max-width: 51.99rem) {
+    .hero__media img {
+      width: 100%;
+      max-width: 26rem;
+      aspect-ratio: 5 / 4;
+    }
   }
 
   /* ---- Mission ---- */
