@@ -80,6 +80,9 @@ const rendered = await Promise.all(
   .member__bio :global(p + p) {
     margin-top: 0.75em;
   }
+  .member__bio :global(li + li) {
+    margin-top: 0;
+  }
   @media (max-width: 38rem) {
     .member {
       grid-template-columns: 1fr;
