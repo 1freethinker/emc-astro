@@ -146,9 +146,17 @@ added to `partners/*.md` (`url`):
 | Yanco | https://yanco.or.kr | 얀코사회적협동조합 |
 | GGC | http://www.1412.co.kr | 사단법인 경기글로벌센터 — pre-existing, confirmed active |
 
-No link found / not added: **Happy Dream** (name too generic), **GABRIELA**
-(social media only), **Philippine Kopino Family** (ties to "We Love Kopino / WLK",
-which has drawn public criticism — left for EMC to decide).
+Each URL was cross-checked against the wording on the partner's own logo file.
+
+No link found / not added:
+
+- **Happy Dream Center** — logo reads 행복드림센터; several unrelated Korean orgs
+  share the name (a university counselling centre, a Gwangju welfare centre, a
+  dead donation site). EMC needs to say which one. (`name` updated to the fuller
+  "Happy Dream Center".)
+- **GABRIELA** — social media only.
+- **Philippine Kopino Family** — ties to "We Love Kopino / WLK", which has drawn
+  public criticism; left for EMC to decide.
 
 ## Images
 
