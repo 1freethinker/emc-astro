@@ -3,7 +3,6 @@ title: Donations
 navLabel: Donations
 description: How to donate to Every Mother & Child.
 order: 7
-parent: what-we-need
 reviewNotes: >-
   Info-only page by decision — no on-site payment flow. The GiveWP
   confirmation / failed / donor-dashboard pages were dropped (see MIGRATION.md).

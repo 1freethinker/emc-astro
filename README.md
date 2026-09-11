@@ -30,7 +30,7 @@ netlify.toml               Netlify build config
 src/
   content.config.ts        collection definitions + Zod schema (start here)
   content/
-    pages/                  12 informational pages (Markdown + frontmatter)
+    pages/                  11 informational pages (Markdown + frontmatter)
     team/                   4 team members
     partners/               10 partner organisations
     news/                   "What's Happening" posts (only the WP starter post, as draft)
@@ -68,7 +68,7 @@ MIGRATION.md                 what was found, what was skipped, decisions
 
 | Collection      | Source in WordPress                              | Loader          |
 | --------------- | ----------------------------------------------- | --------------- |
-| `pages`         | Pages (15, hierarchical → 12 kept + 3 redirects) | `glob` Markdown |
+| `pages`         | Pages (15, hierarchical → 11 kept + 1 merged + 3 dropped) | `glob` Markdown |
 | `team`          | body of the "The Team" page                     | `glob` Markdown |
 | `partners`      | body of the "Partners" page                     | `glob` Markdown |
 | `mediaCoverage` | body of the "EMC in The Media" page             | `file` JSON     |

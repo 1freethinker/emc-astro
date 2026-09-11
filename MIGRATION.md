@@ -32,9 +32,9 @@ reconstructed from the rendered header HTML.
 | 65    | `/about-emc/the-team/`           | `pages/the-team.md` + `team/*`     | 4 members extracted to `team` collection. |
 | 63    | `/about-emc/partners/`           | `pages/partners.md` + `partners/*` | 10 orgs extracted to `partners` collection. |
 | 61    | `/about-emc/contact-us/`         | `pages/contact-us.md` + `contact-us.astro` | Form **rebuilt** with Web3Forms. |
-| 13    | `/what-we-need/`                 | `pages/what-we-need.md`            | Full text. |
-| 15    | `/what-we-need/donations/`       | `pages/donations.md`               | **Donation content only** — `needsPaymentIntegration: true`. |
-| 53    | `/what-we-need/volunteers/`      | `pages/volunteers.md`             | Full text. |
+| 13    | `/what-we-need/`                 | *(consolidated into `pages/volunteers.md`)* | Redirects to `/volunteers`. See "Nav restructure" below. |
+| 15    | `/what-we-need/donations/`       | `pages/donations.md`               | **Donation content only**, info page — see "Donation flow" below. |
+| 53    | `/what-we-need/volunteers/`      | `pages/volunteers.md`             | Full text, plus page 13's content merged in. |
 | 11    | `/what-we-do/`                   | `pages/what-we-do.md`             | Full text. |
 | 9     | `/what-we-do/emergency-support/` | `pages/emergency-support.md`       | **Body was only an embedded Naver Office form** — URL recorded, nothing rebuilt. |
 | 55    | `/whats-happening/`              | `pages/whats-happening.md`         | Empty in WP. Draft. Intended news landing. |
@@ -88,12 +88,12 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
 - `whats-happening/[id].astro` builds individual news posts (none in production
   yet — the one post is a draft).
 - Old WordPress URLs 301 via `astro.config.mjs` (`redirects.json`). Identity
-  redirects (`/what-we-need/` → `/what-we-need` etc.) are filtered in the config
-  so they don't clobber the real page; those paths just resolve directly.
+  redirects (`/what-we-do/` → `/what-we-do` etc.) are filtered in the config so
+  they don't clobber the real page; those paths just resolve directly.
 - No `remark-breaks` — content Markdown is reflowed to one-line paragraphs;
   the few places that need a hard line break (donations bank/wire blocks) use
   an explicit `<br>`.
-- `astro build` = 13 pages, clean.
+- `astro build` = 12 pages, clean.
 
 ### Nav restructure: "Who We Are" is now a label, not a page (2026-09-11)
 
@@ -115,6 +115,25 @@ its own child item, **"About EMC"**, alongside The Team / Partners / Contact Us.
 - `SiteHeader.astro`: a nav item renders as `<a>` if it has an `href`, else as a
   non-interactive `<span tabindex="0">` (still focusable so keyboard users can
   reach the dropdown via `:focus-within`).
+
+### Nav restructure: "What We Need" is now a label too, no page (2026-09-11)
+
+Same pattern as "Who We Are", but here the client asked to consolidate rather
+than spin off a new page: WordPress page 13 (`/what-we-need/`, "How can you
+help EMC?") and page 53 (`/what-we-need/volunteers/`, "Volunteers") had
+near-duplicate content — same six ways to help (interpretation, accompanying,
+car service, child care, teaching Korean, sponsorship), just reworded.
+
+- `pages/what-we-need.md` **deleted**; its "How can you help EMC?" heading and
+  framing were folded into `pages/volunteers.md`, which already had the fuller
+  bullet list. Nothing unique was lost (diffed the two before deleting).
+- `navigation.json`: "What We Need" entry has no `href` (dropdown label only);
+  children unchanged (Donations, Volunteers).
+- `donations.md` / `volunteers.md`: dropped `parent: what-we-need` (no page for
+  it to point at anymore — unlike "About EMC", no single child page inherits
+  the old parent slot here).
+- `redirects.json`: `/what-we-need/` now redirects to `/volunteers` (moved out
+  of "unchanged" since it's no longer an identity route).
 
 ## Theme (first pass)
 

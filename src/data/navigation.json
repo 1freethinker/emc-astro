@@ -12,7 +12,6 @@
     },
     {
       "label": "What We Need",
-      "href": "/what-we-need",
       "children": [
         { "label": "Donations", "href": "/donations" },
         { "label": "Volunteers", "href": "/volunteers" }
