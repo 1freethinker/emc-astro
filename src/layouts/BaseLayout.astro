@@ -33,19 +33,21 @@ const metaDescription = description ?? site.description;
       <defs>
         <!--
           Turns a photo into a flat, poster-like blue duotone (soft blur to
-          lose photographic fine detail, then a 6-stop tonal map through the
-          brand's blue scale, plus 2 interpolated mid-tones) so stock
-          photography reads more like branded illustration. Reused via
+          lose photographic fine detail, then a 6-stop tonal map, evenly
+          interpolated from blue-400 to blue-100 — a narrower, lower-contrast
+          range than the full blue-700..blue-100 scale, so shadow areas
+          (faces especially) don't go navy-dark) so stock photography reads
+          more like branded illustration. Reused via
           `filter: url(#illustrate-photo)`.
         -->
         <filter id="illustrate-photo" color-interpolation-filters="sRGB">
           <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
           <feGaussianBlur stdDeviation="1.4" />
           <feComponentTransfer>
-            <!-- 6 discrete stops = blue-700..blue-100 (2 interpolated between blue-400 and blue-100) -->
-            <feFuncR type="discrete" tableValues="0.122 0.161 0.227 0.455 0.686 0.914" />
-            <feFuncG type="discrete" tableValues="0.235 0.294 0.357 0.549 0.737 0.929" />
-            <feFuncB type="discrete" tableValues="0.529 0.651 0.753 0.827 0.902 0.976" />
+            <!-- 6 discrete stops, evenly interpolated blue-400 -> blue-100 -->
+            <feFuncR type="discrete" tableValues="0.227 0.365 0.502 0.639 0.776 0.914" />
+            <feFuncG type="discrete" tableValues="0.357 0.471 0.586 0.700 0.815 0.929" />
+            <feFuncB type="discrete" tableValues="0.753 0.798 0.842 0.887 0.932 0.976" />
           </feComponentTransfer>
         </filter>
       </defs>
