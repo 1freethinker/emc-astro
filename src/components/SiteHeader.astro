@@ -1,6 +1,8 @@
 ---
 import navData from '../data/navigation.json';
+import site from '../data/site.json';
 import Logo from './Logo.astro';
+import FacebookIcon from './FacebookIcon.astro';
 import type { NavData, NavItem } from '../types/nav';
 
 const nav = navData as NavData;
@@ -70,6 +72,15 @@ const inGroup = (item: NavItem) =>
       </ul>
 
       <div class="nav-actions">
+        <a
+          class="social-link"
+          href={site.social.facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="EMC on Facebook"
+        >
+          <FacebookIcon size={20} />
+        </a>
         <a class="btn btn--secondary btn--sm" href="/donations">Donate</a>
       </div>
     </nav>
@@ -186,6 +197,20 @@ const inGroup = (item: NavItem) =>
   .btn--sm {
     padding: 0.5em 1em;
     font-size: var(--step--1);
+  }
+  .social-link {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    color: var(--text-muted);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .social-link:hover {
+    background: var(--surface-alt);
+    color: var(--primary);
   }
 
   .nav-toggle {
@@ -307,7 +332,10 @@ const inGroup = (item: NavItem) =>
       margin-top: 1.25rem;
     }
     .nav-actions .btn {
-      width: 100%;
+      flex: 1;
+    }
+    .social-link {
+      border: 1px solid var(--border-strong);
     }
   }
 </style>
