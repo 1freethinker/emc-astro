@@ -3,14 +3,16 @@ title: EMC in The Media
 navLabel: EMC in The Media
 description: News, updates, and press coverage from Every Mother & Child.
 order: 10
-rendersCollection: [news, mediaCoverage]
+rendersCollection: [mediaCoverage]
 reviewNotes: >-
   Consolidated here on 2026-09-11: WordPress page 55 ("What's Happening",
   /whats-happening/) was empty and only existed to host a news feed. The
   "What's Happening" nav item is now a non-clickable dropdown label (like
-  "Who We Are" / "What We Do"); this page absorbs what that page was for —
-  it now shows recent updates (`news` collection) above the press-coverage
-  list (`mediaCoverage`).
+  "Who We Are" / "What We Do"); this page absorbs what that page was for.
+  A "Latest Updates" section (`news` collection) was added then removed the
+  same day (2026-09-11, by request) — it only ever had the WordPress "Hello
+  world!" placeholder post, so the whole `news` collection, its route, and
+  `NewsList.astro` were deleted rather than left unused.
 wordpress:
   id: 51
   slug: emc-in-the-media

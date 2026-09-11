@@ -83,9 +83,7 @@ const pages = defineCollection({
      * order). A section heading is shown above each one only when there's
      * more than one (see the `sectionLabel` map in `[...slug].astro`).
      */
-    rendersCollection: z
-      .array(z.enum(['team', 'partners', 'mediaCoverage', 'news']))
-      .optional(),
+    rendersCollection: z.array(z.enum(['team', 'partners', 'mediaCoverage'])).optional(),
 
     /** Free-text notes for the migration review. */
     reviewNotes: z.string().optional(),
@@ -138,26 +136,4 @@ const mediaCoverage = defineCollection({
   }),
 });
 
-/**
- * news — the "What's Happening" section.
- *
- * WordPress currently has only the default "Hello world!" post (kept as a
- * draft so the schema is exercised). Schema mirrors standard WP post fields
- * so real updates can be added later.
- */
-const news = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
-  schema: z.object({
-    title: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    description: z.string().optional(),
-    draft: z.boolean().default(false),
-    category: z.string().default('Uncategorized'),
-    tags: z.array(z.string()).default([]),
-    heroImage: z.string().optional(),
-    wordpress,
-  }),
-});
-
-export const collections = { pages, team, partners, mediaCoverage, news };
+export const collections = { pages, team, partners, mediaCoverage };

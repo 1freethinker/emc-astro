@@ -33,7 +33,6 @@ src/
     pages/                  10 informational pages (Markdown + frontmatter)
     team/                   4 team members
     partners/               10 partner organisations
-    news/                   "Latest Updates" posts shown on emc-in-the-media (only the WP starter post, as draft)
     media-coverage.json     press links for "EMC in The Media"
   data/
     site.json               org details (name, contact, banking)
@@ -47,7 +46,7 @@ src/
     BaseLayout.astro         HTML shell + fonts
   components/
     SiteHeader / SiteFooter / Logo
-    TeamGrid / PartnerGrid / MediaCoverageList / NewsList
+    TeamGrid / PartnerGrid / MediaCoverageList
     ContactForm.astro        Web3Forms contact form (AJAX + honeypot)
     PayPalDonateBox.astro    live PayPal hosted-button form (donate / subscribe)
   pages/
@@ -55,7 +54,6 @@ src/
     contact-us.astro         dedicated route: contact details + ContactForm
     donations.astro          dedicated route: donation info + two PayPalDonateBox
     [...slug].astro          every other page; renders body + optional collection list
-    emc-in-the-media/[id].astro   individual news posts
     404.astro
 public/
   favicon.svg
@@ -74,13 +72,11 @@ MIGRATION.md                 what was found, what was skipped, decisions
 | `team`          | body of the "The Team" page                     | `glob` Markdown |
 | `partners`      | body of the "Partners" page                     | `glob` Markdown |
 | `mediaCoverage` | body of the "EMC in The Media" page             | `file` JSON     |
-| `news`          | Posts (only the default "Hello world!" post)    | `glob` Markdown |
 
 Pages that are just a shell for a list (`The Team`, `Partners`, `EMC in The
 Media`) carry `rendersCollection` — an **array** — in their frontmatter, and
-the matching component(s) render after the page body. `EMC in The Media`
-renders two (`news` then `mediaCoverage`); a page renders more than one only
-gets a section heading per collection.
+the matching component(s) render after the page body; a page renders more than
+one collection only gets a section heading per collection.
 
 All pages route at the top level (`/the-team`, `/donations`, …); old nested
 WordPress URLs 301 via `astro.config.mjs`. `parent` is retained in frontmatter
@@ -88,8 +84,8 @@ for future nav grouping but isn't shown (no breadcrumbs / page subtitles).
 
 Every migrated entry keeps a `wordpress` block (original id / slug / URL).
 
-Draft pages/`news` posts and any `reviewNotes` banner show in `dev` and are
-hidden in production builds.
+Draft pages and any `reviewNotes` banner show in `dev` and are hidden in
+production builds.
 
 ## Theme
 

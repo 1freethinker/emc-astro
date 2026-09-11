@@ -38,8 +38,8 @@ reconstructed from the rendered header HTML.
 | 11    | `/what-we-do/`                   | `pages/our-programs.md`           | Full text. Renamed from `what-we-do.md`; redirects to `/our-programs`. See "Nav restructure" below. |
 | 9     | `/what-we-do/emergency-support/` | `pages/emergency-support.md`       | **Body was only an embedded Naver Office form** — URL recorded, nothing rebuilt. |
 | 55    | `/whats-happening/`              | *(consolidated into `pages/emc-in-the-media.md`)* | Was empty in WP; redirects to `/emc-in-the-media`. See "Nav restructure" below. |
-| 51    | `/whats-happening/emc-in-the-media/` | `pages/emc-in-the-media.md` + `media-coverage.json` + `news` | 5 external press links, plus page 55's news-feed intent merged in. |
-| 1     | `/hello-world/`                  | `news/hello-world.md`             | Default WP post, kept as draft. |
+| 51    | `/whats-happening/emc-in-the-media/` | `pages/emc-in-the-media.md` + `media-coverage.json` | 5 external press links, plus page 55's news-feed intent merged in. |
+| 1     | `/hello-world/`                  | *(dropped)*                        | Default WP starter post — briefly kept as a `news` collection draft (2026-09-11), then the whole "Latest Updates" section and `news` collection were removed same day, by request. |
 
 ### Donation flow
 
@@ -115,9 +115,7 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
   pages build in dev only. `contact-us` has its own dedicated route instead
   (`src/pages/contact-us.astro`) and is excluded from this catch-all.
 - Shell pages render their collection after the body: `TeamGrid`,
-  `PartnerGrid`, `MediaCoverageList`, `NewsList`.
-- `emc-in-the-media/[id].astro` builds individual news posts (none in
-  production yet — the one post is a draft).
+  `PartnerGrid`, `MediaCoverageList`.
 - Old WordPress URLs 301 via `astro.config.mjs` (`redirects.json`). Identity
   redirects (`/emergency-support/` → `/emergency-support` etc.) are filtered in
   the config so they don't clobber the real page; those paths just resolve
@@ -181,21 +179,26 @@ Same pattern, applied twice more, one of each flavour:
 
 **"What's Happening" → merge** (page 55 was empty in WP — like "What We Need"):
 - `pages/whats-happening.md` **deleted**; its intro line moved into
-  `pages/emc-in-the-media.md`, which is now the dropdown's only child and
-  renders **two** collections instead of one: `news` ("Latest Updates") above
-  `mediaCoverage` ("In The Media").
+  `pages/emc-in-the-media.md`, which is now the dropdown's only child.
 - `rendersCollection` on the `pages` schema changed from a single enum to an
   **array** (`content.config.ts`), so a page can combine collections.
-  `[...slug].astro` now maps over it and only prints a section `<h2>` (via a
+  `[...slug].astro` maps over it and only prints a section `<h2>` (via a
   `sectionLabel` lookup) when a page renders more than one — existing
-  single-collection pages (`the-team`, `partners`) are unaffected.
-- News-post permalinks moved from `whats-happening/[id].astro` to
-  `emc-in-the-media/[id].astro` (`/emc-in-the-media/<slug>`); `NewsList.astro`
-  links updated, and its per-item heading dropped from `<h2>` to `<h3>` since
-  it now nests under the page's own "Latest Updates" `<h2>`.
+  single-collection pages (`the-team`, `partners`, and now `emc-in-the-media`)
+  are unaffected.
 - `emc-in-the-media.md`: dropped `parent: whats-happening` (no page left to
   point at).
 - `redirects.json`: `/whats-happening/` now redirects to `/emc-in-the-media`.
+- **Amended same day (2026-09-11):** initially also added a `news` collection
+  + `NewsList.astro`, rendering a "Latest Updates" section above "In The
+  Media" (mirroring page 55's original news-feed intent, using the WP
+  "Hello world!" starter post as a draft placeholder). Removed by request
+  the same day — it only ever showed "No updates have been published yet."
+  Deleted: `src/content/news/`, `src/components/NewsList.astro`,
+  `src/pages/emc-in-the-media/[id].astro`, the `news` collection in
+  `content.config.ts`, and its `rendersCollection` enum entry / sectionLabel /
+  render branch in `[...slug].astro`. `emc-in-the-media.md` now renders just
+  `[mediaCoverage]`.
 
 **Both restructures**, plus the earlier two, meant `SiteFooter.astro`'s
 "Explore" column — which used to link each top-level nav item directly — broke,
@@ -236,7 +239,7 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
 - Sticky footer (flex column) with the logo + column headings.
 - Restyled: footer, home (hero / mission + CTA row / numbered "How EMC helps"
   cards / 6-photo gallery), generic page shell, and TeamGrid / PartnerGrid /
-  MediaCoverageList / NewsList.
+  MediaCoverageList.
 - Partner logos get `mix-blend-mode: multiply` on their tint chip (many are
   JPGs with white backgrounds).
 
