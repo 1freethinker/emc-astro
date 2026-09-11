@@ -256,12 +256,16 @@ hr {
   margin-top: 0.75em;
 }
 
-.prose--tight > * + :is(h2, h3) {
-  margin-top: 1.4em;
-}
-
 .prose--tight :is(h2, h3, h4) + * {
   margin-top: 0.4em;
+}
+
+/* Wins the specificity tie with the rule above when a heading directly
+   follows another heading (e.g. the "EMC's Programs" h2 -> its first h3
+   kicker) — headings need the larger gap, not the "just after a heading"
+   one. */
+.prose--tight > * + :is(h2, h3) {
+  margin-top: 1.4em;
 }
 
 .prose--tight li + li {
