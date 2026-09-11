@@ -175,6 +175,12 @@ hr {
   max-width: var(--container-narrow);
 }
 
+/* A page built around an embedded form (e.g. Emergency Support) reads better
+   centered than flush-left against the wider page container. */
+.prose:has(iframe) {
+  margin-inline: auto;
+}
+
 .prose > * + * {
   margin-top: 1.05em;
 }
