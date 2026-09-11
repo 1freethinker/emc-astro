@@ -3,24 +3,26 @@ title: Our Programs
 navLabel: Our Programs
 description: An overview of EMC's humanitarian mission and support programs.
 order: 8
+missionOverview:
+  - Consultation and crisis support projects
+  - Legal and administrative support services
+  - Policy and institutional improvement activities for multicultural / immigration families
+  - Establishment of international cooperation system through global networks
+  - Financial, research, and cultural projects
 reviewNotes: >-
   Renamed from "What We Do" on 2026-09-11 — that label now just opens the
   dropdown (no page of its own, like "Who We Are"); this page (same content)
-  became its first child, alongside Emergency Support.
+  became its first child, alongside Emergency Support. The step-chart image
+  was dropped the same day (by request), and the "Overview" list that used to
+  sit right below it was turned into a circular "wheel" diagram
+  (`missionOverview` above + `MissionWheel.astro`, rendered from a dedicated
+  `our-programs.astro` route instead of the `[...slug]` catch-all).
 wordpress:
   id: 11
   slug: what-we-do
   path: /what-we-do/
   link: http://141.164.55.18/what-we-do/
 ---
-
-**Overview of EMC's Humanitarian Mission**
-
-1. Consultation and crisis support projects
-2. Legal and administrative support services
-3. Policy and institutional improvement activities for multicultural / immigration families
-4. Establishment of international cooperation system through global networks
-5. Financial, research, and cultural projects
 
 ## Emergency, Daily Living, and Counseling Support
 

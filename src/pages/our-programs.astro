@@ -1,0 +1,63 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MissionWheel from '../components/MissionWheel.astro';
+
+const page = await getEntry('pages', 'our-programs');
+if (!page) throw new Error('Missing pages/our-programs.md');
+const { Content } = await render(page);
+const { title, description, reviewNotes, missionOverview } = page.data;
+---
+
+<BaseLayout title={page.data.navLabel ?? title} description={description}>
+  <header class="page-head">
+    <div class="container">
+      <h1>{title}</h1>
+    </div>
+  </header>
+
+  <div class="container page-body">
+    {
+      import.meta.env.DEV && reviewNotes && (
+        <aside class="review-note">
+          <strong>Migration note (dev only):</strong> {reviewNotes}
+        </aside>
+      )
+    }
+
+    <div class="prose">
+      {missionOverview && missionOverview.length > 0 && (
+        <>
+          <h2>Overview of EMC&rsquo;s Humanitarian Mission</h2>
+          <MissionWheel items={missionOverview} />
+        </>
+      )}
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    background: linear-gradient(160deg, var(--hero-from), var(--hero-to));
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .page-head h1 {
+    max-width: 20ch;
+  }
+
+  .page-body {
+    padding-block: var(--section-y);
+  }
+
+  .review-note {
+    border-left: 3px solid var(--primary);
+    background: var(--surface-alt);
+    padding: 0.85rem 1rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 1.75rem;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+</style>

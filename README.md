@@ -49,10 +49,12 @@ src/
     TeamGrid / PartnerGrid / MediaCoverageList
     ContactForm.astro        Web3Forms contact form (AJAX + honeypot)
     PayPalDonateBox.astro    live PayPal hosted-button form (donate / subscribe)
+    MissionWheel.astro       circular diagram + legend (Our Programs overview)
   pages/
     index.astro              home (hero + highlights + gallery from home.md)
     contact-us.astro         dedicated route: contact details + ContactForm
     donations.astro          dedicated route: donation info + two PayPalDonateBox
+    our-programs.astro       dedicated route: MissionWheel + page body
     [...slug].astro          every other page; renders body + optional collection list
     404.astro
 public/

@@ -209,6 +209,44 @@ text (e.g. "What We Need" → `/donations`).
 **Nav order**: "What We Do" moved before "What We Need" per client request —
 now Who We Are, What We Do, What We Need, What's Happening.
 
+### Our Programs: step-chart image replaced with a "mission wheel" (2026-09-11)
+
+The page originally had a raster screenshot of a WP SmartArt "process" (stair-
+step) graphic above the 5-item mission overview list, carried over as
+`heroImage`. Dropped by request, then the plain numbered list right below it
+was asked to become "a circular image rather than steps." Implementation:
+
+- `missionOverview: string[]` added to the `pages` schema (frontmatter array,
+  `our-programs.md`), replacing the old inline `**Overview...**` heading +
+  Markdown list in the body.
+- `src/components/MissionWheel.astro` — a decorative SVG ring with 5 evenly
+  spaced numbered badges (build-time trig, no client JS) around a center hub
+  labelled "EMC's Mission", **paired with a plain-text legend below/beside
+  it** (numbered badges matching the wheel's colors + full text in normal
+  document flow).
+- First attempt tried putting the text itself on radiating spokes outside the
+  ring — looked fine on desktop but **clipped off-screen on mobile** (long
+  items like "Policy and institutional improvement activities for
+  multicultural / immigration families" don't fit in a 40%-of-container box
+  positioned near the container edge). Rebuilt as wheel-graphic + separate
+  legend instead: no absolutely-positioned text ever has to fight for space,
+  so it can't overflow at any width. **Lesson:** for radial/circular diagrams
+  with variable-length text, decouple the decorative shape from the text —
+  don't try to wrap real content around a curve.
+- `src/pages/our-programs.astro` — new dedicated route (was `[...slug]`
+  catch-all) so `MissionWheel` can be imported and placed between the page
+  heading and the rest of `<Content />`. `our-programs` added to
+  `[...slug].astro`'s exclusion filter alongside `home`/`contact-us`/
+  `donations`.
+- Hit an Astro dev-server caching bug mid-build: after rewriting
+  `MissionWheel.astro`, the rendered HTML picked up the new markup but the
+  scoped `<style>` block kept serving the *previous* version's CSS (verified
+  via `document.styleSheets` — old `.wheel__label` rules were still the only
+  ones present). A dev-server restart (kill the node process, `preview_start`
+  again) fixed it. If a component edit visually "does nothing" or looks half
+  -applied during this kind of rapid iteration, suspect stale Vite/Astro
+  style cache before assuming the CSS itself is wrong.
+
 ## Theme (first pass)
 
 Direction chosen: **brand-aligned refresh** — drop the site's mismatched purple

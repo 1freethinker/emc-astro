@@ -78,6 +78,9 @@ const pages = defineCollection({
     /** Optional list of image paths for a simple gallery block. */
     gallery: z.array(z.string()).optional(),
 
+    /** Optional set of short items rendered as a radial "wheel" diagram (see MissionWheel.astro). */
+    missionOverview: z.array(z.string()).optional(),
+
     /**
      * This page is a shell that renders one or more other collections (in
      * order). A section heading is shown above each one only when there's
