@@ -98,10 +98,11 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
   properties. Light theme only (dark mode was tried and dropped).
 - **Type** — Fraunces (display) + Open Sans (body) + Baloo 2 (logo only),
   self-hosted via `@fontsource`. Fluid type scale.
-- **Logo** — `Logo.astro`, an SVG rebuilt from the low-res JPG: "EMC" in Baloo 2
-  plus a taegeuk (Korean-flag swirl) in the brand rose + blue — a nod to Korea
-  that also reads as mother + child. The globe-with-figures mark is omitted
-  pending a transparent source.
+- **Logo** — `Logo.astro`: the real globe-with-children mark from EMC's
+  Facebook page (`public/images/logo-mark.png`, background removed) next to
+  "EMC" / "EVERY MOTHER & CHILD" set in Baloo 2 as real SVG text. `favicon.svg`
+  still uses an earlier placeholder taegeuk (Korean-flag swirl) mark — not yet
+  updated to match.
 - Sticky header (CSS dropdowns on desktop / drawer on mobile) + Donate button;
   sticky footer with the logo; restyled hero, numbered feature cards, gallery,
   and all four collection list views.

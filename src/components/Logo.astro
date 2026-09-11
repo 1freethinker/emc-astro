@@ -1,11 +1,10 @@
 ---
 /**
- * EMC wordmark, rebuilt as clean SVG (from the low-res logo JPG).
- * - Rounded, playful display face (Baloo 2) for the "EMC" mark.
- * - Glyph: a taegeuk (Korean-flag swirl) — the two comma shapes double as a
- *   mother and child nestled together, and place EMC in Korea. Uses the brand
- *   rose + blue, which already sit close to the flag's colours.
- * Theme-aware via CSS custom properties; scales to any size.
+ * EMC wordmark: the brand's "globe with children" mark (from EMC's Facebook
+ * page logo, background removed — see public/images/logo-mark.png) next to
+ * the "EMC" / "EVERY MOTHER & CHILD" text, set in the same rounded display
+ * face (Baloo 2) as before. Text stays real SVG `<text>` so it's crisp and
+ * theme-aware; only the illustrated globe icon is a raster image.
  */
 interface Props {
   /** rendered height in px; width scales with it */
@@ -27,16 +26,7 @@ const ratio = 182 / 44;
   aria-label={title}
   xmlns="http://www.w3.org/2000/svg"
 >
-  <g transform="rotate(210 16 22)">
-    <path
-      class="logo__swirl logo__swirl--rose"
-      d="M16 9 A13 13 0 0 1 16 35 A6.5 6.5 0 0 1 16 22 A6.5 6.5 0 0 0 16 9 Z"
-    />
-    <path
-      class="logo__swirl logo__swirl--blue"
-      d="M16 35 A13 13 0 0 1 16 9 A6.5 6.5 0 0 1 16 22 A6.5 6.5 0 0 0 16 35 Z"
-    />
-  </g>
+  <image href="/images/logo-mark.png" x="1" y="7" width="30" height="28.5" />
 
   <text
     x="44"
@@ -67,12 +57,6 @@ const ratio = 182 / 44;
   .logo {
     display: block;
     height: auto;
-  }
-  .logo__swirl--rose {
-    fill: var(--primary);
-  }
-  .logo__swirl--blue {
-    fill: var(--secondary);
   }
   .logo__mark {
     fill: var(--primary);

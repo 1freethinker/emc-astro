@@ -265,11 +265,22 @@ Direction chosen: **brand-aligned refresh** — drop the site's mismatched purpl
   playful — logo only). All self-hosted via `@fontsource`, latin subset. Fluid
   `clamp()` scale. Headings use "and" not "&" (Fraunces's stylised ampersand
   reads as a glitch).
-- **Logo**: `src/components/Logo.astro` — "EMC" set in Baloo 2 plus a **taegeuk**
-  (the Korean-flag swirl) drawn in the brand rose + blue: places EMC in Korea,
-  and the two nested commas still read as mother + child. `favicon.svg` matches.
-  Rebuilt as theme-aware SVG; the original globe-with-figures raster is dropped
-  (low-res JPG, baked-in white box).
+- **Logo**: `src/components/Logo.astro` — "EMC" set in Baloo 2, next to an
+  illustrated globe-with-children mark. **Originally** a hand-drawn **taegeuk**
+  (Korean-flag swirl) stood in for the real mark, since the only source we had
+  was a low-res JPG with a baked-in white box. **Amended 2026-09-11:** client
+  supplied the actual Facebook-page logo (a clean, higher-res JPG, still on a
+  solid white background). Background removed via a threshold/soft-edge alpha
+  key over the source pixels (PowerShell + `System.Drawing` — no ImageMagick
+  or Node image lib on this machine), then cropped to just the globe+children
+  ring (excluding the "EMC" / tagline text baked into the source) and
+  downscaled to `public/images/logo-mark.png` (240px) for use as the SVG
+  `<image>` inside `Logo.astro`, replacing the taegeuk `<path>`s — the "EMC" /
+  "EVERY MOTHER & CHILD" text stays real SVG `<text>`, unchanged. A full crop
+  (globe + original text, `public/images/logo-full.png`, 560px) was also kept
+  for possible reuse elsewhere but isn't wired into any component yet.
+  `favicon.svg` was NOT touched — still the taegeuk mark; ask before changing
+  it too, since a busy multi-color illustration may not read well at 16–32px.
 - One button system (`.btn`, `.btn--secondary`, `.btn--ghost`, pill shape).
 - Header: sticky, CSS-only dropdowns ≥60rem, slide-in drawer below (small JS),
   plus a Donate button. Dropdowns use `display:none/block` (not opacity) to
