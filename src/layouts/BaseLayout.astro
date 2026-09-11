@@ -32,15 +32,18 @@ const metaDescription = description ?? site.description;
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
       <defs>
         <!--
-          A soft blue duotone tint (grayscale -> smooth tonal map from
-          blue-400 to blue-100) — much lighter touch than the earlier
-          posterized/flat version: `type="table"` interpolates smoothly
-          instead of hard-stepping, and there's no blur, so real photographic
-          detail stays intact. Reused via `filter: url(#illustrate-photo)`.
+          A painterly treatment: soft blur (loses photographic sharpness) +
+          a subtle fractal-noise displacement (breaks up the mechanically
+          smooth photo edges into something closer to a brushed/hand-painted
+          feel) + a smooth blue duotone tint (blue-400 -> blue-100). Reused
+          via `filter: url(#illustrate-photo)`.
         -->
         <filter id="illustrate-photo" color-interpolation-filters="sRGB">
-          <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
-          <feComponentTransfer>
+          <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" result="gray" />
+          <feGaussianBlur in="gray" stdDeviation="1.1" result="soft" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap in="soft" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" result="painted" />
+          <feComponentTransfer in="painted">
             <!-- smooth ramp blue-400 -> blue-100 -->
             <feFuncR type="table" tableValues="0.227 0.914" />
             <feFuncG type="table" tableValues="0.357 0.929" />
