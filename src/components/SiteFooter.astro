@@ -24,15 +24,6 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
       </a>
       {site.legalNameKo && <p class="about__ko">{site.legalNameKo}</p>}
       <p class="about__blurb">{site.description}</p>
-      <a
-        class="about__social"
-        href={site.social.facebook}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="EMC on Facebook"
-      >
-        <FacebookIcon size={20} />
-      </a>
     </div>
 
     <nav class="col" aria-label="Footer">
@@ -54,6 +45,12 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
         <li><a href={`tel:${tel}`}>{site.phone}</a></li>
         <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
         <li>{site.address}</li>
+        <li>
+          <a class="contact__social" href={site.social.facebook} target="_blank" rel="noopener noreferrer">
+            <FacebookIcon size={16} />
+            Facebook
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -100,22 +97,6 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
     color: var(--text-muted);
     max-width: 36ch;
   }
-  .about__social {
-    display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    margin-top: 1rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 50%;
-    color: var(--text-muted);
-    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-  }
-  .about__social:hover {
-    background: var(--surface);
-    color: var(--primary);
-    border-color: var(--primary);
-  }
   .col h2 {
     font-family: var(--font-body);
     font-size: var(--step--1);
@@ -138,6 +119,11 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
   }
   .col a:hover {
     color: var(--link-hover);
+  }
+  .contact__social {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   .fine {
     margin-top: 2.5rem;
