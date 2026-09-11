@@ -1,6 +1,9 @@
 ---
-import nav from '../data/navigation.json';
+import navData from '../data/navigation.json';
 import Logo from './Logo.astro';
+import type { NavData, NavItem } from '../types/nav';
+
+const nav = navData as NavData;
 
 const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href?: string) => {
@@ -8,7 +11,7 @@ const isActive = (href?: string) => {
   const h = href.replace(/\/+$/, '') || '/';
   return h === '/' ? here === '/' : here === h || here.startsWith(h + '/');
 };
-const inGroup = (item: { href?: string; children?: { href: string }[] }) =>
+const inGroup = (item: NavItem) =>
   isActive(item.href) || (item.children ?? []).some((c) => isActive(c.href));
 ---
 

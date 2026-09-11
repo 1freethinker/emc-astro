@@ -4,7 +4,7 @@ navLabel: The Team
 description: The people behind Every Mother & Child.
 order: 2
 parent: about-emc
-rendersCollection: team
+rendersCollection: [team]
 wordpress:
   id: 65
   slug: the-team

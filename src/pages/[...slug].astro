@@ -17,6 +17,15 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 const { Content } = await render(page);
 const { title, description, heroImage, rendersCollection, reviewNotes } = page.data;
+
+const collections = rendersCollection ?? [];
+// Only label sections when a page combines more than one collection.
+const sectionLabel: Record<string, string> = {
+  news: 'Latest Updates',
+  mediaCoverage: 'In The Media',
+  team: 'The Team',
+  partners: 'Partners',
+};
 ---
 
 <BaseLayout title={page.data.navLabel ?? title} description={description}>
@@ -41,10 +50,17 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
       <Content />
     </div>
 
-    {rendersCollection === 'team' && <div class="collection"><TeamGrid /></div>}
-    {rendersCollection === 'partners' && <div class="collection"><PartnerGrid /></div>}
-    {rendersCollection === 'mediaCoverage' && <div class="collection"><MediaCoverageList /></div>}
-    {rendersCollection === 'news' && <div class="collection"><NewsList /></div>}
+    {
+      collections.map((c) => (
+        <div class="collection">
+          {collections.length > 1 && <h2>{sectionLabel[c]}</h2>}
+          {c === 'team' && <TeamGrid />}
+          {c === 'partners' && <PartnerGrid />}
+          {c === 'mediaCoverage' && <MediaCoverageList />}
+          {c === 'news' && <NewsList />}
+        </div>
+      ))
+    }
   </div>
 </BaseLayout>
 
@@ -74,6 +90,10 @@ const { title, description, heroImage, rendersCollection, reviewNotes } = page.d
   }
   .collection {
     margin-top: 2.5rem;
+  }
+  .collection h2 {
+    font-size: var(--step-2);
+    margin-bottom: 1.25rem;
   }
   .prose:empty + .collection {
     margin-top: 0;

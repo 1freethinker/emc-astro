@@ -3,7 +3,7 @@ title: Emergency Support
 navLabel: Emergency Support
 description: Request emergency support from EMC.
 order: 9
-parent: what-we-do
+parent: our-programs
 reviewNotes: >-
   WordPress page embedded a Naver Office form via <iframe>:
   https://form.office.naver.com/form/responseView.cmd?formkey=NjY5NWRkMGEtZDk2ZC00ZGNlLWFlYzEtNzg3NWFjZjIwNjNl

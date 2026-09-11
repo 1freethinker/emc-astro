@@ -11,6 +11,13 @@
       ]
     },
     {
+      "label": "What We Do",
+      "children": [
+        { "label": "Our Programs", "href": "/our-programs" },
+        { "label": "Emergency Support", "href": "/emergency-support" }
+      ]
+    },
+    {
       "label": "What We Need",
       "children": [
         { "label": "Donations", "href": "/donations" },
@@ -18,15 +25,7 @@
       ]
     },
     {
-      "label": "What We Do",
-      "href": "/what-we-do",
-      "children": [
-        { "label": "Emergency Support", "href": "/emergency-support" }
-      ]
-    },
-    {
       "label": "What's Happening",
-      "href": "/whats-happening",
       "children": [
         { "label": "EMC in The Media", "href": "/emc-in-the-media" }
       ]

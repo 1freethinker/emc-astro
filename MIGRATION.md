@@ -35,10 +35,10 @@ reconstructed from the rendered header HTML.
 | 13    | `/what-we-need/`                 | *(consolidated into `pages/volunteers.md`)* | Redirects to `/volunteers`. See "Nav restructure" below. |
 | 15    | `/what-we-need/donations/`       | `pages/donations.md`               | **Donation content only**, info page — see "Donation flow" below. |
 | 53    | `/what-we-need/volunteers/`      | `pages/volunteers.md`             | Full text, plus page 13's content merged in. |
-| 11    | `/what-we-do/`                   | `pages/what-we-do.md`             | Full text. |
+| 11    | `/what-we-do/`                   | `pages/our-programs.md`           | Full text. Renamed from `what-we-do.md`; redirects to `/our-programs`. See "Nav restructure" below. |
 | 9     | `/what-we-do/emergency-support/` | `pages/emergency-support.md`       | **Body was only an embedded Naver Office form** — URL recorded, nothing rebuilt. |
-| 55    | `/whats-happening/`              | `pages/whats-happening.md`         | Empty in WP. Draft. Intended news landing. |
-| 51    | `/whats-happening/emc-in-the-media/` | `pages/emc-in-the-media.md` + `media-coverage.json` | 5 external press links. |
+| 55    | `/whats-happening/`              | *(consolidated into `pages/emc-in-the-media.md`)* | Was empty in WP; redirects to `/emc-in-the-media`. See "Nav restructure" below. |
+| 51    | `/whats-happening/emc-in-the-media/` | `pages/emc-in-the-media.md` + `media-coverage.json` + `news` | 5 external press links, plus page 55's news-feed intent merged in. |
 | 1     | `/hello-world/`                  | `news/hello-world.md`             | Default WP post, kept as draft. |
 
 ### Donation flow — decision: info-only, permanently
@@ -85,15 +85,16 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
   (`src/pages/contact-us.astro`) and is excluded from this catch-all.
 - Shell pages render their collection after the body: `TeamGrid`,
   `PartnerGrid`, `MediaCoverageList`, `NewsList`.
-- `whats-happening/[id].astro` builds individual news posts (none in production
-  yet — the one post is a draft).
+- `emc-in-the-media/[id].astro` builds individual news posts (none in
+  production yet — the one post is a draft).
 - Old WordPress URLs 301 via `astro.config.mjs` (`redirects.json`). Identity
-  redirects (`/what-we-do/` → `/what-we-do` etc.) are filtered in the config so
-  they don't clobber the real page; those paths just resolve directly.
+  redirects (`/emergency-support/` → `/emergency-support` etc.) are filtered in
+  the config so they don't clobber the real page; those paths just resolve
+  directly.
 - No `remark-breaks` — content Markdown is reflowed to one-line paragraphs;
   the few places that need a hard line break (donations bank/wire blocks) use
   an explicit `<br>`.
-- `astro build` = 12 pages, clean.
+- `astro build` = 11 pages, clean.
 
 ### Nav restructure: "Who We Are" is now a label, not a page (2026-09-11)
 
@@ -134,6 +135,45 @@ car service, child care, teaching Korean, sponsorship), just reworded.
   the old parent slot here).
 - `redirects.json`: `/what-we-need/` now redirects to `/volunteers` (moved out
   of "unchanged" since it's no longer an identity route).
+
+### Nav restructure: "What We Do" and "What's Happening" (2026-09-11)
+
+Same pattern, applied twice more, one of each flavour:
+
+**"What We Do" → split** (real, non-duplicate content — like "Who We Are"):
+- `pages/what-we-do.md` renamed to `pages/our-programs.md` (`title`/`navLabel`
+  "Our Programs"); added as the first child under the now-label-only
+  "What We Do", alongside the existing "Emergency Support".
+- `emergency-support.md`: `parent:` updated to `our-programs`.
+- `redirects.json`: `/what-we-do/` now redirects to `/our-programs` (moved out
+  of "unchanged").
+
+**"What's Happening" → merge** (page 55 was empty in WP — like "What We Need"):
+- `pages/whats-happening.md` **deleted**; its intro line moved into
+  `pages/emc-in-the-media.md`, which is now the dropdown's only child and
+  renders **two** collections instead of one: `news` ("Latest Updates") above
+  `mediaCoverage` ("In The Media").
+- `rendersCollection` on the `pages` schema changed from a single enum to an
+  **array** (`content.config.ts`), so a page can combine collections.
+  `[...slug].astro` now maps over it and only prints a section `<h2>` (via a
+  `sectionLabel` lookup) when a page renders more than one — existing
+  single-collection pages (`the-team`, `partners`) are unaffected.
+- News-post permalinks moved from `whats-happening/[id].astro` to
+  `emc-in-the-media/[id].astro` (`/emc-in-the-media/<slug>`); `NewsList.astro`
+  links updated, and its per-item heading dropped from `<h2>` to `<h3>` since
+  it now nests under the page's own "Latest Updates" `<h2>`.
+- `emc-in-the-media.md`: dropped `parent: whats-happening` (no page left to
+  point at).
+- `redirects.json`: `/whats-happening/` now redirects to `/emc-in-the-media`.
+
+**Both restructures**, plus the earlier two, meant `SiteFooter.astro`'s
+"Explore" column — which used to link each top-level nav item directly — broke,
+since *every* top-level item is now label-only. It now falls back to each
+group's first child's `href` while keeping the group's own label as the link
+text (e.g. "What We Need" → `/donations`).
+
+**Nav order**: "What We Do" moved before "What We Need" per client request —
+now Who We Are, What We Do, What We Need, What's Happening.
 
 ## Theme (first pass)
 

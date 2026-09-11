@@ -1,9 +1,13 @@
 ---
-title: What We Do
-navLabel: What We Do
+title: Our Programs
+navLabel: Our Programs
 description: An overview of EMC's humanitarian mission and support programs.
 order: 8
 heroImage: /images/Screenshot_5.png
+reviewNotes: >-
+  Renamed from "What We Do" on 2026-09-11 — that label now just opens the
+  dropdown (no page of its own, like "Who We Are"); this page (same content)
+  became its first child, alongside Emergency Support.
 wordpress:
   id: 11
   slug: what-we-do

@@ -78,9 +78,13 @@ const pages = defineCollection({
     /** Optional list of image paths for a simple gallery block. */
     gallery: z.array(z.string()).optional(),
 
-    /** This page is a shell that renders another collection. */
+    /**
+     * This page is a shell that renders one or more other collections (in
+     * order). A section heading is shown above each one only when there's
+     * more than one (see the `sectionLabel` map in `[...slug].astro`).
+     */
     rendersCollection: z
-      .enum(['team', 'partners', 'mediaCoverage', 'news'])
+      .array(z.enum(['team', 'partners', 'mediaCoverage', 'news']))
       .optional(),
 
     /** Free-text notes for the migration review. */

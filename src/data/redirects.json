@@ -8,13 +8,15 @@
     "/what-we-need/": "/volunteers",
     "/what-we-need/donations/": "/donations",
     "/what-we-need/volunteers/": "/volunteers",
+    "/what-we-do/": "/our-programs",
     "/what-we-do/emergency-support/": "/emergency-support",
+    "/whats-happening/": "/emc-in-the-media",
     "/whats-happening/emc-in-the-media/": "/emc-in-the-media",
     "/donation-confirmation-2/": "/donations",
     "/donation-failed-2/": "/donations",
     "/donor-dashboard-2/": "/donations"
   },
   "unchanged": {
-    "note": "These WordPress paths map to the same route (modulo trailing slash) and need no redirect: /about-emc/ (now the About EMC page's own route), /what-we-do/, /whats-happening/, /emergency-support/."
+    "note": "These WordPress paths map to the same route (modulo trailing slash) and need no redirect: /about-emc/ (now the About EMC page's own route), /emergency-support/."
   }
 }

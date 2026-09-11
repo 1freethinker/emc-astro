@@ -30,10 +30,10 @@ netlify.toml               Netlify build config
 src/
   content.config.ts        collection definitions + Zod schema (start here)
   content/
-    pages/                  11 informational pages (Markdown + frontmatter)
+    pages/                  10 informational pages (Markdown + frontmatter)
     team/                   4 team members
     partners/               10 partner organisations
-    news/                   "What's Happening" posts (only the WP starter post, as draft)
+    news/                   "Latest Updates" posts shown on emc-in-the-media (only the WP starter post, as draft)
     media-coverage.json     press links for "EMC in The Media"
   data/
     site.json               org details (name, contact, banking)
@@ -53,7 +53,7 @@ src/
     index.astro              home (hero + highlights + gallery from home.md)
     contact-us.astro         dedicated route: contact details + ContactForm
     [...slug].astro          every other page; renders body + optional collection list
-    whats-happening/[id].astro   individual news posts
+    emc-in-the-media/[id].astro   individual news posts
     404.astro
 public/
   favicon.svg
@@ -68,15 +68,17 @@ MIGRATION.md                 what was found, what was skipped, decisions
 
 | Collection      | Source in WordPress                              | Loader          |
 | --------------- | ----------------------------------------------- | --------------- |
-| `pages`         | Pages (15, hierarchical → 11 kept + 1 merged + 3 dropped) | `glob` Markdown |
+| `pages`         | Pages (15, hierarchical → 10 kept + 2 merged + 3 dropped) | `glob` Markdown |
 | `team`          | body of the "The Team" page                     | `glob` Markdown |
 | `partners`      | body of the "Partners" page                     | `glob` Markdown |
 | `mediaCoverage` | body of the "EMC in The Media" page             | `file` JSON     |
 | `news`          | Posts (only the default "Hello world!" post)    | `glob` Markdown |
 
 Pages that are just a shell for a list (`The Team`, `Partners`, `EMC in The
-Media`, `What's Happening`) carry `rendersCollection` in their frontmatter and
-the matching component is rendered after the page body.
+Media`) carry `rendersCollection` — an **array** — in their frontmatter, and
+the matching component(s) render after the page body. `EMC in The Media`
+renders two (`news` then `mediaCoverage`); a page renders more than one only
+gets a section heading per collection.
 
 All pages route at the top level (`/the-team`, `/donations`, …); old nested
 WordPress URLs 301 via `astro.config.mjs`. `parent` is retained in frontmatter

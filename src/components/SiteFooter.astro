@@ -1,7 +1,16 @@
 ---
-import nav from '../data/navigation.json';
+import navData from '../data/navigation.json';
 import site from '../data/site.json';
 import Logo from './Logo.astro';
+import type { NavData } from '../types/nav';
+
+const nav = navData as NavData;
+// Top-level items can be label-only (no href) — link to the first child's
+// page instead, keeping the group's own label as the link text.
+const footerLinks = nav.primary
+  .map((item) => ({ label: item.label, href: item.href ?? item.children?.[0]?.href }))
+  .filter((link): link is { label: string; href: string } => Boolean(link.href));
+
 const year = new Date().getFullYear();
 const tel = site.phone.replace(/[^0-9+]/g, '');
 ---
@@ -20,9 +29,9 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
       <h2>Explore</h2>
       <ul>
         {
-          nav.primary.map((item) => (
+          footerLinks.map((link) => (
             <li>
-              <a href={item.href}>{item.label}</a>
+              <a href={link.href}>{link.label}</a>
             </li>
           ))
         }
