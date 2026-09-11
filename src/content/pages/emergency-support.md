@@ -10,13 +10,10 @@ reviewNotes: >-
   responses on Naver's side. The height (1800px) is carried over from the WP
   embed as-is.
 
-  ⚠️ IMPORTANT: this environment can't load the URL directly (blocked by
-  browsing policy) but rendering it inside the iframe (2026-09-11) showed a
-  generic Naver "폼 OPEN" (Form OPEN) promo/blog post dated 2023.12.19 — not an
-  intake form. That strongly suggests this formkey has expired or been
-  deleted, and Naver is silently falling back to a placeholder rather than
-  erroring. Please check the live URL yourself before launch and, if it's
-  dead, create a fresh Naver Office form and swap the src below.
+  ⚠️ CONFIRMED DEAD (2026-09-11): client checked the live URL — it no longer
+  shows the intake form, just a generic Naver "Form OPEN" promo page. The
+  formkey has expired or been deleted. This iframe needs a fresh Naver Office
+  form src before launch; the current one is non-functional.
 wordpress:
   id: 9
   slug: emergency-support

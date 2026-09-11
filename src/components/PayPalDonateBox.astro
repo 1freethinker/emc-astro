@@ -1,0 +1,92 @@
+---
+/**
+ * A PayPal "hosted button" donate/subscribe box — the same official PayPal
+ * button markup used on the WordPress site's Donations sidebar, just as an
+ * Astro component. Posts straight to PayPal (no backend here); PayPal
+ * handles the actual checkout.
+ *
+ * `hostedButtonId` ties to EMC's real PayPal account — this goes live taking
+ * real donations. See MIGRATION.md "Donation flow" for the decision history.
+ */
+interface Option {
+  value: string;
+  label: string;
+}
+interface Props {
+  heading: string;
+  hostedButtonId: string;
+  /** Sent to PayPal as the option's name (field `on0`) — shown at checkout. */
+  optionLabel: string;
+  options: Option[];
+  /** PayPal-hosted button image, e.g. btn_donateCC_LG.gif / btn_subscribeCC_LG.gif */
+  buttonImage: string;
+}
+const { heading, hostedButtonId, optionLabel, options, buttonImage } = Astro.props;
+---
+
+<div class="paypal-box">
+  <h2>{heading}</h2>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick" />
+    <input type="hidden" name="hosted_button_id" value={hostedButtonId} />
+    <input type="hidden" name="currency_code" value="USD" />
+    <input type="hidden" name="on0" value={optionLabel} />
+    <label class="paypal-box__field">
+      <span>{optionLabel}</span>
+      <select name="os0">
+        {options.map((o) => <option value={o.value}>{o.label}</option>)}
+      </select>
+    </label>
+    <input
+      type="image"
+      src={buttonImage}
+      name="submit"
+      alt="Donate with PayPal"
+      title="PayPal — the safer, easier way to pay online"
+    />
+  </form>
+</div>
+
+<style>
+  .paypal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .paypal-box + .paypal-box {
+    margin-top: 1.5rem;
+  }
+  .paypal-box h2 {
+    font-size: var(--step-1);
+    margin-bottom: 1rem;
+  }
+  .paypal-box__field {
+    display: grid;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+  }
+  .paypal-box__field span {
+    font-weight: 600;
+    font-size: var(--step--1);
+  }
+  .paypal-box select {
+    width: 100%;
+    padding: 0.55rem 0.7rem;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+  }
+  .paypal-box select:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 1px;
+    border-color: var(--primary);
+  }
+  .paypal-box input[type='image'] {
+    display: block;
+    border: 0;
+  }
+</style>

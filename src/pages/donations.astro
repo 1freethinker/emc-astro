@@ -1,0 +1,95 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PayPalDonateBox from '../components/PayPalDonateBox.astro';
+
+const page = await getEntry('pages', 'donations');
+if (!page) throw new Error('Missing pages/donations.md');
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.navLabel ?? page.data.title} description={page.data.description}>
+  <header class="page-head">
+    <div class="container">
+      <h1>{page.data.title}</h1>
+    </div>
+  </header>
+
+  <div class="container donations">
+    {
+      import.meta.env.DEV && page.data.reviewNotes && (
+        <aside class="review-note">
+          <strong>Migration note (dev only):</strong> {page.data.reviewNotes}
+        </aside>
+      )
+    }
+
+    <div class="donations__grid">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <aside class="donations__paypal">
+        <PayPalDonateBox
+          heading="Donate to EMC"
+          hostedButtonId="QBJ8LB7JQ99GG"
+          optionLabel="Donation Amount"
+          options={[
+            { value: '10', label: '$10.00 USD' },
+            { value: '25', label: '$25.00 USD' },
+            { value: '50', label: '$50.00 USD' },
+            { value: '100', label: '$100.00 USD' },
+          ]}
+          buttonImage="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif"
+        />
+        <PayPalDonateBox
+          heading="Monthly Donation"
+          hostedButtonId="VBEVKSGJVXBT4"
+          optionLabel="Monthy Donation Amount"
+          options={[
+            { value: 'Ten', label: 'Ten : $10.00 USD - monthly' },
+            { value: '25', label: '25 : $25.00 USD - monthly' },
+            { value: '50', label: '50 : $50.00 USD - monthly' },
+            { value: '100', label: '100 : $100.00 USD - monthly' },
+          ]}
+          buttonImage="https://www.paypalobjects.com/en_US/i/btn/btn_subscribeCC_LG.gif"
+        />
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-head {
+    background: linear-gradient(160deg, var(--hero-from), var(--hero-to));
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .page-head h1 {
+    max-width: 20ch;
+  }
+
+  .donations {
+    padding-block: var(--section-y);
+  }
+  .donations__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: start;
+  }
+  @media (min-width: 46rem) {
+    .donations__grid {
+      grid-template-columns: 1fr minmax(0, 18rem);
+    }
+  }
+
+  .review-note {
+    border-left: 3px solid var(--primary);
+    background: var(--surface-alt);
+    padding: 0.85rem 1rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 1.75rem;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+  }
+</style>

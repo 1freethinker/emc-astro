@@ -41,7 +41,7 @@ reconstructed from the rendered header HTML.
 | 51    | `/whats-happening/emc-in-the-media/` | `pages/emc-in-the-media.md` + `media-coverage.json` + `news` | 5 external press links, plus page 55's news-feed intent merged in. |
 | 1     | `/hello-world/`                  | `news/hello-world.md`             | Default WP post, kept as draft. |
 
-### Donation flow — decision: info-only, permanently
+### Donation flow
 
 **Decided 2026-09-10:** no on-site payment flow. The **Donations** page
 (`pages/donations.md`) keeps its real, portable content — bank-transfer details,
@@ -49,6 +49,29 @@ an international wire, a PayPal address, and two external Naver Office form link
 (one-time and automatic monthly) — migrated verbatim. It has no
 `needsPaymentIntegration` flag; `reviewNotes` just asks that the details/links be
 verified before launch.
+
+**Amended 2026-09-11:** the bank/wire/Naver-form content is still info-only, but
+the client asked for the WP site's **PayPal boxes** back — and those aren't
+informational, they're two real PayPal "hosted button" forms tied to EMC's
+actual PayPal account (confirmed by inspecting the live WP page's form markup).
+Client explicitly confirmed going live with the same buttons, not just the
+visual box. Implementation:
+
+- `src/pages/donations.astro` — dedicated route (was folded into `[...slug]`),
+  two-column layout: `.prose` content left, a `.donations__paypal` aside right
+  (stacks below on narrow screens).
+- `src/components/PayPalDonateBox.astro` — renders PayPal's own button markup
+  (`<form action="https://www.paypal.com/cgi-bin/webscr">`, `cmd=_s-xclick`,
+  `hosted_button_id`) with props for heading/options/button image. No backend;
+  PayPal handles checkout entirely.
+- Two instances on the page, **field-for-field identical** to the live WP
+  forms: `hosted_button_id=QBJ8LB7JQ99GG` (one-time, $10/25/50/100) and
+  `hosted_button_id=VBEVKSGJVXBT4` (monthly subscription, same amounts). The
+  "Monthy Donation Amount" typo in the monthly button's `on0` field/label is
+  **preserved on purpose** — it's PayPal's own generated field content, not
+  something to "fix" on a live payment form.
+- `donations.md` `reviewNotes` updated to flag that this box is live, not
+  informational.
 
 The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
 `/donations` (see `redirects.json`). Content recorded here for the archive only:
@@ -70,9 +93,13 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
   external Naver Office form rather than rebuild it. Same `<iframe>` src as
   WordPress (`form.office.naver.com/form/responseView.cmd?formkey=...`), same
   1800px height carried over as-is. `.prose iframe` styled in `global.css`
-  (bordered, rounded, full-width). This environment can't reach
-  `form.office.naver.com` to preview it — check the live page and adjust the
-  height in `emergency-support.md` if it doesn't match.
+  (bordered, rounded, full-width), centered on this page specifically via
+  `.prose:has(iframe)` (other prose pages stay flush-left).
+  **⚠️ Confirmed dead 2026-09-11**: the client checked the live URL and it no
+  longer shows the intake form — a generic Naver "Form OPEN" promo page loads
+  instead, meaning the formkey has expired or been deleted. Needs a fresh
+  Naver Office form before launch; swap the `src` in `emergency-support.md`
+  once there's a new link.
 - **Donations → Automatic Monthly Donation** — Naver Office form
   (`...formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3`), kept as an
   external link in `donations.md`.

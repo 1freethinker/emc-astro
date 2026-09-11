@@ -49,9 +49,11 @@ src/
     SiteHeader / SiteFooter / Logo
     TeamGrid / PartnerGrid / MediaCoverageList / NewsList
     ContactForm.astro        Web3Forms contact form (AJAX + honeypot)
+    PayPalDonateBox.astro    live PayPal hosted-button form (donate / subscribe)
   pages/
     index.astro              home (hero + highlights + gallery from home.md)
     contact-us.astro         dedicated route: contact details + ContactForm
+    donations.astro          dedicated route: donation info + two PayPalDonateBox
     [...slug].astro          every other page; renders body + optional collection list
     emc-in-the-media/[id].astro   individual news posts
     404.astro
@@ -130,16 +132,29 @@ contact form renders but is disabled with a notice.
 with an inline success/error message. JS off: normal POST, Web3Forms shows its
 own confirmation page. Spam: Web3Forms honeypot (`botcheck`).
 
+## PayPal donation buttons
+
+⚠️ **Live, not a demo.** `donations.astro` embeds two real PayPal "hosted
+button" forms (`PayPalDonateBox.astro`) — same `hosted_button_id`s as the
+WordPress site, one-time ($10/25/50/100) and monthly subscription. They post
+directly to `paypal.com`; PayPal handles checkout, no backend here. See
+MIGRATION.md "Donation flow" for why (client explicitly asked for these back,
+overriding the earlier info-only decision).
+
 ## Other forms
 
 **Emergency Support** embeds the original Naver Office form in an `<iframe>`
-(kept, not rebuilt — see `emergency-support.md`). The **Donations** page's
-monthly-donation form is still just an external link to its own Naver form.
+(kept, not rebuilt — see `emergency-support.md`). ⚠️ **That formkey looks
+dead** — the embed shows a generic Naver "Form OPEN" promo page, not the
+intake form; needs a fresh Naver form before launch. The **Donations** page's
+automatic-monthly-transfer option (for domestic/KRW donors) is still just an
+external link to its own Naver form.
 
 ## Not done yet (deliberately)
 
 - **Image optimization** — images are plain `<img>` to `/images/...`; not yet
   moved to `astro:assets` / `<Image>`.
 
-Settled: **donation flow is info-only** (`donations.md`), no on-site payments —
-see MIGRATION.md.
+Settled: bank/wire/Naver-form content on the Donations page is **info-only**;
+the **PayPal boxes are live** (real hosted-button forms, same as the WP site,
+by explicit request) — see MIGRATION.md "Donation flow".
