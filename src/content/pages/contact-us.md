@@ -3,7 +3,7 @@ title: Contact Us
 navLabel: Contact Us
 description: Get in touch with Every Mother & Child.
 order: 4
-parent: who-we-are
+parent: about-emc
 wordpress:
   id: 61
   slug: contact-us

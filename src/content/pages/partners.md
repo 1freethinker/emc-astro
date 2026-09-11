@@ -3,7 +3,7 @@ title: Partners
 navLabel: Partners
 description: Organisations EMC works with across Korea and the Philippines.
 order: 3
-parent: who-we-are
+parent: about-emc
 rendersCollection: partners
 wordpress:
   id: 63

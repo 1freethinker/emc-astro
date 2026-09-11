@@ -3,7 +3,7 @@ title: The Team
 navLabel: The Team
 description: The people behind Every Mother & Child.
 order: 2
-parent: who-we-are
+parent: about-emc
 rendersCollection: team
 wordpress:
   id: 65

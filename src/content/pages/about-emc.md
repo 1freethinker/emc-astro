@@ -1,6 +1,6 @@
 ---
-title: Who We Are
-navLabel: Who We Are
+title: About EMC
+navLabel: About EMC
 description: >-
   The origins, goals, overview, and mission & vision of Every Mother & Child.
 order: 1

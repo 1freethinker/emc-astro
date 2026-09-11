@@ -28,7 +28,7 @@ reconstructed from the rendered header HTML.
 | WP id | WP path                          | Astro file                         | Notes |
 | ----- | -------------------------------- | ---------------------------------- | ----- |
 | 6     | `/` (`/home/`)                   | `pages/home.md`                    | Hero + 4 highlights + photo gallery captured as frontmatter; mission text as body. |
-| 59    | `/about-emc/`                    | `pages/who-we-are.md`              | Full text. |
+| 59    | `/about-emc/`                    | `pages/about-emc.md`               | Full text. Route is `/about-emc` — same as the WP path (renamed from `who-we-are.md` on 2026-09-11; see "Nav restructure" below). |
 | 65    | `/about-emc/the-team/`           | `pages/the-team.md` + `team/*`     | 4 members extracted to `team` collection. |
 | 63    | `/about-emc/partners/`           | `pages/partners.md` + `partners/*` | 10 orgs extracted to `partners` collection. |
 | 61    | `/about-emc/contact-us/`         | `pages/contact-us.md` + `contact-us.astro` | Form **rebuilt** with Web3Forms. |
@@ -79,9 +79,10 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
   `site.json`) wraps every page. CSS is a minimal legibility baseline, not a
   theme.
 - `src/pages/[...slug].astro` renders each `pages` entry at a top-level route
-  (`/who-we-are`, `/donations`, …). `parent` is kept for future nav/nesting but
+  (`/about-emc`, `/donations`, …). `parent` is kept for future nav/nesting but
   is not shown (no breadcrumbs, no page subtitle — client preference). Draft
-  pages build in dev only.
+  pages build in dev only. `contact-us` has its own dedicated route instead
+  (`src/pages/contact-us.astro`) and is excluded from this catch-all.
 - Shell pages render their collection after the body: `TeamGrid`,
   `PartnerGrid`, `MediaCoverageList`, `NewsList`.
 - `whats-happening/[id].astro` builds individual news posts (none in production
@@ -93,6 +94,27 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
   the few places that need a hard line break (donations bank/wire blocks) use
   an explicit `<br>`.
 - `astro build` = 13 pages, clean.
+
+### Nav restructure: "Who We Are" is now a label, not a page (2026-09-11)
+
+On WordPress, the "Who We Are" dropdown's *top-level item* linked to
+`/about-emc/` (origins/mission content) and had The Team / Partners / Contact Us
+as siblings underneath. Client asked to split those apart: "Who We Are" in the
+header is now a **dropdown label only** — no `href`, renders as a `<span>`
+(`SiteHeader.astro`), not clickable — and the origins/mission content moved to
+its own child item, **"About EMC"**, alongside The Team / Partners / Contact Us.
+
+- `pages/who-we-are.md` renamed to `pages/about-emc.md` (`title`/`navLabel`
+  "About EMC"); its route is now `/about-emc`, matching the original WordPress
+  path exactly, so the old `/about-emc/` redirect entry was removed (it's an
+  identity mapping now — see `redirects.json` "unchanged").
+- `the-team.md` / `partners.md` / `contact-us.md` `parent:` updated to
+  `about-emc`.
+- `navigation.json`: the "Who We Are" entry has no `href`; "About EMC" added as
+  its first child, pointing at `/about-emc`.
+- `SiteHeader.astro`: a nav item renders as `<a>` if it has an `href`, else as a
+  non-interactive `<span tabindex="0">` (still focusable so keyboard users can
+  reach the dropdown via `:focus-within`).
 
 ## Theme (first pass)
 

@@ -1,10 +1,10 @@
 {
-  "note": "Primary menu as it appeared on the live site. Hrefs use flattened Astro routes; see redirects.json for the old WordPress paths.",
+  "note": "Primary menu as it appeared on the live site. Hrefs use flattened Astro routes; see redirects.json for the old WordPress paths. An item with no `href` is a dropdown label only — not a link, not a page.",
   "primary": [
     {
       "label": "Who We Are",
-      "href": "/who-we-are",
       "children": [
+        { "label": "About EMC", "href": "/about-emc" },
         { "label": "The Team", "href": "/the-team" },
         { "label": "Partners", "href": "/partners" },
         { "label": "Contact Us", "href": "/contact-us" }

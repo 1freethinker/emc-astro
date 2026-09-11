@@ -2,7 +2,6 @@
   "note": "Old WordPress URL path -> new Astro route, for paths that actually changed. Wired into astro.config.mjs `redirects` (identity entries are filtered there defensively).",
   "map": {
     "/home/": "/",
-    "/about-emc/": "/who-we-are",
     "/about-emc/the-team/": "/the-team",
     "/about-emc/partners/": "/partners",
     "/about-emc/contact-us/": "/contact-us",
@@ -15,6 +14,6 @@
     "/donor-dashboard-2/": "/donations"
   },
   "unchanged": {
-    "note": "These WordPress paths map to the same route (modulo trailing slash) and need no redirect: /what-we-need/, /what-we-do/, /whats-happening/, /emergency-support/."
+    "note": "These WordPress paths map to the same route (modulo trailing slash) and need no redirect: /about-emc/ (now the About EMC page's own route), /what-we-need/, /what-we-do/, /whats-happening/, /emergency-support/."
   }
 }

@@ -3,11 +3,12 @@ import nav from '../data/navigation.json';
 import Logo from './Logo.astro';
 
 const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
-const isActive = (href: string) => {
+const isActive = (href?: string) => {
+  if (!href) return false;
   const h = href.replace(/\/+$/, '') || '/';
   return h === '/' ? here === '/' : here === h || here.startsWith(h + '/');
 };
-const inGroup = (item: { href: string; children?: { href: string }[] }) =>
+const inGroup = (item: { href?: string; children?: { href: string }[] }) =>
   isActive(item.href) || (item.children ?? []).some((c) => isActive(c.href));
 ---
 
@@ -32,13 +33,19 @@ const inGroup = (item: { href: string; children?: { href: string }[] }) =>
         {
           nav.primary.map((item) => (
             <li class:list={['menu__item', { 'is-current': inGroup(item) }]}>
-              <a
-                class="menu__link"
-                href={item.href}
-                aria-current={isActive(item.href) ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
+              {item.href ? (
+                <a
+                  class="menu__link"
+                  href={item.href}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <span class="menu__link menu__link--label" tabindex="0">
+                  {item.label}
+                </span>
+              )}
               {item.children && item.children.length > 0 && (
                 <ul class="submenu">
                   {item.children.map((child) => (
@@ -129,6 +136,9 @@ const inGroup = (item: { href: string; children?: { href: string }[] }) =>
   .menu__link:hover {
     background: var(--surface-alt);
     color: var(--text);
+  }
+  .menu__link--label {
+    cursor: default;
   }
   .menu__item.is-current > .menu__link {
     color: var(--primary);
