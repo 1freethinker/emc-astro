@@ -22,7 +22,6 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
       <a class="about__logo" href="/" aria-label={`${site.legalName}, home`}>
         <Logo height={44} />
       </a>
-      {site.legalNameKo && <p class="about__ko">{site.legalNameKo}</p>}
       <p class="about__blurb">{site.description}</p>
     </div>
 
@@ -87,10 +86,6 @@ const tel = site.phone.replace(/[^0-9+]/g, '');
   }
   .about__logo {
     display: inline-block;
-  }
-  .about__ko {
-    margin-top: 0.6rem;
-    color: var(--text-muted);
   }
   .about__blurb {
     margin-top: 0.6rem;
