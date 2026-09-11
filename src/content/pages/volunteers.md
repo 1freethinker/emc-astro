@@ -5,7 +5,6 @@ description: >-
   EMC urgently needs volunteers who can give their time to help others.
 order: 6
 parent: what-we-need
-heroImage: /images/volunteer-652383_1280-1.jpg
 wordpress:
   id: 53
   slug: volunteers
