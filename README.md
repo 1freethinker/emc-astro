@@ -59,7 +59,7 @@ src/
     [...slug].astro          every other page; renders body + optional collection list
     404.astro
 public/
-  favicon.svg
+  favicon.png                globe-with-children mark, cropped to a square
   images/                    unused/archival media-library images (not rendered
                               by any page — see src/images/ for what's live)
 scripts/
@@ -102,9 +102,8 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
   self-hosted via `@fontsource`. Fluid type scale.
 - **Logo** — `Logo.astro`: the real globe-with-children mark from EMC's
   Facebook page (`src/images/logo-mark.png`, background removed) next to
-  "EMC" / "EVERY MOTHER & CHILD" set in Baloo 2 as real SVG text. `favicon.svg`
-  still uses an earlier placeholder taegeuk (Korean-flag swirl) mark — not yet
-  updated to match.
+  "EMC" / "EVERY MOTHER & CHILD" set in Baloo 2 as real SVG text.
+  `public/favicon.png` uses the same mark, square-cropped.
 - Sticky header (CSS dropdowns on desktop / drawer on mobile) + Donate button;
   sticky footer with the logo; restyled hero, numbered feature cards, gallery,
   and all four collection list views.
