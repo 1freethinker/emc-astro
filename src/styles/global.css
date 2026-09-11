@@ -212,6 +212,16 @@ hr {
   margin-block: 1.75em;
 }
 
+.prose iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  margin-block: 1.75em;
+}
+
 .prose blockquote {
   border-left: 3px solid var(--primary);
   padding-left: 1rem;

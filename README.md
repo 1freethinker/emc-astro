@@ -130,10 +130,14 @@ contact form renders but is disabled with a notice.
 with an inline success/error message. JS off: normal POST, Web3Forms shows its
 own confirmation page. Spam: Web3Forms honeypot (`botcheck`).
 
+## Other forms
+
+**Emergency Support** embeds the original Naver Office form in an `<iframe>`
+(kept, not rebuilt — see `emergency-support.md`). The **Donations** page's
+monthly-donation form is still just an external link to its own Naver form.
+
 ## Not done yet (deliberately)
 
-- **Other forms** — the emergency-support and monthly-donation pages had
-  embedded Naver Office forms; still just links / notes, not rebuilt.
 - **Image optimization** — images are plain `<img>` to `/images/...`; not yet
   moved to `astro:assets` / `<Image>`.
 

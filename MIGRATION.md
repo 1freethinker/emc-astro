@@ -66,9 +66,13 @@ The three **GiveWP** plugin pages are **not** reproduced. Their old URLs 301 to
   (all required — the WP form had message optional and a "4 or 8?" quiz;
   replaced by a Web3Forms honeypot). Needs `PUBLIC_WEB3FORMS_KEY` at build time
   (Netlify env var / local `.env`).
-- **Emergency Support** — `<iframe>` to a Naver Office form
-  (`form.office.naver.com/form/responseView.cmd?formkey=NjY5NWRkMGEtZDk2ZC00ZGNlLWFlYzEtNzg3NWFjZjIwNjNl`).
-  Still just a recorded URL — decide: keep the embed or rebuild.
+- **Emergency Support** — **embedded** (2026-09-11), decision: keep the
+  external Naver Office form rather than rebuild it. Same `<iframe>` src as
+  WordPress (`form.office.naver.com/form/responseView.cmd?formkey=...`), same
+  1800px height carried over as-is. `.prose iframe` styled in `global.css`
+  (bordered, rounded, full-width). This environment can't reach
+  `form.office.naver.com` to preview it — check the live page and adjust the
+  height in `emergency-support.md` if it doesn't match.
 - **Donations → Automatic Monthly Donation** — Naver Office form
   (`...formkey=NzEyZTNkMGQtMDczZS00ZmYyLWE1MDEtNDk2NmE0ODA5MDg3`), kept as an
   external link in `donations.md`.
