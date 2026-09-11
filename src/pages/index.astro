@@ -120,8 +120,9 @@ const icons: Record<string, string> = {
     }
   }
   .hero__copy h1 {
+    font-family: var(--font-logo);
     font-size: var(--step-5);
-    font-style: italic;
+    font-weight: 700;
     max-width: 12ch;
   }
   .hero__lede {
@@ -145,6 +146,7 @@ const icons: Record<string, string> = {
     object-position: 50% 25%;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
+    filter: url(#illustrate-photo);
   }
   @media (max-width: 51.99rem) {
     .hero__media img {

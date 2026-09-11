@@ -29,6 +29,26 @@ const metaDescription = description ?? site.description;
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <!--
+          Turns a photo into a flat, poster-like rose duotone (soft blur to
+          lose photographic fine detail, then a 4-stop tonal map through the
+          brand's rose scale) so stock photography reads more like branded
+          illustration. Reused via `filter: url(#illustrate-photo)`.
+        -->
+        <filter id="illustrate-photo" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0.33 0.33 0.33 0 0  0 0 0 1 0" />
+          <feGaussianBlur stdDeviation="1.4" />
+          <feComponentTransfer>
+            <!-- 6 discrete stops = the brand's own rose-700..rose-100 scale -->
+            <feFuncR type="discrete" tableValues="0.600 0.737 0.831 0.898 0.976 0.992" />
+            <feFuncG type="discrete" tableValues="0.149 0.184 0.208 0.278 0.804 0.925" />
+            <feFuncB type="discrete" tableValues="0.267 0.329 0.376 0.416 0.855 0.945" />
+          </feComponentTransfer>
+        </filter>
+      </defs>
+    </svg>
     <SiteHeader />
     <main id="main">
       <slot />
