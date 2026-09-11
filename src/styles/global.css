@@ -246,6 +246,28 @@ hr {
   margin-top: 0;
 }
 
+/* Our Programs: dense, list-heavy content reads better a bit more compact
+   than the site's default airy spacing. */
+.prose--tight {
+  line-height: 1.5;
+}
+
+.prose--tight > * + * {
+  margin-top: 0.75em;
+}
+
+.prose--tight > * + :is(h2, h3) {
+  margin-top: 1.4em;
+}
+
+.prose--tight :is(h2, h3, h4) + * {
+  margin-top: 0.4em;
+}
+
+.prose--tight li + li {
+  margin-top: 0.2em;
+}
+
 /* ==========================================================================
    Buttons
    ========================================================================== */

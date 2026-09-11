@@ -24,7 +24,7 @@ wordpress:
   link: http://141.164.55.18/what-we-do/
 ---
 
-## Emergency, Daily Living, and Counseling Support
+### Emergency, Daily Living, and Counseling Support
 
 Objective: Resolving crisis situations and helping mothers and children become self-reliant. Mainly for mothers and children in urgent need.
 
@@ -34,7 +34,7 @@ Objective: Resolving crisis situations and helping mothers and children become s
 4. Medical Care
 5. Psychological Counseling
 
-## Legal and Administrative Support
+### Legal and Administrative Support
 
 Objective: If the child's father is Korean, the child's mother can file a paternity suit against the child's father to register the child's birth and help him acquire Korean nationality. Legal counseling can also be provided if necessary.
 
@@ -43,14 +43,14 @@ Objective: If the child's father is Korean, the child's mother can file a patern
 3. Acquisition of nationality
 4. Legal Counseling support
 
-## Educational Support
+### Educational Support
 
 Objective: To provide vocational education and language acquisition education so that mothers and children can thrive in the country they settle in.
 
 1. Vocational Education
 2. Language Education
 
-## Global Networking
+### Global Networking
 
 Objective:
 
