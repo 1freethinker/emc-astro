@@ -11,9 +11,8 @@ const redirectMap = Object.fromEntries(
   Object.entries(redirects.map).filter(([from, to]) => norm(from) !== norm(to)),
 );
 
-// `site` is a placeholder — update before deploy.
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://emckorea.org',
 
   // Old WordPress URLs (nested) -> new flat routes. See src/data/redirects.json.
   redirects: redirectMap,
