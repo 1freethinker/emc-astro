@@ -34,6 +34,7 @@ src/
     team/                   4 team members
     partners/               10 partner organisations
     media-coverage.json     press links for "EMC in The Media"
+  images/                   24 actively-used images (optimized via astro:assets)
   data/
     site.json               org details (name, contact, banking)
     navigation.json          primary menu
@@ -59,7 +60,8 @@ src/
     404.astro
 public/
   favicon.svg
-  images/                    48 images, downloaded from the WP media library
+  images/                    unused/archival media-library images (not rendered
+                              by any page — see src/images/ for what's live)
 scripts/
   fetch-wp-images.ps1        (re)download the media library into public/images/
   dump-wp-rest.ps1           snapshot the raw WordPress REST API for re-syncing
@@ -99,7 +101,7 @@ First pass, brand-aligned refresh (see MIGRATION.md § Theme):
 - **Type** — Fraunces (display) + Open Sans (body) + Baloo 2 (logo only),
   self-hosted via `@fontsource`. Fluid type scale.
 - **Logo** — `Logo.astro`: the real globe-with-children mark from EMC's
-  Facebook page (`public/images/logo-mark.png`, background removed) next to
+  Facebook page (`src/images/logo-mark.png`, background removed) next to
   "EMC" / "EVERY MOTHER & CHILD" set in Baloo 2 as real SVG text. `favicon.svg`
   still uses an earlier placeholder taegeuk (Korean-flag swirl) mark — not yet
   updated to match.
@@ -149,10 +151,20 @@ intake form; needs a fresh Naver form before launch. The **Donations** page's
 automatic-monthly-transfer option (for domestic/KRW donors) is still just an
 external link to its own Naver form.
 
-## Not done yet (deliberately)
+## Image optimization
 
-- **Image optimization** — images are plain `<img>` to `/images/...`; not yet
-  moved to `astro:assets` / `<Image>`.
+All actively-rendered images (hero, home gallery, team photos, partner logos,
+the logo mark) live in `src/images/` and go through `astro:assets`:
+content-collection fields that hold an image (`pages.heroImage`,
+`pages.hero.image`, `pages.gallery`, `team.photo`, `partners.logo`) use the
+`image()` Zod helper in `content.config.ts`, and every `<img>` for them is an
+`<Image>` (resized + converted to WebP, e.g. the hero photo went from 113KB to
+19KB). The one exception is `Logo.astro`'s mark: it's embedded via an inline
+SVG `<image>`, not an HTML `<img>`, so it uses `getImage()` to get an
+optimized URL instead of the `<Image>` component. `public/images/` still
+holds the rest of the original WordPress media library (unused/archival —
+nothing there is referenced by any page); `src/data/wordpress-images.json`
+tracks what's used where.
 
 Settled: bank/wire/Naver-form content on the Donations page is **info-only**;
 the **PayPal boxes are live** (real hosted-button forms, same as the WP site,

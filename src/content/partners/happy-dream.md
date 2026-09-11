@@ -1,7 +1,7 @@
 ---
 name: Happy Dream Center
 order: 5
-logo: /images/happydream.jpg
+logo: ../../images/happydream.jpg
 logoSource: http://141.164.55.18/wp-content/uploads/2022/08/happydream.jpg
 ---
 

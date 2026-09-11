@@ -328,8 +328,7 @@ No link found / not added:
 
 `src/data/wordpress-images.json` manifests all 48 library images with a
 `localPath` and best-effort `usedOn`. All 48 have been **downloaded** into
-`public/images/` (`scripts/fetch-wp-images.ps1`, re-runnable). Referenced as
-plain `<img>` for now — not yet moved to `astro:assets`. Notes:
+`public/images/` (`scripts/fetch-wp-images.ps1`, re-runnable). Notes:
 
 - Two different files are both named `logo.png` (`2022/08` = Yanco logo,
   `2022/12` = GGC logo). The manifest maps the December one to
@@ -340,7 +339,49 @@ plain `<img>` for now — not yet moved to `astro:assets`. Notes:
 - `cropped-KakaoTalk_20210823_132215728.png` (512×512) looks like the site
   icon/favicon; `cropped-BBHMMNVGFY_643x362-*` look like header-logo crops.
 - ~14 `*_n.jpg` Facebook-style photos are in the library but unreferenced —
-  candidates for a future gallery.
+  candidates for a future gallery (3 were used for the home gallery's 3rd row
+  on 2026-09-11 — see below).
+
+### Moved to `astro:assets` (2026-09-11)
+
+The 24 actively-rendered images (hero, home gallery, team photos, partner
+logos, the logo mark) were moved from `public/images/` into `src/images/` and
+switched to `astro:assets`' `<Image>` component — automatic resizing,
+compression, and WebP conversion (e.g. the hero photo: 113KB → 19KB; Natasha's
+team photo: 246KB → 29KB). `wordpress-images.json` still documents the full
+WP media library and what's used where, but `localPath` for the now-migrated
+files is stale (still says `/images/...`; they're at `src/images/...` now) —
+the manifest is a provenance record, not something the app reads.
+
+Implementation:
+- `content.config.ts`: `pages`, `team`, and `partners` collection schemas
+  switched from `schema: z.object({...})` to `schema: ({ image }) =>
+  z.object({...})`, and the image-bearing fields (`pages.heroImage`,
+  `pages.hero.image`, `pages.gallery`, `team.photo`, `partners.logo`) from
+  `z.string()` to `image()`. This is why the files had to move — `image()`
+  resolves paths relative to the content file (`src/content/<collection>/`),
+  not `public/`, so frontmatter values changed from `/images/foo.jpg` to
+  `../../images/foo.jpg`.
+- Every `<img src={...}>` fed by one of those fields became `<Image
+  src={...}>` from `astro:assets` — `index.astro` (hero + gallery),
+  `[...slug].astro` (heroImage, currently unused by any page but still
+  schema-typed), `TeamGrid.astro`, `PartnerGrid.astro`. For team photos, only
+  `width` is passed (no `height`) so Astro doesn't force a resize that would
+  fight the existing CSS `object-fit: cover` + per-member `object-position`
+  crop — same reasoning applies to any future image that relies on a CSS
+  crop rather than a server-side one.
+- `Logo.astro`'s globe mark is a special case: it's embedded via an inline
+  SVG `<image href="...">`, not an HTML `<img>`, and `<Image>` can only ever
+  render its own `<img>` tag — not droppable into `<svg>`. Used `getImage()`
+  instead (`const logoMark = await getImage({ src: logoMarkSrc, width: 120,
+  format: 'webp' })`) to get an optimized URL string for the `href`.
+- The one GIF in the set (`partners/love-the-world.md`'s
+  `lovetheworld-1.gif`) went through `<Image>` with no special handling and
+  converted to WebP without issue — worth knowing if another GIF logo turns
+  up later.
+- PayPal's hosted-button images (`PayPalDonateBox.astro`) are untouched —
+  they're remote URLs on `paypalobjects.com`, out of scope for local-only
+  `astro:assets`, and fine to leave as plain `<img>`/`<input type="image">`.
 
 ## Content cleanup applied
 

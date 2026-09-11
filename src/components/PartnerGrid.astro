@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 
 const partners = (await getCollection('partners')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(
@@ -13,7 +14,7 @@ const rendered = await Promise.all(
       <li class="partner">
         <div class="partner__logo">
           {data.logo ? (
-            <img src={data.logo} alt={`${data.name} logo`} loading="lazy" />
+            <Image src={data.logo} alt={`${data.name} logo`} width={240} loading="lazy" />
           ) : (
             <span>{data.name}</span>
           )}

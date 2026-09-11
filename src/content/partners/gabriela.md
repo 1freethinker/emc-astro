@@ -1,7 +1,7 @@
 ---
 name: GABRIELA National Alliance of Women
 order: 9
-logo: /images/GABRIELA-LOGO-1.jpg
+logo: ../../images/GABRIELA-LOGO-1.jpg
 logoSource: http://141.164.55.18/wp-content/uploads/2022/08/GABRIELA-LOGO-1.jpg
 ---
 

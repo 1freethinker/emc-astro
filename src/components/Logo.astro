@@ -1,11 +1,17 @@
 ---
 /**
  * EMC wordmark: the brand's "globe with children" mark (from EMC's Facebook
- * page logo, background removed — see public/images/logo-mark.png) next to
+ * page logo, background removed — see src/images/logo-mark.png) next to
  * the "EMC" / "EVERY MOTHER & CHILD" text, set in the same rounded display
  * face (Baloo 2) as before. Text stays real SVG `<text>` so it's crisp and
- * theme-aware; only the illustrated globe icon is a raster image.
+ * theme-aware; only the illustrated globe icon is a raster image. It's
+ * embedded via an SVG `<image>` (not HTML `<img>`), so it goes through
+ * `getImage()` rather than the `<Image>` component — `<Image>` only ever
+ * renders its own `<img>` tag, which isn't valid inside an inline `<svg>`.
  */
+import { getImage } from 'astro:assets';
+import logoMarkSrc from '../images/logo-mark.png';
+
 interface Props {
   /** rendered height in px; width scales with it */
   height?: number;
@@ -15,6 +21,8 @@ interface Props {
 }
 const { height = 40, tagline = true, title = 'EMC — Every Mother & Child' } = Astro.props;
 const ratio = 182 / 44;
+
+const logoMark = await getImage({ src: logoMarkSrc, width: 120, format: 'webp' });
 ---
 
 <svg
@@ -26,7 +34,7 @@ const ratio = 182 / 44;
   aria-label={title}
   xmlns="http://www.w3.org/2000/svg"
 >
-  <image href="/images/logo-mark.png" x="1" y="7" width="30" height="28.5" />
+  <image href={logoMark.src} x="1" y="7" width="30" height="28.5" />
 
   <text
     x="44"

@@ -1,5 +1,6 @@
 ---
 import { getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const home = await getEntry('pages', 'home');
@@ -36,7 +37,7 @@ const icons: Record<string, string> = {
           </div>
           {hero.image && (
             <div class="hero__media">
-              <img src={hero.image} alt="" width="495" height="400" fetchpriority="high" />
+              <Image src={hero.image} alt="" width={560} format="webp" fetchpriority="high" />
             </div>
           )}
         </div>
@@ -93,7 +94,7 @@ const icons: Record<string, string> = {
           <h2 class="gallery__title">EMC in action</h2>
           <div class="gallery">
             {gallery.map((src) => (
-              <img src={src} alt="" loading="lazy" />
+              <Image src={src} alt="" width={360} format="webp" loading="lazy" />
             ))}
           </div>
         </div>

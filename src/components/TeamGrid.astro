@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 
 const members = (await getCollection('team')).sort((a, b) => a.data.order - b.data.order);
 const rendered = await Promise.all(
@@ -12,12 +13,12 @@ const rendered = await Promise.all(
     rendered.map(({ data, Content }) => (
       <article class="member">
         {data.photo && (
-          <img
+          <Image
             class="member__photo"
             src={data.photo}
             alt={data.name}
-            width="220"
-            height="220"
+            width={440}
+            format="webp"
             loading="lazy"
             style={`object-position:${data.photoPosition ?? '50% 30%'}`}
           />

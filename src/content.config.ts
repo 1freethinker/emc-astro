@@ -40,88 +40,91 @@ const cta = z.object({
  */
 const pages = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
-  schema: z.object({
-    title: z.string(),
-    /** Menu label when it differs from the page title. */
-    navLabel: z.string().optional(),
-    /** Short summary (from the WP excerpt where one existed). */
-    description: z.string().optional(),
-    /** Sort order within its nav group. */
-    order: z.number().default(0),
-    /** Slug of the parent page, for breadcrumbs / nested nav. */
-    parent: z.string().optional(),
-    draft: z.boolean().default(false),
-    heroImage: z.string().optional(),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      /** Menu label when it differs from the page title. */
+      navLabel: z.string().optional(),
+      /** Short summary (from the WP excerpt where one existed). */
+      description: z.string().optional(),
+      /** Sort order within its nav group. */
+      order: z.number().default(0),
+      /** Slug of the parent page, for breadcrumbs / nested nav. */
+      parent: z.string().optional(),
+      draft: z.boolean().default(false),
+      heroImage: image().optional(),
 
-    /** Optional structured hero (used by the home page). */
-    hero: z
-      .object({
-        heading: z.string(),
-        subheading: z.string().optional(),
-        image: z.string().optional(),
-        ctas: z.array(cta).default([]),
-      })
-      .optional(),
+      /** Optional structured hero (used by the home page). */
+      hero: z
+        .object({
+          heading: z.string(),
+          subheading: z.string().optional(),
+          image: image().optional(),
+          ctas: z.array(cta).default([]),
+        })
+        .optional(),
 
-    /** Optional row of short "what we do" style cards (home page). */
-    highlights: z
-      .array(
-        z.object({
-          title: z.string(),
-          body: z.string(),
-          /** icon key — see the `icons` map in src/pages/index.astro */
-          icon: z.enum(['crisis', 'supplies', 'immigration', 'counseling']).optional(),
-        }),
-      )
-      .optional(),
+      /** Optional row of short "what we do" style cards (home page). */
+      highlights: z
+        .array(
+          z.object({
+            title: z.string(),
+            body: z.string(),
+            /** icon key — see the `icons` map in src/pages/index.astro */
+            icon: z.enum(['crisis', 'supplies', 'immigration', 'counseling']).optional(),
+          }),
+        )
+        .optional(),
 
-    /** Optional list of image paths for a simple gallery block. */
-    gallery: z.array(z.string()).optional(),
+      /** Optional list of gallery images for a simple gallery block. */
+      gallery: z.array(image()).optional(),
 
-    /** Optional set of short items rendered as a radial "wheel" diagram (see MissionWheel.astro). */
-    missionOverview: z.array(z.string()).optional(),
+      /** Optional set of short items rendered as a radial "wheel" diagram (see MissionWheel.astro). */
+      missionOverview: z.array(z.string()).optional(),
 
-    /**
-     * This page is a shell that renders one or more other collections (in
-     * order). A section heading is shown above each one only when there's
-     * more than one (see the `sectionLabel` map in `[...slug].astro`).
-     */
-    rendersCollection: z.array(z.enum(['team', 'partners', 'mediaCoverage'])).optional(),
+      /**
+       * This page is a shell that renders one or more other collections (in
+       * order). A section heading is shown above each one only when there's
+       * more than one (see the `sectionLabel` map in `[...slug].astro`).
+       */
+      rendersCollection: z.array(z.enum(['team', 'partners', 'mediaCoverage'])).optional(),
 
-    /** Free-text notes for the migration review. */
-    reviewNotes: z.string().optional(),
+      /** Free-text notes for the migration review. */
+      reviewNotes: z.string().optional(),
 
-    wordpress,
-  }),
+      wordpress,
+    }),
 });
 
 /** team — members listed on the "The Team" page. */
 const team = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/team' }),
-  schema: z.object({
-    name: z.string(),
-    role: z.string(),
-    order: z.number().default(0),
-    /** Local image path (see public/images + src/data/wordpress-images.json). */
-    photo: z.string().optional(),
-    /** CSS object-position for the square photo crop (default "50% 30%"). */
-    photoPosition: z.string().optional(),
-    /** Original WordPress media URL, for later download. */
-    photoSource: z.string().url().optional(),
-    location: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      role: z.string(),
+      order: z.number().default(0),
+      /** Local photo (see src/images + src/data/wordpress-images.json). */
+      photo: image().optional(),
+      /** CSS object-position for the square photo crop (default "50% 30%"). */
+      photoPosition: z.string().optional(),
+      /** Original WordPress media URL, for later download. */
+      photoSource: z.string().url().optional(),
+      location: z.string().optional(),
+    }),
 });
 
 /** partners — organisations listed on the "Partners" page. */
 const partners = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/partners' }),
-  schema: z.object({
-    name: z.string(),
-    order: z.number().default(0),
-    logo: z.string().optional(),
-    logoSource: z.string().url().optional(),
-    url: z.string().url().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      order: z.number().default(0),
+      logo: image().optional(),
+      logoSource: z.string().url().optional(),
+      url: z.string().url().optional(),
+    }),
 });
 
 /** mediaCoverage — external press links from "EMC in The Media". */

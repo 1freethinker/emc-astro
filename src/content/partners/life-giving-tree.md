@@ -1,7 +1,7 @@
 ---
 name: Life Giving Tree
 order: 7
-logo: /images/toplogo2.png
+logo: ../../images/toplogo2.png
 logoSource: http://141.164.55.18/wp-content/uploads/2022/08/toplogo2.png
 url: http://www.lifegivingtree.or.kr
 ---

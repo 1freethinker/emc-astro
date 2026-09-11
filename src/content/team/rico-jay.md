@@ -2,7 +2,7 @@
 name: JinNam Jung (Rico Jay)
 role: Director of EMC, Philippines
 order: 2
-photo: /images/KakaoTalk_20210916_173511433.jpg
+photo: ../../images/KakaoTalk_20210916_173511433.jpg
 photoPosition: 50% 18%
 photoSource: http://141.164.55.18/wp-content/uploads/2022/08/KakaoTalk_20210916_173511433.jpg
 location: Philippines
